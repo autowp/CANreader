@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:longClickable="true">
+
+    <TextView
+        android:text="FFFFFFFF"
+        android:id="@+id/listitem_transmit_id"
+        style="@style/AppTheme.hexData.ID"
+        android:layout_height="fill_parent"
+        android:layout_weight="5"
+        android:longClickable="true"
+        android:layout_width="fill_parent" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_margin="3dp"
+        android:layout_weight="3"
+        android:layout_gravity="center"
+        android:longClickable="true">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/listitem_transmit_rtr_line">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="RTR"
+                style="@style/AppTheme.hexData"
+                android:id="@+id/listitem_transmit_rtr" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="8"
+                style="@style/AppTheme.hexData"
+                android:id="@+id/listitem_transmit_dlc"
+                android:paddingStart="16dp"
+                android:paddingLeft="16dp" />
+        </LinearLayout>
+
+        <include layout="@layout/can_frame_data"
+            android:id="@+id/listitem_transmit_data" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:gravity="center_vertical|start"
+            style="@style/AppTheme"
+            android:longClickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="999ms"
+                android:id="@+id/listitem_transmit_period"
+                android:layout_marginRight="5dp"
+                android:longClickable="true"
+                style="@style/AppTheme" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="999"
+                android:id="@+id/listitem_transmit_count"
+                android:gravity="left"
+                android:longClickable="true"
+                style="@style/AppTheme" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Switch
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listitem_transmit_switch"
+        android:checked="false"
+        android:clickable="true"
+        android:layout_weight="6"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:longClickable="true"
+        android:enabled="true" />
+</LinearLayout>

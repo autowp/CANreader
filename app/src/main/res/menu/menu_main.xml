@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.autowp.canreader.MainActivity">
+
+    <item
+        android:id="@+id/action_connection"
+        android:title="@string/action_connection" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/about" />
+</menu>

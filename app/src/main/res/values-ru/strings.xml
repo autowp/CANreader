@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CAN reader</string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_transmit_delete">Удалить</string>
+    <string name="action_transmit_edit">Изменить</string>
+    <string name="can_extended">Расширенный (29bit)</string>
+    <string name="can_rtr">RTR</string>
+    <string name="can_id">ID</string>
+    <string name="can_data">Данные</string>
+    <string name="can_period">Период</string>
+    <string name="button_create_transmit">Создать</string>
+    <string name="action_clear">Очистить</string>
+    <string name="action_new_transmit">Новая</string>
+    <string name="action_start_all">Старт</string>
+    <string name="action_stop_all">Стоп</string>
+    <string name="connect">Соединить</string>
+    <string name="disconnect">Разъединить</string>
+    <string name="reset">Сброс</string>
+    <string name="about">О программе</string>
+    <string name="versions">Версия: %1$s (код версии %2$d)</string>
+    <string name="action_connection">Connection</string>
+</resources>

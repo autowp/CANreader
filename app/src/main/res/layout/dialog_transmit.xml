@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollView" >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/can_extended"
+                android:id="@+id/switchExtended"
+                android:layout_gravity="center_vertical"
+                android:padding="20dp" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/can_rtr"
+                android:id="@+id/switchRTR"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextID"
+            android:layout_gravity="center_horizontal"
+            android:digits="0123456789ABCDEF"
+            android:inputType="textCapCharacters|textNoSuggestions"
+            android:typeface="monospace"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:maxLength="8"
+            android:lines="1"
+            android:hint="@string/can_id"
+            android:enabled="true"
+            android:padding="20dp"
+            android:textSize="@dimen/abc_text_size_large_material">
+            <requestFocus />
+        </EditText>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextData"
+            android:enabled="true"
+            android:digits="0123456789ABCDEF"
+            android:inputType="textCapCharacters|textNoSuggestions"
+            android:typeface="monospace"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:maxLength="16"
+            android:lines="1"
+            android:hint="@string/can_data"
+            android:layout_gravity="center_horizontal"
+            android:padding="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions|numberDecimal"
+            android:ems="10"
+            android:id="@+id/transmitDialogDLC"
+            android:maxLength="1"
+            android:maxLines="1"
+            android:minLines="1"
+            android:singleLine="true"
+            android:typeface="normal"
+            android:padding="20dp"
+            android:hint="Data Length Code" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions|number"
+            android:ems="10"
+            android:typeface="normal"
+            android:id="@+id/editTextPeriod"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/can_period"
+            android:minLines="1"
+            android:maxLines="1"
+            android:maxLength="8"
+            android:lines="1"
+            android:padding="20dp"
+            android:singleLine="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/button_create_transmit"
+            android:id="@+id/buttonOk"
+            android:layout_gravity="center" />
+
+
+    </LinearLayout>
+</ScrollView>

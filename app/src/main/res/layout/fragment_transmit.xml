@@ -1,0 +1,84 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.autowp.canreader.TransmitFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/textViewTransmitSpeed2"
+        android:layout_gravity="right"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="end" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/textViewTransmitSpeed2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_new_transmit"
+                android:id="@+id/buttonNewTransmit" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_start_all"
+                android:id="@+id/buttonStartAll" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_stop_all"
+                android:id="@+id/buttonStopAll" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_clear"
+                android:id="@+id/buttonClear" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/reset"
+                android:id="@+id/buttonTransmitReset" />
+
+        </LinearLayout>
+
+        <ListView
+            tools:listitem="@layout/listitem_transmit"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/listViewTransmit"
+            android:layout_gravity="top"
+            android:scrollIndicators="right"
+            android:scrollingCache="true"
+            android:smoothScrollbar="true"
+            android:longClickable="true"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
