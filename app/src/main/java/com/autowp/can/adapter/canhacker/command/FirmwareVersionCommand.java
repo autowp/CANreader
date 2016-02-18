@@ -13,6 +13,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class FirmwareVersionCommand extends SimpleCommand {
     public FirmwareVersionCommand()
     {
-        this.name = "v";
+        this.name = 'v';
     }
 }

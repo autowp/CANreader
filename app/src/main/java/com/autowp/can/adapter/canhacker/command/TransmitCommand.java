@@ -26,7 +26,7 @@ public class TransmitCommand extends Command {
     }
     
     @Override
-    public String toString() {
+    public byte[] getBytes() {
         return CanHacker.assembleTransmit(frame);
     }
 

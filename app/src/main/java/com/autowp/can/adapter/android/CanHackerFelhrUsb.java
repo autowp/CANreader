@@ -112,18 +112,16 @@ public class CanHackerFelhrUsb extends CanHacker {
             throw new CanHackerUsbException("CanHacker is not connected");
         }
 
-        String command = c.toString() + COMMAND_DELIMITER;
+        byte[] command = c.getBytes();
+        byte[] data = new byte[command.length + 1];
+        System.arraycopy(command, 0, data, 0, command.length);
+        data[data.length-1] = COMMAND_DELIMITER;
 
         try {
-
-            byte[] data = command.getBytes("ISO-8859-1");
-
             mSerial.writeNow(data);
 
             fireCommandSendEvent(c);
 
-        } catch (IOException e) {
-            throw new CanHackerUsbException("I/O error: " + e.getMessage());
         } catch (CanFrameException e) {
             throw new CanHackerUsbException("Can frame error: " + e.getMessage());
         }

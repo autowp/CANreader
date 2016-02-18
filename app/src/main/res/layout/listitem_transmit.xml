@@ -46,8 +46,10 @@
                 android:text="8"
                 style="@style/AppTheme.hexData"
                 android:id="@+id/listitem_transmit_dlc"
-                android:paddingStart="16dp"
-                android:paddingLeft="16dp" />
+                android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp" />
         </LinearLayout>
 
         <include layout="@layout/can_frame_data"

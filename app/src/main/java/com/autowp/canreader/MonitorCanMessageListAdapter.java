@@ -45,49 +45,65 @@ public class MonitorCanMessageListAdapter extends ArrayAdapter<MonitorCanMessage
             v = vi.inflate(R.layout.listitem_monitor, null);
         }
 
-        MonitorCanMessage frame = getItem(position);
+        MonitorCanMessage message = getItem(position);
 
-        if (frame != null) {
-            CanMessage canFrame = frame.getCanMessage();
+        if (message != null) {
+            CanMessage canMessage = message.getCanMessage();
 
             TextView textViewID = (TextView) v.findViewById(R.id.listitem_monitor_id);
-            if (canFrame.isExtended()) {
-                textViewID.setText(String.format("%08X", canFrame.getId()));
+            if (canMessage.isExtended()) {
+                textViewID.setText(String.format("%08X", canMessage.getId()));
             } else {
-                textViewID.setText(String.format("%03X", canFrame.getId()));
+                textViewID.setText(String.format("%03X", canMessage.getId()));
             }
 
-            updateView(v, frame);
+            updateView(v, message);
 
-            byte[] data = canFrame.getData();
+            byte dlc = canMessage.getDLC();
 
-            int textViewDataID[] = {
-                    R.id.listitem_transmit_data0,
-                    R.id.listitem_transmit_data1,
-                    R.id.listitem_transmit_data2,
-                    R.id.listitem_transmit_data3,
-                    R.id.listitem_transmit_data4,
-                    R.id.listitem_transmit_data5,
-                    R.id.listitem_transmit_data6,
-                    R.id.listitem_transmit_data7,
-            };
+            View rtrLine = v.findViewById(R.id.listitem_monitor_rtr_line);
+            View dataLine = v.findViewById(R.id.listitem_monitor_data);
 
-            for (int i=0; i<data.length; i++) {
-                boolean highlight = frame.getChangeHolder(i).isHighlight();
-                TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                textViewData.setText(String.format("%02X", data[i]));
-                int color;
-                if (highlight) {
-                    color = android.R.color.holo_blue_dark;
-                } else {
-                    color = android.R.color.primary_text_dark;
+            rtrLine.setVisibility(canMessage.isRTR() ? View.VISIBLE : View.GONE);
+            dataLine.setVisibility(canMessage.isRTR() ? View.GONE : View.VISIBLE);
+
+            if (canMessage.isRTR()) {
+
+                TextView textViewData = (TextView) v.findViewById(R.id.listitem_monitor_dlc);
+                textViewData.setText(String.format("%d", dlc));
+
+            } else {
+
+                byte[] data = canMessage.getData();
+
+                int textViewDataID[] = {
+                        R.id.listitem_transmit_data0,
+                        R.id.listitem_transmit_data1,
+                        R.id.listitem_transmit_data2,
+                        R.id.listitem_transmit_data3,
+                        R.id.listitem_transmit_data4,
+                        R.id.listitem_transmit_data5,
+                        R.id.listitem_transmit_data6,
+                        R.id.listitem_transmit_data7,
+                };
+
+                for (int i = 0; i < data.length; i++) {
+                    boolean highlight = message.getChangeHolder(i).isHighlight();
+                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
+                    textViewData.setText(String.format("%02X", data[i]));
+                    int color;
+                    if (highlight) {
+                        color = android.R.color.holo_blue_dark;
+                    } else {
+                        color = android.R.color.primary_text_dark;
+                    }
+                    textViewData.setTextColor(ContextCompat.getColor(getContext(), color));
                 }
-                textViewData.setTextColor(ContextCompat.getColor(getContext(), color));
-            }
 
-            for (int i = data.length; i< CanFrame.MAX_DLC; i++) {
-                TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                textViewData.setText("");
+                for (int i = data.length; i < CanFrame.MAX_DLC; i++) {
+                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
+                    textViewData.setText("");
+                }
             }
 
         }

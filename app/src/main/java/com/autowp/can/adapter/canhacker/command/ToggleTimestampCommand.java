@@ -17,6 +17,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class ToggleTimestampCommand extends SimpleCommand {
     public ToggleTimestampCommand()
     {
-        this.name = "Z";
+        this.name = 'Z';
     }
 }

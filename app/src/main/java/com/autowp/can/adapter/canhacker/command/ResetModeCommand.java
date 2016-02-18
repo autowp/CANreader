@@ -9,6 +9,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class ResetModeCommand extends SimpleCommand {
     public ResetModeCommand()
     {
-        this.name = "C";
+        this.name = 'C';
     }
 }

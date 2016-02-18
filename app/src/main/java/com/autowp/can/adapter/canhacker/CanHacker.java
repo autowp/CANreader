@@ -266,9 +266,11 @@ public abstract class CanHacker extends CanAdapter {
 
         int tsOffset = dlcStart + dlc * 2;
 
-        int timestamp = Hex.bytesToInt(
-            Arrays.copyOfRange(bytes, tsOffset, tsOffset + FrameResponse.TIMESTAMP_LENGTH_CHARS)
-        );
+        if (bytes.length == tsOffset + FrameResponse.TIMESTAMP_LENGTH_CHARS) {
+            int timestamp = Hex.bytesToInt(
+                    Arrays.copyOfRange(bytes, tsOffset, tsOffset + FrameResponse.TIMESTAMP_LENGTH_CHARS)
+            );
+        }
         //TODO: save timestamp
 
         if (isRTR) {
@@ -279,7 +281,11 @@ public abstract class CanHacker extends CanAdapter {
 
     }
 
-    public static String assembleTransmit(CanFrame frame) {
+    public static byte[] assembleTransmit(CanFrame frame) {
+        return assembleTransmitString(frame).getBytes();
+    }
+
+    public static String assembleTransmitString(CanFrame frame) {
         String format;
         String name;
         if (frame.isExtended()) {

@@ -11,6 +11,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class OperationalModeCommand extends SimpleCommand {
     public OperationalModeCommand()
     {
-        this.name = "O";
+        this.name = 'O';
     }
 }

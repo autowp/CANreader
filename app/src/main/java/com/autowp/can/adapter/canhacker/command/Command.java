@@ -1,7 +1,7 @@
 package com.autowp.can.adapter.canhacker.command;
 
 public abstract class Command {
-    protected String name;
+    protected char name;
     
-    abstract public String toString();
+    abstract public byte[] getBytes();
 }

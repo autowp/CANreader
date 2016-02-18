@@ -92,7 +92,7 @@ public class CanClient {
                             byte[] messageData = new byte[dataLength];
                             System.arraycopy(data, 1, messageData, 0, dataLength);
                             fireCanMessageReceivedEvent(
-                                new CanMessage(arbID, messageData)
+                                new CanMessage(arbID, messageData, frame.isExtended())
                             );
                             break;
                         }
@@ -128,7 +128,7 @@ public class CanClient {
                             
                             if (buffer.isComplete()) {
                                 fireCanMessageReceivedEvent(
-                                    new CanMessage(arbID, buffer.getData())
+                                    new CanMessage(arbID, buffer.getData(), frame.isExtended())
                                 );
                                 mMultiframeBuffers.remove(arbID);
                             }
@@ -146,7 +146,7 @@ public class CanClient {
                             
                 } else {
                     fireCanMessageReceivedEvent(
-                        new CanMessage(arbID, frame.getData())
+                        new CanMessage(frame)
                     );
                 }
             } catch (CanClientException ex) {

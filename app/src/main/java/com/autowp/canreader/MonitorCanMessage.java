@@ -19,13 +19,16 @@ public class MonitorCanMessage {
     private int period = 0;
     private int count = 0;
 
+    private CanMessage canMessage;
+
+    private ChangeHolder[] changes = new ChangeHolder[8];
+
     public void setTime(Date time) {
         if (this.time != null) {
             period = (int) (time.getTime() - this.time.getTime());
         }
         this.time = time;
     }
-
 
     public class ChangeHolder {
         private Date time;
@@ -54,9 +57,7 @@ public class MonitorCanMessage {
         }
     }
 
-    private CanMessage canMessage;
 
-    private ChangeHolder[] changes = new ChangeHolder[8];
 
 
     public MonitorCanMessage(final CanMessage canMessage, final int period)
@@ -82,7 +83,7 @@ public class MonitorCanMessage {
 
     public void setCanMessage(final CanMessage frame)
     {
-        if (canMessage != null && frame != null) {
+        if (canMessage != null && frame != null && !canMessage.isRTR() && !frame.isRTR()) {
             // compare and save difference info
             byte[] aData = canMessage.getData();
             byte[] bData = frame.getData();
@@ -91,7 +92,6 @@ public class MonitorCanMessage {
                     byte a = aData[i];
                     byte b = bData[i];
                     if (a != b) {
-                        System.out.println("triggerChange");
                         changes[i].triggerChange(a);
                     }
                 } else {

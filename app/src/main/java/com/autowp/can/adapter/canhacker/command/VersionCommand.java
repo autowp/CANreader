@@ -13,6 +13,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class VersionCommand extends SimpleCommand {
     public VersionCommand()
     {
-        this.name = "V";
+        this.name = 'V';
     }
 }

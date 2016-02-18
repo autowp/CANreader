@@ -7,17 +7,17 @@ android {
         }
     }
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.2"
     defaultConfig {
         applicationId "com.autowp.canreader"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "0.1.0.5"
+        versionCode 6
+        versionName "0.1.0.6"
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }

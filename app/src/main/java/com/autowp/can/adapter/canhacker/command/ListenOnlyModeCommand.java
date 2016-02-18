@@ -11,6 +11,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class ListenOnlyModeCommand extends SimpleCommand {
     public ListenOnlyModeCommand()
     {
-        this.name = "L";
+        this.name = 'L';
     }
 }

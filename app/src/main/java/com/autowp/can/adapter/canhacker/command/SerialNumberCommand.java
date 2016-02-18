@@ -9,6 +9,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class SerialNumberCommand extends SimpleCommand {
     public SerialNumberCommand()
     {
-        this.name = "N";
+        this.name = 'N';
     }
 }

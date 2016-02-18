@@ -21,6 +21,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class CanErrorCommand extends SimpleCommand {
     public CanErrorCommand()
     {
-        this.name = "F";
+        this.name = 'F';
     }
 }

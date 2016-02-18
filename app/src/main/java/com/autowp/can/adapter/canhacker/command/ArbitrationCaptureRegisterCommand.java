@@ -7,6 +7,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class ArbitrationCaptureRegisterCommand extends SimpleCommand {
     public ArbitrationCaptureRegisterCommand()
     {
-        this.name = "A";
+        this.name = 'A';
     }
 }

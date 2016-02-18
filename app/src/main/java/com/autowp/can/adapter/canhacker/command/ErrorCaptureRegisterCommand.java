@@ -7,6 +7,6 @@ package com.autowp.can.adapter.canhacker.command;
 public class ErrorCaptureRegisterCommand extends SimpleCommand {
     public ErrorCaptureRegisterCommand()
     {
-        this.name = "E";
+        this.name = 'E';
     }
 }

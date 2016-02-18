@@ -46,7 +46,7 @@ public class BitRateCommand extends Command {
     
     public BitRateCommand(BitRate bitRate) throws CommandException
     {
-        this.name = "S";
+        this.name = 'S';
         
         if (bitRate == null) {
             throw new CommandException("BitRate cannot be null");
@@ -56,8 +56,8 @@ public class BitRateCommand extends Command {
     }
     
     @Override
-    public String toString() {
-        return this.name + this.bitRate.getValue();
+    public byte[] getBytes() {
+        return new byte[] {(byte) this.name, (byte) this.bitRate.getValue()};
     }
 
 }
