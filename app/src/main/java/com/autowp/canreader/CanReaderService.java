@@ -23,7 +23,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TransferService extends Service {
+public class CanReaderService extends Service {
 
     private ArrayList<TransmitCanFrame> transmitFrames = new ArrayList<>();
 
@@ -105,8 +105,16 @@ public class TransferService extends Service {
         System.out.print("setCanAdapter ");
         System.out.println(adapter);
         stopAllTransmits();
-        canClient.disconnect();
-        canClient.setAdapter(adapter);
+        try {
+            canClient.disconnect();
+            canClient.setAdapter(adapter);
+        } catch (CanClientException e) {
+            e.printStackTrace();
+
+            Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
 
         if (mSpeedMeterTimerTask != null) {
             mSpeedMeterTimerTask.cancel();
@@ -207,7 +215,7 @@ public class TransferService extends Service {
         }
     }*/
 
-    public TransferService() {
+    public CanReaderService() {
         canBusSpecs = new CanBusSpecs();
         this.canClient = new CanClient(canBusSpecs);
     }
@@ -260,8 +268,8 @@ public class TransferService extends Service {
     }
 
     class TransferServiceBinder extends Binder {
-        TransferService getService() {
-            return TransferService.this;
+        CanReaderService getService() {
+            return CanReaderService.this;
         }
     }
 

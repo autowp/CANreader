@@ -11,12 +11,12 @@ import android.support.v7.app.AppCompatActivity;
  * Created by autow on 14.02.2016.
  */
 public abstract class ServiceConnectedFragment extends Fragment {
-    protected TransferService transferService;
+    protected CanReaderService canReaderService;
     protected boolean bound = false;
 
     ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName name, IBinder binder) {
-            transferService = ((TransferService.TransferServiceBinder) binder).getService();
+            canReaderService = ((CanReaderService.TransferServiceBinder) binder).getService();
             bound = true;
 
             afterConnect();
@@ -34,7 +34,7 @@ public abstract class ServiceConnectedFragment extends Fragment {
     {
         super.onResume();
 
-        Intent intent = new Intent(getActivity(), TransferService.class);
+        Intent intent = new Intent(getActivity(), CanReaderService.class);
 
         getActivity().startService(intent);
         getActivity().bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);

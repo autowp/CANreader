@@ -21,18 +21,18 @@ public class TransmitFragment extends ServiceConnectedFragment {
     private static final int REQUEST_CODE_EDIT = 2;
     private TransmitCanFrameListAdapter adapter;
 
-    private TransferService.OnStateChangeListener mOnStateChangeListener = new TransferService.OnStateChangeListener() {
+    private CanReaderService.OnStateChangeListener mOnStateChangeListener = new CanReaderService.OnStateChangeListener() {
 
         @Override
         public void handleStateChanged() {
             updateButtons();
             if (adapter != null) {
-                adapter.setConnected(transferService.isConnected());
+                adapter.setConnected(canReaderService.isConnected());
             }
         }
     };
 
-    private TransferService.OnTransmitChangeListener mOnTransmitChangeListener = new TransferService.OnTransmitChangeListener() {
+    private CanReaderService.OnTransmitChangeListener mOnTransmitChangeListener = new CanReaderService.OnTransmitChangeListener() {
         @Override
         public void handleTransmitUpdated() {
             FragmentActivity activity = getActivity();
@@ -112,7 +112,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
         buttonStartAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.startAllTransmits();
+                canReaderService.startAllTransmits();
                 updateButtons();
             }
         });
@@ -121,7 +121,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
         buttonStopAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.stopAllTransmits();
+                canReaderService.stopAllTransmits();
                 updateButtons();
             }
         });
@@ -130,7 +130,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
         buttonClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.clearTransmits();
+                canReaderService.clearTransmits();
                 updateButtons();
             }
         });
@@ -139,7 +139,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
         buttoReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.resetTransmits();
+                canReaderService.resetTransmits();
             }
         });
 
@@ -149,16 +149,16 @@ public class TransmitFragment extends ServiceConnectedFragment {
     private void updateButtons()
     {
         Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
-        buttonStartAll.setEnabled(transferService.isConnected() && transferService.hasStoppedTransmits());
+        buttonStartAll.setEnabled(canReaderService.isConnected() && canReaderService.hasStoppedTransmits());
 
         Button buttonStopAll = (Button) getView().findViewById(R.id.buttonStopAll);
-        buttonStopAll.setEnabled(transferService.isConnected() && transferService.hasStartedTransmits());
+        buttonStopAll.setEnabled(canReaderService.isConnected() && canReaderService.hasStartedTransmits());
 
         Button buttonClear = (Button) getView().findViewById(R.id.buttonClear);
-        buttonClear.setEnabled(transferService.getTransmitFrames().size() > 0);
+        buttonClear.setEnabled(canReaderService.getTransmitFrames().size() > 0);
 
         Button buttoReset = (Button) getView().findViewById(R.id.buttonTransmitReset);
-        buttoReset.setEnabled(transferService.getTransmitFrames().size() > 0);
+        buttoReset.setEnabled(canReaderService.getTransmitFrames().size() > 0);
     }
 
     @Override
@@ -186,7 +186,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             switch (item.getItemId()) {
                 case R.id.action_transmit_delete: {
-                    transferService.remove(info.position);
+                    canReaderService.remove(info.position);
                     updateButtons();
                     return true;
                 }
@@ -214,8 +214,8 @@ public class TransmitFragment extends ServiceConnectedFragment {
         super.onResume();
 
         registerForContextMenu(mListView);
-        if (transferService != null && adapter != null) {
-            adapter.setConnected(transferService.isConnected());
+        if (canReaderService != null && adapter != null) {
+            adapter.setConnected(canReaderService.isConnected());
         }
     }
 
@@ -228,7 +228,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
                     try {
                         TransmitCanFrame frame = TransmitCanFrame.fromBundle(bundle);
-                        transferService.add(frame);
+                        canReaderService.add(frame);
                     } catch (CanFrameException e) {
                         e.printStackTrace();
                     }
@@ -263,15 +263,15 @@ public class TransmitFragment extends ServiceConnectedFragment {
     @Override
     protected void afterConnect()
     {
-        System.out.println(transferService.getTransmitFrames().size());
+        System.out.println(canReaderService.getTransmitFrames().size());
 
-        transferService.addListener(mOnTransmitChangeListener);
-        transferService.addListener(mOnStateChangeListener);
+        canReaderService.addListener(mOnTransmitChangeListener);
+        canReaderService.addListener(mOnStateChangeListener);
 
         adapter = new TransmitCanFrameListAdapter(
                 getActivity().getApplicationContext(),
                 R.layout.listitem_transmit,
-                transferService.getTransmitFrames()
+                canReaderService.getTransmitFrames()
         );
         adapter.addListener(new TransmitCanFrameListAdapter.OnChangeListener() {
 
@@ -280,9 +280,9 @@ public class TransmitFragment extends ServiceConnectedFragment {
                 System.out.println("handleChange");
                 System.out.println(frame.isEnabled());
                 if (frame.isEnabled()) {
-                    transferService.startTransmit(frame);
+                    canReaderService.startTransmit(frame);
                 } else {
-                    transferService.stopTransmit(frame);
+                    canReaderService.stopTransmit(frame);
                 }
                 updateButtons();
             }
@@ -291,11 +291,11 @@ public class TransmitFragment extends ServiceConnectedFragment {
         adapter.addListener(new TransmitCanFrameListAdapter.OnSingleShotListener() {
             @Override
             public void handleSingleSot(int position, TransmitCanFrame frame) {
-                transferService.transmit(frame);
+                canReaderService.transmit(frame);
             }
         });
 
-        adapter.setConnected(transferService.isConnected());
+        adapter.setConnected(canReaderService.isConnected());
 
         mListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -305,7 +305,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
     @Override
     protected void beforeDisconnect() {
-        transferService.removeListener(mOnTransmitChangeListener);
+        canReaderService.removeListener(mOnTransmitChangeListener);
         
         mListView.setAdapter(null);
         adapter = null;

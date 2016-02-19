@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class ConnectionActivity extends Activity {
 
     private static final String ACTION_USB_PERMISSION =
             "com.android.example.USB_PERMISSION";
+    private static final String PREFENCES_BAUDRATE = "baudrate";
 
     private UsbBroadcastReceiver mUsbReceiver;
     private UsbDeviceSpinnerAdapter mSpinnerAdapter;
@@ -99,11 +101,11 @@ public class ConnectionActivity extends Activity {
         }
     }
 
-    private TransferService transferService;
+    private CanReaderService canReaderService;
 
     ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName name, IBinder binder) {
-            transferService = ((TransferService.TransferServiceBinder) binder).getService();
+            canReaderService = ((CanReaderService.TransferServiceBinder) binder).getService();
             bound = true;
         }
 
@@ -118,8 +120,8 @@ public class ConnectionActivity extends Activity {
         try {
             CanHackerFelhrUsb canClient = new CanHackerFelhrUsb(mUsbManager, device);
             Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
-            transferService.setSpeed(baudrate.getValue());
-            transferService.setCanAdapter(canClient);
+            canReaderService.setSpeed(baudrate.getValue());
+            canReaderService.setCanAdapter(canClient);
             refreshButtonsState();
         } catch (CanHackerUsbException e) {
             e.printStackTrace();
@@ -166,6 +168,31 @@ public class ConnectionActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerBaudrate.setAdapter(adapter);
 
+        final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
+        int position = mPrefences.getInt(PREFENCES_BAUDRATE, 0);
+        System.out.println("position");
+        System.out.println(position);
+        mSpinnerBaudrate.setSelection(position);
+
+
+        mSpinnerBaudrate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                SharedPreferences.Editor ed = mPrefences.edit();
+                ed.putInt(PREFENCES_BAUDRATE, position);
+                ed.apply();
+                System.out.println("position save");
+                System.out.println(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                refreshButtonsState();
+            }
+        });
+
+
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -177,7 +204,7 @@ public class ConnectionActivity extends Activity {
         buttonDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.setCanAdapter(null);
+                canReaderService.setCanAdapter(null);
                 refreshButtonsState();
             }
         });
@@ -188,26 +215,6 @@ public class ConnectionActivity extends Activity {
             public void onClick(View v) {
 
                 UsbDevice device = (UsbDevice) mSpinner.getSelectedItem();
-
-                /*
-                List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(mUsbManager);
-                if (availableDrivers.isEmpty()) {
-                    Toast toast = Toast.makeText(ConnectionActivity.this, "Device not found", Toast.LENGTH_SHORT);
-                    toast.show();
-                    return;
-                }*/
-
-                // Open a connection to the first available driver.
-                //UsbSerialDriver driver = availableDrivers.get(0);
-                /*UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
-                if (connection == null) {
-                    Toast toast = Toast.makeText(ConnectionActivity.this, "Connection failed", Toast.LENGTH_SHORT);
-                    toast.show();
-                    // You probably need to call UsbManager.requestPermission(driver.getDevice(), ..)
-                    return;
-                }*/
-
-                //UsbDevice device = driver.getDevice();
 
                 if (!mUsbManager.hasPermission(device)) {
                     Intent intent = new Intent(ACTION_USB_PERMISSION);
@@ -228,8 +235,8 @@ public class ConnectionActivity extends Activity {
 
         UsbDevice selectedDevice = (UsbDevice) mSpinner.getSelectedItem();
 
-        boolean connectEnabled = bound && !transferService.isConnected() && selectedDevice != null;
-        boolean disconnectEnabled = bound && transferService.isConnected();
+        boolean connectEnabled = bound && !canReaderService.isConnected() && selectedDevice != null;
+        boolean disconnectEnabled = bound && canReaderService.isConnected();
 
         btnConnect.setEnabled(connectEnabled);
         btnDisconnect.setEnabled(disconnectEnabled);
@@ -248,7 +255,7 @@ public class ConnectionActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        Intent intent = new Intent(this, TransferService.class);
+        Intent intent = new Intent(this, CanReaderService.class);
         bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);
 
         fillUsbDeviceList();

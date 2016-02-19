@@ -14,7 +14,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     private ListView mListView;
 
-    private TransferService.OnMonitorChangeListener mOnMonitorChangeListener = new TransferService.OnMonitorChangeListener() {
+    private CanReaderService.OnMonitorChangeListener mOnMonitorChangeListener = new CanReaderService.OnMonitorChangeListener() {
         @Override
         public void handleMonitorUpdated() {
             FragmentActivity activity = getActivity();
@@ -71,7 +71,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
         buttonMonitorClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                transferService.clearMonitor();
+                canReaderService.clearMonitor();
             }
         });
 
@@ -80,12 +80,12 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     @Override
     protected void afterConnect() {
-        transferService.addListener(mOnMonitorChangeListener);
+        canReaderService.addListener(mOnMonitorChangeListener);
 
         adapter = new MonitorCanMessageListAdapter(
                 getActivity().getApplicationContext(),
                 R.layout.listitem_monitor,
-                transferService.getMonitorFrames()
+                canReaderService.getMonitorFrames()
         );
 
         mListView.setAdapter(adapter);
@@ -93,7 +93,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     @Override
     protected void beforeDisconnect() {
-        transferService.removeListener(mOnMonitorChangeListener);
+        canReaderService.removeListener(mOnMonitorChangeListener);
         mListView.setAdapter(null);
         adapter = null;
     }

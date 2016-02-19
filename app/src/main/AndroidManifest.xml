@@ -30,7 +30,7 @@
         </activity>
 
         <service
-            android:name=".TransferService"
+            android:name=".CanReaderService"
             android:enabled="true"
             android:exported="false" />
 
