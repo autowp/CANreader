@@ -89,8 +89,7 @@ public abstract class UsbSerialDevice implements UsbSerialInterface
     }
 
     public synchronized byte[] readNow(int size, int timeout) {
-        /*System.out.println("read now");
-        if (mr1Version) {*/
+        if (mr1Version) {
             ByteBuffer byteBuffer = ByteBuffer.allocate(size);
             inRequest.queue(byteBuffer, size);
 
@@ -107,7 +106,7 @@ public abstract class UsbSerialDevice implements UsbSerialInterface
                 return processReceivedData(data);
             }
 
-        /*} else {
+        } else {
             int numberBytes;
             byte[] buffer = new byte[size];
             if (inEndpoint != null) {
@@ -119,7 +118,7 @@ public abstract class UsbSerialDevice implements UsbSerialInterface
                     return processReceivedData(data);
                 }
             }
-        //}*/
+        }
 
         return null;
     }
