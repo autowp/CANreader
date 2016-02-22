@@ -6,10 +6,13 @@
     <TextView
         android:text="FFFFFFFF"
         android:id="@+id/listitem_monitor_id"
-        style="@style/AppTheme.hexData.ID"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="3" />
+        android:layout_weight="3"
+        android:longClickable="true"
+        android:textSize="22sp"
+        android:gravity="center_vertical|start"
+        android:typeface="monospace"/>
 
     <LinearLayout
         android:orientation="vertical"
@@ -31,7 +34,6 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="RTR"
-                style="@style/AppTheme.hexData"
                 android:id="@+id/listitem_monitor_rtr" />
 
             <TextView
@@ -39,7 +41,6 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="8"
-                style="@style/AppTheme.hexData"
                 android:id="@+id/listitem_monitor_dlc"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
@@ -47,8 +48,87 @@
                 android:paddingRight="4dp"/>
         </LinearLayout>
 
-        <include layout="@layout/can_frame_data"
-            android:id="@+id/listitem_monitor_data"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="center_vertical|start"
+            android:longClickable="true"
+            android:id="@+id/listitem_monitor_data">
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data0"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp" />
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data1"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data2"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data3"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data4"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data5"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data6"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data7"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"

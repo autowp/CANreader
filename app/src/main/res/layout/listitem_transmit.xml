@@ -6,13 +6,18 @@
     android:longClickable="true">
 
     <TextView
-        android:text="FFFFFFFF"
         android:id="@+id/listitem_transmit_id"
-        style="@style/AppTheme.hexData.ID"
         android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
         android:layout_weight="5"
+        android:layout_margin="3dp"
+        android:layout_gravity="center"
+        android:text="FFFFFFFF"
         android:longClickable="true"
-        android:layout_width="fill_parent" />
+        android:textSize="22sp"
+        android:gravity="center_vertical|start"
+        android:typeface="monospace"
+         />
 
     <LinearLayout
         android:orientation="vertical"
@@ -36,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="RTR"
-                style="@style/AppTheme.hexData"
+
                 android:id="@+id/listitem_transmit_rtr" />
 
             <TextView
@@ -44,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="8"
-                style="@style/AppTheme.hexData"
+
                 android:id="@+id/listitem_transmit_dlc"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
@@ -52,18 +57,98 @@
                 android:paddingRight="4dp" />
         </LinearLayout>
 
-        <include layout="@layout/can_frame_data"
-            android:id="@+id/listitem_transmit_data" />
+        <LinearLayout
+            android:id="@+id/listitem_transmit_data"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:gravity="center_vertical|start"
+            android:longClickable="true">
 
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data0"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp" />
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data1"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data2"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data3"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data4"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data5"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data6"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+
+            <TextView
+                android:text="FF"
+                android:id="@+id/listitem_transmit_data7"
+                android:longClickable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:typeface="monospace"
+                android:layout_margin="1dp"/>
+        </LinearLayout>
+
+        <!-- style="@style/AppTheme"-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
             android:gravity="center_vertical|start"
-            style="@style/AppTheme"
             android:longClickable="true">
 
+            <!-- style="@style/AppTheme" -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,8 +156,9 @@
                 android:id="@+id/listitem_transmit_period"
                 android:layout_marginRight="5dp"
                 android:longClickable="true"
-                style="@style/AppTheme" />
+                />
 
+            <!-- style="@style/AppTheme"-->
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -80,8 +166,9 @@
                 android:id="@+id/listitem_transmit_count"
                 android:gravity="left"
                 android:longClickable="true"
-                style="@style/AppTheme" />
+                />
         </LinearLayout>
+
     </LinearLayout>
 
     <Switch
@@ -95,4 +182,5 @@
         android:gravity="center_vertical|center_horizontal"
         android:longClickable="true"
         android:enabled="true" />
+
 </LinearLayout>

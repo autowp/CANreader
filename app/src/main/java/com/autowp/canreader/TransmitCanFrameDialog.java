@@ -17,6 +17,8 @@ import com.autowp.Hex;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanFrameException;
 
+import java.util.Locale;
+
 /**
  * Created by Dmitry on 29.01.2016.
  */
@@ -241,7 +243,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
 
         switchRTR.setChecked(canFrame.isRTR());
         if (canFrame.isRTR()) {
-            editTextDLC.setText(canFrame.getDLC());
+            editTextDLC.setText(String.format(Locale.getDefault(), "%d", canFrame.getDLC()));
             editTextDLC.setVisibility(View.VISIBLE);
             editTextData.setVisibility(View.GONE);
         } else {
@@ -250,7 +252,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
             editTextData.setVisibility(View.VISIBLE);
         }
         switchExt.setChecked(canFrame.isExtended());
-        editTextPeriod.setText(Integer.toString(frame.getPeriod()));
+        editTextPeriod.setText(String.format(Locale.getDefault(), "%d", frame.getPeriod()));
 
         setIdMaxLength(view);
     }

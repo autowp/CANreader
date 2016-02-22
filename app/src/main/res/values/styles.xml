@@ -14,24 +14,4 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
-    <style name="AppTheme.hexData">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_margin">1dp</item>
-        <item name="android:typeface">monospace</item>
-        <item name="android:maxLength">2</item>
-        <item name="android:maxLines">1</item>
-    </style>
-
-    <style name="AppTheme.hexData.ID">
-        <item name="android:textIsSelectable">false</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:gravity">center_vertical|start</item>
-        <item name="android:maxLength">8</item>
-        <item name="android:layout_margin">3dp</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
 </resources>
