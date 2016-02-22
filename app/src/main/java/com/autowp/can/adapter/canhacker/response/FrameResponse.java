@@ -15,7 +15,6 @@ public class FrameResponse extends Response {
     
     public FrameResponse(byte[] bytes) throws CanHackerException, CanFrameException {
         frame = CanHacker.parseFrame(bytes);
-        System.out.println(frame.isRTR());
     }
 
     @Override

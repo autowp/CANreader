@@ -17,7 +17,12 @@ import java.util.TimerTask;
  *
  */
 public class CanClient {
-    protected CanAdapter adapter;
+
+    public enum ConnectionState { DISCONNECTED, CONNECTING, CONNECTED, DISCONNECTING }
+
+    private ConnectionState connectionState = ConnectionState.DISCONNECTED;
+
+    private CanAdapter mAdapter;
     
     private CanBusSpecs specs;
     
@@ -29,7 +34,7 @@ public class CanClient {
     private List<Timer> timers = new ArrayList<>();
     
     public interface OnClientConnectedStateChangeListener {
-        void handleClientConnectedStateChanged(boolean isConnected);
+        void handleClientConnectedStateChanged(ConnectionState connectionState);
     }
     
     public interface OnCanFrameTransferListener {
@@ -157,12 +162,21 @@ public class CanClient {
         public void handleErrorEvent(CanAdapterException e) {
             fireErrorEvent(new CanClientException("Adapter error: " + e.getMessage()));
         }
+
+        @Override
+        public void handleConnectionStateChanged(ConnectionState connectionState) {
+            if (CanClient.this.connectionState != connectionState) {
+                CanClient.this.connectionState = connectionState;
+
+                fireConnectedStateChangeEvent();
+            }
+        }
     };
             
-    private synchronized void fireConnectedStateChangeEvent(boolean isConnected)
+    private synchronized void fireConnectedStateChangeEvent()
     {
         for (OnClientConnectedStateChangeListener mClientConnectedStateChangeListener : mClientConnectedStateChangeListeners) {
-            mClientConnectedStateChangeListener.handleClientConnectedStateChanged(isConnected);
+            mClientConnectedStateChangeListener.handleClientConnectedStateChanged(connectionState);
         }
     }
     
@@ -171,21 +185,33 @@ public class CanClient {
         this.specs = specs;
     }
     
-    public CanClient connect() throws CanClientException
+    public CanClient connect(final Runnable callback) throws CanClientException
     {
-        if (this.isConnected()) {
-            return this;
+        if (connectionState != ConnectionState.DISCONNECTED) {
+            throw new CanClientException("Attepmt to connect when not disconnected");
         }
+
+        connectionState = ConnectionState.CONNECTING;
+        fireConnectedStateChangeEvent();
         
-        if (adapter == null) {
+        if (mAdapter == null) {
             throw new CanClientException("Adapter not specified");
         }
-        adapter.addEventListener(mCanFrameEventClassListener);
+
+        mAdapter.addEventListener(mCanFrameEventClassListener);
         try {
-            adapter.setBusSpecs(specs);
-            adapter.connect();
-            
-            fireConnectedStateChangeEvent(true);
+            mAdapter.setBusSpecs(specs);
+            mAdapter.connect(new Runnable() {
+                @Override
+                public void run() {
+                    connectionState = ConnectionState.CONNECTED;
+                    fireConnectedStateChangeEvent();
+
+                    if (callback != null) {
+                        callback.run();
+                    }
+                }
+            });
         } catch (CanAdapterException e) {
             throw new CanClientException("Adapter error: " + e.getMessage());
         }
@@ -193,18 +219,43 @@ public class CanClient {
         return this;
     }
     
-    public CanClient disconnect()
-    {
-        this.stopTimers();
+    public CanClient disconnect(final Runnable callback) throws CanClientException {
+        switch(connectionState) {
+            case CONNECTED:
+                connectionState = ConnectionState.DISCONNECTING;
+                fireConnectedStateChangeEvent();
 
-        if (adapter != null) {
-            adapter.disconnect();
+                this.stopTimers();
+                mAdapter.removeEventListener(mCanFrameEventClassListener);
 
-            adapter.removeEventListener(mCanFrameEventClassListener);
+                try {
+                    mAdapter.disconnect(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter = null;
+
+                            connectionState = ConnectionState.DISCONNECTED;
+                            fireConnectedStateChangeEvent();
+
+                            if (callback != null) {
+                                callback.run();
+                            }
+                        }
+                    });
+                } catch (CanAdapterException e) {
+                    throw new CanClientException("Adapter error: " + e.getMessage());
+                }
+                break;
+            case DISCONNECTED:
+                if (callback != null) {
+                    callback.run();
+                }
+                break;
+            case DISCONNECTING:
+            case CONNECTING:
+                throw new CanClientException("Attempt to disconnect while connecting/disconnecting");
         }
-        
-        fireConnectedStateChangeEvent(false);
-        
+
         return this;
     }
     
@@ -220,7 +271,7 @@ public class CanClient {
     
     public boolean isConnected()
     {
-        return adapter != null && adapter.isConnected();
+        return connectionState == ConnectionState.CONNECTED;
     }
     
     public CanClient send(CanFrame message) throws CanClientException
@@ -230,7 +281,7 @@ public class CanClient {
         }
         
         try {
-            adapter.send(message);
+            mAdapter.send(message);
         } catch (CanAdapterException e) {
             throw new CanClientException("Adapter error: " + e.getMessage());
         }
@@ -238,9 +289,17 @@ public class CanClient {
         return this;
     }
     
-    public void setAdapter(CanAdapter adapter) {
-        this.disconnect();
-        this.adapter = adapter;
+    public void setAdapter(final CanAdapter adapter) throws CanClientException {
+        switch (connectionState) {
+            case DISCONNECTED:
+                mAdapter = adapter;
+                break;
+            case CONNECTED:
+            case CONNECTING:
+            case DISCONNECTING:
+                throw new CanClientException("Attempt to change adapter when not diconnected");
+        }
+
     }
     
     public synchronized void addEventListener(OnCanFrameTransferListener listener) {
@@ -249,6 +308,14 @@ public class CanClient {
     
     public synchronized void removeEventListener(OnCanFrameTransferListener listener){
         mCanFrameTransferListeners.remove(listener);
+    }
+
+    public synchronized void addEventListener(OnClientConnectedStateChangeListener listener) {
+        mClientConnectedStateChangeListeners.add(listener);
+    }
+
+    public synchronized void removeEventListener(OnClientConnectedStateChangeListener listener){
+        mClientConnectedStateChangeListeners.remove(listener);
     }
     
     private synchronized void fireCanFrameSentEvent(CanFrame frame)
@@ -367,7 +434,7 @@ public class CanClient {
     
     public void receive(final CanFrame frame)
     {
-        adapter.receive(frame);
+        mAdapter.receive(frame);
     }
 
     private class MultiFrameBuffer {
@@ -408,5 +475,9 @@ public class CanClient {
         {
             return buffer;
         }
+    }
+    public ConnectionState getConnectionState()
+    {
+        return connectionState;
     }
 }

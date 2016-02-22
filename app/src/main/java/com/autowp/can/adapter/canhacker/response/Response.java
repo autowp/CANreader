@@ -15,7 +15,7 @@ abstract public class Response {
         }
         switch ((char)bytes[0]) {
             case BellResponse.CODE: // bell
-                return new BellResponse(bytes);
+                return new BellResponse();
             case VersionResponse.CODE:
                 return new VersionResponse(bytes);
             case CanErrorResponse.CODE:

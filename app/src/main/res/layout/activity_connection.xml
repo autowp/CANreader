@@ -38,4 +38,12 @@
         android:id="@+id/spinnerBaudrate"
         android:layout_above="@+id/spinner"
         android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/connection_progressbar"
+        android:layout_below="@+id/buttonDisconnect"
+        android:layout_centerHorizontal="true"
+        android:indeterminateOnly="true" />
 </RelativeLayout>

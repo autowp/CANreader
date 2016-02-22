@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.autowp.can.CanClient;
 import com.autowp.can.CanFrameException;
 
 public class TransmitFragment extends ServiceConnectedFragment {
@@ -27,7 +28,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
         public void handleStateChanged() {
             updateButtons();
             if (adapter != null) {
-                adapter.setConnected(canReaderService.isConnected());
+                adapter.setConnected(canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED);
             }
         }
     };
@@ -148,11 +149,13 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
     private void updateButtons()
     {
+        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+
         Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
-        buttonStartAll.setEnabled(canReaderService.isConnected() && canReaderService.hasStoppedTransmits());
+        buttonStartAll.setEnabled(isConnected && canReaderService.hasStoppedTransmits());
 
         Button buttonStopAll = (Button) getView().findViewById(R.id.buttonStopAll);
-        buttonStopAll.setEnabled(canReaderService.isConnected() && canReaderService.hasStartedTransmits());
+        buttonStopAll.setEnabled(isConnected && canReaderService.hasStartedTransmits());
 
         Button buttonClear = (Button) getView().findViewById(R.id.buttonClear);
         buttonClear.setEnabled(canReaderService.getTransmitFrames().size() > 0);
@@ -215,7 +218,8 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
         registerForContextMenu(mListView);
         if (canReaderService != null && adapter != null) {
-            adapter.setConnected(canReaderService.isConnected());
+            boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+            adapter.setConnected(isConnected);
         }
     }
 
@@ -263,8 +267,6 @@ public class TransmitFragment extends ServiceConnectedFragment {
     @Override
     protected void afterConnect()
     {
-        System.out.println(canReaderService.getTransmitFrames().size());
-
         canReaderService.addListener(mOnTransmitChangeListener);
         canReaderService.addListener(mOnStateChangeListener);
 
@@ -277,8 +279,6 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
             @Override
             public void handleChange(int position, TransmitCanFrame frame) {
-                System.out.println("handleChange");
-                System.out.println(frame.isEnabled());
                 if (frame.isEnabled()) {
                     canReaderService.startTransmit(frame);
                 } else {
@@ -295,7 +295,8 @@ public class TransmitFragment extends ServiceConnectedFragment {
             }
         });
 
-        adapter.setConnected(canReaderService.isConnected());
+        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+        adapter.setConnected(isConnected);
 
         mListView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

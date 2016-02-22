@@ -2,9 +2,9 @@ package com.autowp.can.adapter.android;
 
 import com.autowp.can.adapter.canhacker.CanHackerException;
 
-public class CanHackerUsbException extends CanHackerException {
+public class CanHackerFelhrException extends CanHackerException {
 
-    public CanHackerUsbException(String string) {
+    public CanHackerFelhrException(String string) {
         super(string);
     }
 

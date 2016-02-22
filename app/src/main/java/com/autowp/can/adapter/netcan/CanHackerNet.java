@@ -30,7 +30,7 @@ public class CanHackerNet extends CanHacker {
     }
 
     @Override
-    public void connect() throws CanAdapterException {
+    public void connect(final Runnable callback) throws CanAdapterException {
         try {
             mSocket = new Socket(mHostname, mPort);
             
@@ -43,7 +43,7 @@ public class CanHackerNet extends CanHacker {
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect(final Runnable callback) {
         try {
             readerThread.interrupt();
             mSocket.close();
@@ -80,7 +80,12 @@ public class CanHackerNet extends CanHacker {
                 
         return this;
     }
-    
+
+    @Override
+    protected byte[] readBytes(int timeout) {
+        return new byte[0];
+    }
+
     private Thread readerThread = new Thread() {
         public void run() {
             InputStream is;

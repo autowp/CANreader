@@ -2,90 +2,29 @@ package com.autowp.can.adapter.canhacker;
 
 import com.autowp.Hex;
 import com.autowp.can.CanAdapter;
+import com.autowp.can.CanAdapterException;
+import com.autowp.can.CanClient;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanFrameException;
+import com.autowp.can.adapter.canhacker.command.BitRateCommand;
 import com.autowp.can.adapter.canhacker.command.Command;
 import com.autowp.can.adapter.canhacker.command.CommandException;
+import com.autowp.can.adapter.canhacker.command.OperationalModeCommand;
+import com.autowp.can.adapter.canhacker.command.ResetModeCommand;
 import com.autowp.can.adapter.canhacker.command.TransmitCommand;
+import com.autowp.can.adapter.canhacker.response.BellResponse;
 import com.autowp.can.adapter.canhacker.response.FrameResponse;
+import com.autowp.can.adapter.canhacker.response.OkResponse;
 import com.autowp.can.adapter.canhacker.response.Response;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public abstract class CanHacker extends CanAdapter {
 
     protected static final int BAUDRATE = 115200;
-    
-    /**
-     * Gxx
-     * Read register content from SJA1000 controller.
-     * xx = Register to read (00-7F)
-     * Return: Gdd[CR] 
-     */
-    public static final String G = "G";
-    
-    /**
-     * Mxxxxxxxx[CR]
-     * 
-     * Set acceptance code register of SJA1000. This command works only if controller is setup with command  and in reset mode.
-     * 
-     * xxxxxxxx = Acceptance Code in hexadecimal, order ACR0 ACR1 ACR2 ACR3
-     * Default value after power-up is 0x00000000 to receive all frames.
-     * 
-     * Return: [CR] or [BEL] 
-     */
-    public static final String M = "M";
-    
-    /**
-     * mxxxxxxxx[CR]
-     * 
-     * Set acceptance mask register of SJA1000. This command works only if 
-     * controller is setup with command  and in reset mode.
-     * 
-     * xxxxxxxx = Acceptance Mask in hexadecimal, order AMR0 AMR1 AMR2 AMR3
-     * 
-     * Default value after power-up is 0xFFFFFFFF to receive all frames.
-     * 
-     * Return [CR] or [BEL]
-     * 
-     * The acceptance filter is defined by the Acceptance Code Registers ACRn 
-     * and the Acceptance Mask Registers AMRn. The bit patterns of messages 
-     * to be received are defined within the acceptance code registers. 
-     * The corresponding acceptance mask registers allow to define certain 
-     * bit positions to be dont care.
-     * 
-     * This device uses dual filter configuration.
-     * For details of ACR and AMR usage see the SJA1000 datasheet. 
-     */
-    public static final String m = "m";
-    
-    /**
-     * sxxyy[CR]
-     * 
-     * This command will set user defined values for the SJA1000 bit rate register BTR0 and BTR1.
-     * It works only after power up or if controller is in reset mode after command C.
-     * 
-     * xx = hexadecimal value for BTR0 (00-FF)
-     * yy = hexadecimal value for BTR1 (00-FF)
-     * 
-     * Return: [CR] or [BEL] 
-     */
-    public static final String s = "s";
-    
-    /**
-     * Wrrdd[CR]
-     * 
-     * Write SJA1000 register with data.
-     * The data will be written to specified register without any check!
-     * 
-     * rr = Register number (00-7F)
-     * dd = Data byte (00-FF)
-     * 
-     * Return: [CR] 
-     */
-    public static final String W = "W";
 
     final public static char COMMAND_11BIT = 't';
     final public static char COMMAND_11BIT_RTR = 'r';
@@ -95,82 +34,88 @@ public abstract class CanHacker extends CanAdapter {
     public static final char COMMAND_DELIMITER = '\r';
     
     protected static final char BELL = (char)0x07;
+    private static final int DEFAULT_TIMEOUT = 5000;
+    private static final int INITIAL_RESET_RETRY_INTERVAL = 250;
+    private static final int INITIAL_RESET_TIMEOUT = 15000;
 
     private byte[] buffer = new byte[1024];
     private int bufferPos = 0;
-    
-    public interface OnCommandSentListener {
-        void handleCommandSentEvent(Command command);
-    }
-    
-    public interface OnResponseReceivedListener {
-        void handleResponseReceivedEvent(Response response);
-    }
-    
-    private List<OnCommandSentListener> mCommandSendListeners = new ArrayList<>();
-    
-    private List<OnResponseReceivedListener> mResponseReceivedListeners = new ArrayList<>();
-    
-    public synchronized void addEventListener(OnCommandSentListener listener)
-    {
-        mCommandSendListeners.add(listener);
-    }
-    
-    public synchronized void removeEventListener(OnCommandSentListener listener)
-    {
-        mCommandSendListeners.remove(listener);
-    }
-    
-    protected synchronized void fireCommandSendEvent(Command command) throws CanFrameException
-    {
-        for (OnCommandSentListener mCommandSendListener : mCommandSendListeners) {
-            mCommandSendListener.handleCommandSentEvent(command);
-        }
-        
-        if (command instanceof TransmitCommand) {
-            TransmitCommand transmitCommand = (TransmitCommand)command;
-            
-            fireFrameSentEvent(transmitCommand.getFrame());
-        }
-    }
-    
-    public synchronized void addEventListener(OnResponseReceivedListener listener) 
-    {
-        mResponseReceivedListeners.add(listener);
-    }
-    
-    public synchronized void removeEventListener(OnResponseReceivedListener listener)   
-    {
-        mResponseReceivedListeners.remove(listener);
-    }
-    
-    protected synchronized void fireResponseReceivedEvent(Response response) throws CanFrameException 
-    {
-        for (OnResponseReceivedListener mResponseReceivedListener : mResponseReceivedListeners) {
-            mResponseReceivedListener.handleResponseReceivedEvent(response);
-        }
-        
-        if (response instanceof FrameResponse) {
-            FrameResponse frameResponse = (FrameResponse)response;
 
-            this.fireFrameReceivedEvent(frameResponse.getFrame());
+    private boolean mCollectReponses = true;
+
+    private final BlockingQueue<Response> responses = new LinkedBlockingQueue<>();
+
+    private class ReceiveRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            while(!Thread.interrupted()) {
+                byte[] data = readBytes(DEFAULT_TIMEOUT);
+                if (data != null) {
+                    processBytes(data);
+                }
+            }
         }
     }
-    
+
+    private Thread mReceiveThread;
+
+    /**
+     if (command instanceof TransmitCommand) {
+     TransmitCommand transmitCommand = (TransmitCommand)command;
+
+     fireFrameSentEvent(transmitCommand.getFrame());
+     }
+     */
+
+    private void clearResponses() {
+        synchronized (responses) {
+            bufferPos = 0;
+            responses.clear();
+        }
+    }
+
     @Override
-    public void send(CanFrame frame) throws CanHackerException
+    public void send(final CanFrame frame) throws CanHackerException
     {
         try {
             TransmitCommand command = new TransmitCommand(frame);
-            this.send(command);
+            //sendAndWaitOk(command, 500);
+            send(command);
         } catch (CommandException e) {
-            throw new CanHackerException(e.getMessage());
+            throw new CanHackerException("Command error: " + e.getMessage());
         }
     }
     
-    public abstract CanHacker send(Command c) throws CanHackerException;
+    public abstract CanHacker send(final Command c) throws CanHackerException;
 
-    protected void processBytes(byte[] bytes) {
+    /*public Response receive(int timeout) {
+
+
+        System.out.println(System.currentTimeMillis());
+        long endTime = System.currentTimeMillis() + timeout;
+        Response response = null;
+        while(response == null) {
+            if ((timeout > 0) && (System.currentTimeMillis() >= endTime)) {
+                System.out.println("timeout");
+                System.out.println(endTime);
+                System.out.println(System.currentTimeMillis());
+                break;
+            }
+            System.out.println(String.format("not timeout: %d of %d", System.currentTimeMillis(), endTime));
+            byte[] data = readBytes(timeout);
+            if (data != null) {
+                processBytes(data);
+                response = responses.poll();
+            }
+        }
+
+        return response;
+    }*/
+
+    protected abstract byte[] readBytes(final int timeout);
+
+    protected void processBytes(final byte[] bytes) {
         for (byte aByte : bytes) {
 
             if (bufferPos >= buffer.length) {
@@ -180,29 +125,49 @@ public abstract class CanHacker extends CanAdapter {
                 bufferPos = 0;
             }
 
-            if (aByte == BELL) {
-                // TODO: process that signal
-            } else if (aByte == COMMAND_DELIMITER || aByte == '\n') {
-                if (bufferPos > 0) {
-                    byte[] commandBytes = new byte[bufferPos];
-                    System.arraycopy(buffer, 0, commandBytes, 0, bufferPos);
-                    try {
-                        Response response = Response.fromBytes(commandBytes);
-                        fireResponseReceivedEvent(response);
-                    } catch (CanFrameException e) {
-                        fireErrorEvent(new CanHackerException("CanFrame error: " + e.getMessage()));
-                    } catch (CanHackerException e) {
-                        fireErrorEvent(new CanHackerException("CanHacker error: " + e.getMessage()));
+            switch (aByte) {
+                case BELL:
+                    bufferPos = 0;
+                    if (mCollectReponses) {
+                        responses.add(new BellResponse());
                     }
-                }
-                bufferPos = 0;
-            } else {
-                buffer[bufferPos++] = aByte;
+                    break;
+                case COMMAND_DELIMITER:
+                    if (bufferPos > 0) {
+                        byte[] commandBytes = new byte[bufferPos];
+                        System.arraycopy(buffer, 0, commandBytes, 0, bufferPos);
+                        bufferPos = 0;
+                        try {
+                            Response response = Response.fromBytes(commandBytes);
+                            if (response instanceof FrameResponse) {
+                                fireFrameReceivedEvent(((FrameResponse)response).getFrame());
+                            } else {
+                                if (mCollectReponses) {
+                                    responses.add(response);
+                                }
+                            }
+
+                        } catch (CanFrameException e) {
+                            fireErrorEvent(new CanHackerException("CanFrame error: " + e.getMessage()));
+                        } catch (CanHackerException e) {
+                            fireErrorEvent(new CanHackerException("CanHacker error: " + e.getMessage()));
+                        }
+                    } else {
+                        bufferPos = 0;
+                        if (mCollectReponses) {
+                            responses.add(new OkResponse());
+                        }
+                    }
+
+                    break;
+                default:
+                    buffer[bufferPos++] = aByte;
+                    break;
             }
         }
     }
 
-    public static CanFrame parseFrame(byte[] bytes) throws CanHackerException, CanFrameException {
+    public static CanFrame parseFrame(final byte[] bytes) throws CanHackerException, CanFrameException {
         if (bytes.length < 5) {
             throw new CanHackerException("Frame response must be >= 5 bytes long");
         }
@@ -281,11 +246,11 @@ public abstract class CanHacker extends CanAdapter {
 
     }
 
-    public static byte[] assembleTransmit(CanFrame frame) {
+    public static byte[] assembleTransmit(final CanFrame frame) {
         return assembleTransmitString(frame).getBytes();
     }
 
-    public static String assembleTransmitString(CanFrame frame) {
+    public static String assembleTransmitString(final CanFrame frame) {
         String format;
         String name;
         if (frame.isExtended()) {
@@ -316,5 +281,174 @@ public abstract class CanHacker extends CanAdapter {
         }
 
         return result;
+    }
+
+    private Response sendAndWaitResponse(final Command command, int timeout) throws CanHackerException {
+        send(command);
+
+        if (timeout <= 0) {
+            timeout = DEFAULT_TIMEOUT;
+        }
+
+        Response response = null;
+
+        try {
+            response = responses.poll(timeout, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+    private void sendAndWaitOk(final Command command, final int timeout) throws CanHackerException {
+        Response response = sendAndWaitResponse(command, timeout);
+        if (response == null) {
+            throw new CanHackerException("Response timeout");
+        }
+        if (!(response instanceof OkResponse)) {
+            throw new CanHackerException(
+                    String.format("Not proper response `%s` -> `%s`", command.toString(), response.toString())
+            );
+        }
+    }
+
+    protected synchronized void doConnect() throws CanHackerException {
+
+        mCollectReponses = true;
+
+        if (mReceiveThread == null) {
+            mReceiveThread = new Thread(new ReceiveRunnable());
+            mReceiveThread.start();
+        }
+
+        BitRateCommand.BitRate busSpeed;
+        switch (specs.getSpeed()) {
+            case 10:   busSpeed = BitRateCommand.BitRate.S0; break;
+            case 20:   busSpeed = BitRateCommand.BitRate.S1; break;
+            case 50:   busSpeed = BitRateCommand.BitRate.S2; break;
+            case 100:  busSpeed = BitRateCommand.BitRate.S3; break;
+            case 125:  busSpeed = BitRateCommand.BitRate.S4; break;
+            case 250:  busSpeed = BitRateCommand.BitRate.S5; break;
+            case 500:  busSpeed = BitRateCommand.BitRate.S6; break;
+            case 800:  busSpeed = BitRateCommand.BitRate.S7; break;
+            case 1000: busSpeed = BitRateCommand.BitRate.S8; break;
+            default:
+                throw new CanHackerException("Unsupported bus speed");
+
+        }
+
+        // try to reset about 15 seconds for long device bootup like arduino
+        Response response = null;
+        for (int i=0; i<INITIAL_RESET_TIMEOUT / INITIAL_RESET_RETRY_INTERVAL; i++) {
+            clearResponses();
+            response = sendAndWaitResponse(new ResetModeCommand(), INITIAL_RESET_RETRY_INTERVAL);
+            if (response != null) {
+                break;
+            }
+        }
+
+        if (response == null) {
+            throw new CanHackerException("C response timeout");
+        }
+
+        if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
+            throw new CanHackerException(
+                    String.format("Not proper response for C `%s`", response.toString())
+            );
+        }
+
+        clearResponses();
+        sendAndWaitOk(new BitRateCommand(busSpeed), 3000);
+        clearResponses();
+        sendAndWaitOk(new OperationalModeCommand(), 3000);
+        clearResponses();
+
+        mCollectReponses = false;
+    }
+
+    public void connect(final Runnable callback) throws CanAdapterException
+    {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    connectionState = CanClient.ConnectionState.CONNECTING;
+                    fireConnectionChangedEvent();
+
+                    doConnect();
+
+                    connectionState = CanClient.ConnectionState.CONNECTED;
+                    fireConnectionChangedEvent();
+
+                    if (callback != null) {
+                        callback.run();
+                    }
+
+                } catch (CanHackerException e) {
+
+                    connectionState = CanClient.ConnectionState.DISCONNECTED;
+                    fireConnectionChangedEvent();
+
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
+    }
+
+    protected void doDisconnect() throws CanAdapterException {
+
+        mCollectReponses = true;
+
+        Response response = sendAndWaitResponse(new ResetModeCommand(), 3000);
+        if (response == null) {
+            throw new CanHackerException("C response timeout");
+        }
+
+        if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
+            throw new CanHackerException(
+                    String.format("Not proper response for C `%s`", response.toString())
+            );
+        }
+
+        if (mReceiveThread != null) {
+            mReceiveThread.interrupt();
+            mReceiveThread = null;
+        }
+
+        mCollectReponses = false;
+    }
+
+    public void disconnect(final Runnable callback) throws CanAdapterException
+    {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    connectionState = CanClient.ConnectionState.DISCONNECTING;
+                    fireConnectionChangedEvent();
+
+                    doDisconnect();
+
+                    connectionState = CanClient.ConnectionState.DISCONNECTED;
+                    fireConnectionChangedEvent();
+
+                    if (callback != null) {
+                        callback.run();
+                    }
+
+                } catch (CanAdapterException e) {
+
+                    connectionState = CanClient.ConnectionState.DISCONNECTED;
+                    fireConnectionChangedEvent();
+
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
     }
 }

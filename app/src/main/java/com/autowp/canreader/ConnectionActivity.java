@@ -18,10 +18,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
-import com.autowp.can.adapter.android.CanHackerFelhrUsb;
-import com.autowp.can.adapter.android.CanHackerUsbException;
+import com.autowp.can.CanClient;
+import com.autowp.can.adapter.android.CanHackerFelhr;
+import com.autowp.can.adapter.android.CanHackerFelhrException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +109,13 @@ public class ConnectionActivity extends Activity {
         public void onServiceConnected(ComponentName name, IBinder binder) {
             canReaderService = ((CanReaderService.TransferServiceBinder) binder).getService();
             bound = true;
+
+            canReaderService.addListener(new CanReaderService.OnConnectedStateChangeListener() {
+                @Override
+                public void handleConnectedStateChanged(CanClient.ConnectionState connection) {
+                    refreshButtonsState();
+                }
+            });
         }
 
         public void onServiceDisconnected(ComponentName name) {
@@ -118,12 +127,12 @@ public class ConnectionActivity extends Activity {
 
     private void connectDevice(UsbDevice device) {
         try {
-            CanHackerFelhrUsb canClient = new CanHackerFelhrUsb(mUsbManager, device);
+            CanHackerFelhr canClient = new CanHackerFelhr(mUsbManager, device);
             Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
             canReaderService.setSpeed(baudrate.getValue());
             canReaderService.setCanAdapter(canClient);
             refreshButtonsState();
-        } catch (CanHackerUsbException e) {
+        } catch (CanHackerFelhrException e) {
             e.printStackTrace();
         }
     }
@@ -170,8 +179,6 @@ public class ConnectionActivity extends Activity {
 
         final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
         int position = mPrefences.getInt(PREFENCES_BAUDRATE, 0);
-        System.out.println("position");
-        System.out.println(position);
         mSpinnerBaudrate.setSelection(position);
 
 
@@ -181,8 +188,6 @@ public class ConnectionActivity extends Activity {
                 SharedPreferences.Editor ed = mPrefences.edit();
                 ed.putInt(PREFENCES_BAUDRATE, position);
                 ed.apply();
-                System.out.println("position save");
-                System.out.println(position);
             }
 
             @Override
@@ -230,16 +235,29 @@ public class ConnectionActivity extends Activity {
     }
 
     private void refreshButtonsState() {
-        Button btnConnect = (Button) findViewById(R.id.buttonConnect);
-        Button btnDisconnect = (Button) findViewById(R.id.buttonDisconnect);
+        final Button btnConnect = (Button) findViewById(R.id.buttonConnect);
+        final Button btnDisconnect = (Button) findViewById(R.id.buttonDisconnect);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.connection_progressbar);
 
         UsbDevice selectedDevice = (UsbDevice) mSpinner.getSelectedItem();
 
-        boolean connectEnabled = bound && !canReaderService.isConnected() && selectedDevice != null;
-        boolean disconnectEnabled = bound && canReaderService.isConnected();
+        CanClient.ConnectionState connection = CanClient.ConnectionState.DISCONNECTED;
+        if (canReaderService != null) {
+            connection = canReaderService.getConnectionState();
+        }
 
-        btnConnect.setEnabled(connectEnabled);
-        btnDisconnect.setEnabled(disconnectEnabled);
+        final boolean connectEnabled = bound && (connection == CanClient.ConnectionState.DISCONNECTED) && selectedDevice != null;
+        final boolean disconnectEnabled = bound && (connection == CanClient.ConnectionState.CONNECTED);
+        final boolean progressBarVisible = bound && (connection == CanClient.ConnectionState.CONNECTING || connection == CanClient.ConnectionState.DISCONNECTING);
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                btnConnect.setEnabled(connectEnabled);
+                btnDisconnect.setEnabled(disconnectEnabled);
+                progressBar.setVisibility(progressBarVisible ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     private void fillUsbDeviceList() {

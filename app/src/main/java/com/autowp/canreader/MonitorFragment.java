@@ -30,7 +30,6 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
         @Override
         public void handleMonitorUpdated(final MonitorCanMessage message) {
-            System.out.println("handleMonitorUpdated message");
             FragmentActivity activity = getActivity();
             if (activity != null) {
                 activity.runOnUiThread(new Runnable() {
