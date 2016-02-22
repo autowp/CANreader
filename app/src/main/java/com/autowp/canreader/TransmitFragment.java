@@ -250,7 +250,14 @@ public class TransmitFragment extends ServiceConnectedFragment {
                     //TransmitCanFrame frame = TransmitCanFrame.fromBundle(bundle);
                     int position = bundle.getInt(TransmitCanFrameDialog.BUNDLE_EXTRA_POSITION);
                     try {
-                        adapter.getItem(position).setFromBundle(bundle);
+                        TransmitCanFrame transmit = adapter.getItem(position);
+                        if (transmit.isEnabled()) {
+                            canReaderService.stopTransmit(transmit);
+                            transmit.setFromBundle(bundle);
+                            canReaderService.startTransmit(transmit);
+                        } else {
+                            transmit.setFromBundle(bundle);
+                        }
                     } catch (CanFrameException e) {
                         e.printStackTrace();
                     }
