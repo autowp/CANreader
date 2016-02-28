@@ -33,11 +33,13 @@ public class ConnectionActivity extends Activity {
     private static final String ACTION_USB_PERMISSION =
             "com.android.example.USB_PERMISSION";
     private static final String PREFENCES_BAUDRATE = "baudrate";
+    private static final String PREFENCES_VID = "vid";
+    private static final String PREFENCES_PID = "pid";
 
     private UsbBroadcastReceiver mUsbReceiver;
     private UsbDeviceSpinnerAdapter mSpinnerAdapter;
     private ArrayList<UsbDevice> mUsbDeviceList = new ArrayList<>();
-    private Spinner mSpinner;
+    private Spinner mSpinnerDevice;
     private UsbManager mUsbManager;
     private Spinner mSpinnerBaudrate;
 
@@ -135,6 +137,16 @@ public class ConnectionActivity extends Activity {
         } catch (CanHackerFelhrException e) {
             e.printStackTrace();
         }
+
+        /*try {
+            Elm327Felhr canClient = new Elm327Felhr(mUsbManager, device);
+            Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
+            canReaderService.setSpeed(baudrate.getValue());
+            canReaderService.setCanAdapter(canClient);
+            refreshButtonsState();
+        } catch (Elm327FelhrException e) {
+            e.printStackTrace();
+        }*/
     }
 
     @Override
@@ -144,12 +156,19 @@ public class ConnectionActivity extends Activity {
 
         mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
 
-        mSpinner = (Spinner) findViewById(R.id.spinner);
+        final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
 
-        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerDevice = (Spinner) findViewById(R.id.spinner);
+
+        mSpinnerDevice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 refreshButtonsState();
+                SharedPreferences.Editor ed = mPrefences.edit();
+                UsbDevice device = (UsbDevice) mSpinnerDevice.getSelectedItem();
+                ed.putInt(PREFENCES_VID, device.getVendorId());
+                ed.putInt(PREFENCES_PID, device.getProductId());
+                ed.apply();
             }
 
             @Override
@@ -176,11 +195,6 @@ public class ConnectionActivity extends Activity {
         ArrayAdapter<Baudrate> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, baudrates);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerBaudrate.setAdapter(adapter);
-
-        final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
-        int position = mPrefences.getInt(PREFENCES_BAUDRATE, 0);
-        mSpinnerBaudrate.setSelection(position);
-
 
         mSpinnerBaudrate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -219,7 +233,7 @@ public class ConnectionActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                UsbDevice device = (UsbDevice) mSpinner.getSelectedItem();
+                UsbDevice device = (UsbDevice) mSpinnerDevice.getSelectedItem();
 
                 if (!mUsbManager.hasPermission(device)) {
                     Intent intent = new Intent(ACTION_USB_PERMISSION);
@@ -239,7 +253,7 @@ public class ConnectionActivity extends Activity {
         final Button btnDisconnect = (Button) findViewById(R.id.buttonDisconnect);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.connection_progressbar);
 
-        UsbDevice selectedDevice = (UsbDevice) mSpinner.getSelectedItem();
+        UsbDevice selectedDevice = (UsbDevice) mSpinnerDevice.getSelectedItem();
 
         CanClient.ConnectionState connection = CanClient.ConnectionState.DISCONNECTED;
         if (canReaderService != null) {
@@ -278,7 +292,24 @@ public class ConnectionActivity extends Activity {
 
         fillUsbDeviceList();
 
-        mSpinner.setAdapter(mSpinnerAdapter);
+        mSpinnerDevice.setAdapter(mSpinnerAdapter);
+
+        final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
+
+        int lastVid = mPrefences.getInt(PREFENCES_VID, 0);
+        int lastPid = mPrefences.getInt(PREFENCES_PID, 0);
+
+        for (UsbDevice device : mUsbDeviceList) {
+            boolean match = device.getVendorId() == lastVid && device.getProductId() == lastPid;
+            if (match) {
+                int position = mSpinnerAdapter.getPosition(device);
+                mSpinnerDevice.setSelection(position);
+                break;
+            }
+        }
+
+        int position = mPrefences.getInt(PREFENCES_BAUDRATE, 0);
+        mSpinnerBaudrate.setSelection(position);
 
         refreshButtonsState();
     }
