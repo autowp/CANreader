@@ -12,6 +12,8 @@ import com.autowp.can.adapter.canhacker.command.Command;
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
 
+import java.util.Arrays;
+
 /**
  * Created by autow on 12.02.2016.
  */
@@ -39,16 +41,15 @@ public class CanHackerFelhr extends CanHacker {
             throw new CanHackerFelhrException("Driver not found");
         }
 
-        mSerial.open();
+        mSerial.syncOpen();
         mSerial.setBaudRate(BAUDRATE);
         mSerial.setDataBits(UsbSerialInterface.DATA_BITS_8);
         mSerial.setParity(UsbSerialInterface.PARITY_NONE);
 
-        //mSerial.read(mCallback);
         try {
             super.doConnect();
         } catch (CanHackerException e) {
-            mSerial.close();
+            mSerial.syncClose();
             mSerial = null;
 
             connection.close();
@@ -61,7 +62,7 @@ public class CanHackerFelhr extends CanHacker {
         super.doDisconnect();
 
         if (mSerial != null) {
-            mSerial.close();
+            mSerial.syncClose();
             mSerial = null;
         }
     }
@@ -71,19 +72,20 @@ public class CanHackerFelhr extends CanHacker {
         if (connectionState == CanClient.ConnectionState.DISCONNECTED) {
             throw new CanHackerFelhrException("CanHacker is disconnected");
         }
-
         byte[] command = c.getBytes();
         byte[] data = new byte[command.length + 1];
         System.arraycopy(command, 0, data, 0, command.length);
         data[data.length-1] = COMMAND_DELIMITER;
 
-        mSerial.writeNow(data);
+        mSerial.syncWrite(data, 60000);
 
         return this;
     }
 
     @Override
     protected byte[] readBytes(final int timeout) {
-        return mSerial.readNow(64, timeout);
+        byte[] buffer = new byte[64];
+        int readCount = mSerial.syncRead(buffer, timeout);
+        return Arrays.copyOfRange(buffer, 0, readCount);
     }
 }
