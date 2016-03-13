@@ -21,10 +21,12 @@ public class CanHackerFelhr extends CanHacker {
     private UsbManager mUsbManager;
     private UsbDevice mUsbDevice;
     private UsbSerialDevice mSerial;
+    private int mUartBaudrate = 115200;
 
-    public CanHackerFelhr(final UsbManager usbManager, final UsbDevice usbDevice) throws CanHackerFelhrException {
+    public CanHackerFelhr(final UsbManager usbManager, final UsbDevice usbDevice, final int uartBaudrate) throws CanHackerFelhrException {
         super();
 
+        mUartBaudrate = uartBaudrate;
         mUsbManager = usbManager;
         mUsbDevice = usbDevice;
     }
@@ -42,7 +44,7 @@ public class CanHackerFelhr extends CanHacker {
         }
 
         mSerial.syncOpen();
-        mSerial.setBaudRate(BAUDRATE);
+        mSerial.setBaudRate(mUartBaudrate);
         mSerial.setDataBits(UsbSerialInterface.DATA_BITS_8);
         mSerial.setParity(UsbSerialInterface.PARITY_NONE);
 

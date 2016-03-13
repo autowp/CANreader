@@ -35,6 +35,7 @@ public class ConnectionActivity extends Activity {
     private static final String PREFENCES_BAUDRATE = "baudrate";
     private static final String PREFENCES_VID = "vid";
     private static final String PREFENCES_PID = "pid";
+    private static final String PREFENCES_UART_BAUDRATE = "uart_baudrate";
 
     private UsbBroadcastReceiver mUsbReceiver;
     private UsbDeviceSpinnerAdapter mSpinnerAdapter;
@@ -42,12 +43,37 @@ public class ConnectionActivity extends Activity {
     private Spinner mSpinnerDevice;
     private UsbManager mUsbManager;
     private Spinner mSpinnerBaudrate;
+    private Spinner mSpinnerUartBaudrate;
 
     private class Baudrate {
         private int value;
         private String name;
 
         public Baudrate(int value, String name) {
+            this.value = value;
+            this.name = name;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public String toString()
+        {
+            return name;
+        }
+    }
+
+    private class UartBaudrate {
+        private int value;
+        private String name;
+
+        public UartBaudrate(int value, String name) {
             this.value = value;
             this.name = name;
         }
@@ -129,7 +155,9 @@ public class ConnectionActivity extends Activity {
 
     private void connectDevice(UsbDevice device) {
         try {
-            CanHackerFelhr canClient = new CanHackerFelhr(mUsbManager, device);
+            UartBaudrate uartBaudrate = (UartBaudrate)mSpinnerUartBaudrate.getSelectedItem();
+
+            CanHackerFelhr canClient = new CanHackerFelhr(mUsbManager, device, uartBaudrate.getValue());
             Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
             canReaderService.setSpeed(baudrate.getValue());
             canReaderService.setCanAdapter(canClient);
@@ -201,6 +229,41 @@ public class ConnectionActivity extends Activity {
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 SharedPreferences.Editor ed = mPrefences.edit();
                 ed.putInt(PREFENCES_BAUDRATE, position);
+                ed.apply();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                refreshButtonsState();
+            }
+        });
+
+
+
+
+        mSpinnerUartBaudrate = (Spinner) findViewById(R.id.spinnerUartBaudrate);
+
+        List<UartBaudrate> uartBaudrates = new ArrayList<>();
+        uartBaudrates.add(new UartBaudrate(2400, "2400 bit/s"));
+        uartBaudrates.add(new UartBaudrate(4800, "4800 bit/s"));
+        uartBaudrates.add(new UartBaudrate(9600, "9600 bit/s"));
+        uartBaudrates.add(new UartBaudrate(19200, "19200 bit/s"));
+        uartBaudrates.add(new UartBaudrate(38400, "38400 bit/s"));
+        uartBaudrates.add(new UartBaudrate(57600, "57600 bit/s"));
+        uartBaudrates.add(new UartBaudrate(115200, "115200 bit/s"));
+        uartBaudrates.add(new UartBaudrate(230400, "230400 bit/s"));
+        uartBaudrates.add(new UartBaudrate(460800, "460800 bit/s"));
+        uartBaudrates.add(new UartBaudrate(921600, "921600 bit/s"));
+
+        ArrayAdapter<UartBaudrate> uartAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, uartBaudrates);
+        uartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerUartBaudrate.setAdapter(uartAdapter);
+
+        mSpinnerUartBaudrate.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                SharedPreferences.Editor ed = mPrefences.edit();
+                ed.putInt(PREFENCES_UART_BAUDRATE, position);
                 ed.apply();
             }
 
@@ -310,6 +373,9 @@ public class ConnectionActivity extends Activity {
 
         int position = mPrefences.getInt(PREFENCES_BAUDRATE, 0);
         mSpinnerBaudrate.setSelection(position);
+
+        int uartPosition = mPrefences.getInt(PREFENCES_UART_BAUDRATE, 0);
+        mSpinnerUartBaudrate.setSelection(uartPosition);
 
         refreshButtonsState();
     }

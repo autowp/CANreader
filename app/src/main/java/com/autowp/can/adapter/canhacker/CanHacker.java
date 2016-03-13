@@ -24,8 +24,6 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class CanHacker extends CanAdapter {
 
-    protected static final int BAUDRATE = 115200;
-
     final public static char COMMAND_11BIT = 't';
     final public static char COMMAND_11BIT_RTR = 'r';
     final public static char COMMAND_29BIT = 'T';
