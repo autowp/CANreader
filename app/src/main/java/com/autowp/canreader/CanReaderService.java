@@ -1,7 +1,11 @@
 package com.autowp.canreader;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
@@ -245,8 +249,16 @@ public class CanReaderService extends Service {
 
         canClient.addEventListener(new CanClient.OnCanClientErrorListener() {
             @Override
-            public void handleErrorEvent(CanClientException e) {
-                System.out.println(e.getMessage());
+            public void handleErrorEvent(final CanClientException e) {
+                //System.out.println(e.getMessage());
+                Handler h = new Handler(CanReaderService.this.getMainLooper());
+
+                h.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(CanReaderService.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 

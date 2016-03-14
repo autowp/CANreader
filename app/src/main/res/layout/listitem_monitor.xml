@@ -142,16 +142,14 @@
                 android:layout_height="wrap_content"
                 android:text="999ms"
                 android:id="@+id/listitem_monitor_period"
-                android:layout_marginRight="5dp"
-                style="@style/AppTheme" />
+                android:layout_marginRight="5dp"  />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="999"
                 android:id="@+id/listitem_monitor_count"
-                android:gravity="left"
-                style="@style/AppTheme" />
+                android:gravity="left" />
         </LinearLayout>
     </LinearLayout>
 

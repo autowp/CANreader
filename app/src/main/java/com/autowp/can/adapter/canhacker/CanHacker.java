@@ -1,5 +1,7 @@
 package com.autowp.can.adapter.canhacker;
 
+import android.widget.Toast;
+
 import com.autowp.Hex;
 import com.autowp.can.CanAdapter;
 import com.autowp.can.CanAdapterException;
@@ -390,6 +392,7 @@ public abstract class CanHacker extends CanAdapter {
                     fireConnectionChangedEvent();
 
                     e.printStackTrace();
+                    fireErrorEvent(e);
                 }
             }
         });
