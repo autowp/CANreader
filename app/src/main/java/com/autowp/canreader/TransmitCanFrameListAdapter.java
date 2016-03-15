@@ -141,7 +141,7 @@ public class TransmitCanFrameListAdapter extends ArrayAdapter<TransmitCanFrame> 
             if (canFrame.isRTR()) {
 
                 TextView textViewData = (TextView) v.findViewById(R.id.listitem_transmit_dlc);
-                textViewData.setText(String.format("%d", dlc));
+                textViewData.setText(String.format(Locale.getDefault(), "%d", dlc));
 
             } else {
 

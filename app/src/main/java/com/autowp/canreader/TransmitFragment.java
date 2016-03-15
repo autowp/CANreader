@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -127,23 +128,6 @@ public class TransmitFragment extends ServiceConnectedFragment {
             }
         });
 
-        Button buttonClear = (Button) view.findViewById(R.id.buttonClear);
-        buttonClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                canReaderService.clearTransmits();
-                updateButtons();
-            }
-        });
-
-        Button buttoReset = (Button) view.findViewById(R.id.buttonTransmitReset);
-        buttoReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                canReaderService.resetTransmits();
-            }
-        });
-
         return view;
     }
 
@@ -156,12 +140,6 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
         Button buttonStopAll = (Button) getView().findViewById(R.id.buttonStopAll);
         buttonStopAll.setEnabled(isConnected && canReaderService.hasStartedTransmits());
-
-        Button buttonClear = (Button) getView().findViewById(R.id.buttonClear);
-        buttonClear.setEnabled(canReaderService.getTransmitFrames().size() > 0);
-
-        Button buttoReset = (Button) getView().findViewById(R.id.buttonTransmitReset);
-        buttoReset.setEnabled(canReaderService.getTransmitFrames().size() > 0);
     }
 
     @Override
@@ -184,6 +162,26 @@ public class TransmitFragment extends ServiceConnectedFragment {
     }
 
     @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+
+        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+
+        /*Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
+        buttonStartAll.setEnabled(isConnected && canReaderService.hasStoppedTransmits());
+
+        Button buttonStopAll = (Button) getView().findViewById(R.id.buttonStopAll);
+        buttonStopAll.setEnabled(isConnected && canReaderService.hasStartedTransmits());
+*/
+
+        menu.findItem(R.id.action_transmit_reset_all).setEnabled(canReaderService.getTransmitFrames().size() > 0);
+        menu.findItem(R.id.action_transmit_clear).setEnabled(canReaderService.getTransmitFrames().size() > 0);
+
+
+    }
+
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
         if (getUserVisibleHint()) {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -203,6 +201,22 @@ public class TransmitFragment extends ServiceConnectedFragment {
                         bundle.putInt(TransmitCanFrameDialog.BUNDLE_EXTRA_POSITION, info.position);
                         newDialog.setArguments(bundle);
                         newDialog.show(getFragmentManager(), "edit_transmit");
+                    }
+                    return true;
+                }
+                case R.id.action_transmit_clear: {
+                    canReaderService.clearTransmits();
+                    updateButtons();
+                    return true;
+                }
+                case R.id.action_transmit_reset_all: {
+                    canReaderService.resetTransmits();
+                    return true;
+                }
+                case R.id.action_transmit_reset: {
+                    TransmitCanFrame frame = adapter.getItem(info.position);
+                    if (frame != null) {
+                        canReaderService.resetTransmit(frame);
                     }
                     return true;
                 }

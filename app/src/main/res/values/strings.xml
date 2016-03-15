@@ -20,4 +20,7 @@
     <string name="about">About</string>
     <string name="versions">Version: %1$s (version code %2$d)</string>
     <string name="action_connection">Connection</string>
+    <string name="action_transmit_reset">Reset</string>
+    <string name="action_transmit_clear">Clear</string>
+    <string name="action_transmit_reset_all">Reset all</string>
 </resources>

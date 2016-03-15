@@ -530,6 +530,11 @@ public class CanReaderService extends Service {
         canBusSpecs.setSpeed(speed);
     }
 
+    public void resetTransmit(final TransmitCanFrame frame) {
+        frame.resetCount();
+        triggerTransmit(frame);
+    }
+
     public void resetTransmits() {
         for (TransmitCanFrame frame : transmitFrames) {
             frame.resetCount();
