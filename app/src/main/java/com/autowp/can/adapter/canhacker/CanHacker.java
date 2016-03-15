@@ -8,6 +8,7 @@ import com.autowp.can.CanAdapterException;
 import com.autowp.can.CanClient;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanFrameException;
+import com.autowp.can.adapter.android.CanHackerFelhrException;
 import com.autowp.can.adapter.canhacker.command.BitRateCommand;
 import com.autowp.can.adapter.canhacker.command.Command;
 import com.autowp.can.adapter.canhacker.command.CommandException;
@@ -50,9 +51,13 @@ public abstract class CanHacker extends CanAdapter {
         @Override
         public void run() {
             while(!Thread.interrupted()) {
-                byte[] data = readBytes(DEFAULT_TIMEOUT);
-                if (data != null) {
-                    processBytes(data);
+                try {
+                    byte[] data = readBytes(DEFAULT_TIMEOUT);
+                    if (data != null) {
+                        processBytes(data);
+                    }
+                } catch (CanHackerException e) {
+                    fireErrorEvent(e);
                 }
             }
         }
@@ -113,7 +118,7 @@ public abstract class CanHacker extends CanAdapter {
         return response;
     }*/
 
-    protected abstract byte[] readBytes(final int timeout);
+    protected abstract byte[] readBytes(final int timeout) throws CanHackerFelhrException;
 
     protected void processBytes(final byte[] bytes) {
         for (byte aByte : bytes) {
@@ -403,20 +408,24 @@ public abstract class CanHacker extends CanAdapter {
 
         mCollectReponses = true;
 
-        Response response = sendAndWaitResponse(new ResetModeCommand(), 3000);
-        if (response == null) {
-            throw new CanHackerException("C response timeout");
-        }
+        try {
+            Response response = sendAndWaitResponse(new ResetModeCommand(), 3000);
+            if (response == null) {
+                throw new CanHackerException("C response timeout");
+            }
 
-        if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
-            throw new CanHackerException(
-                    String.format("Not proper response for C `%s`", response.toString())
-            );
-        }
+            if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
+                throw new CanHackerException(
+                        String.format("Not proper response for C `%s`", response.toString())
+                );
+            }
 
-        if (mReceiveThread != null) {
-            mReceiveThread.interrupt();
-            mReceiveThread = null;
+            if (mReceiveThread != null) {
+                mReceiveThread.interrupt();
+                mReceiveThread = null;
+            }
+        } catch (CanHackerException e) {
+            fireErrorEvent(e);
         }
 
         mCollectReponses = false;

@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.os.Binder;
@@ -18,6 +19,7 @@ import com.autowp.can.CanClient;
 import com.autowp.can.CanClientException;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanMessage;
+import com.autowp.can.adapter.android.CanHackerFelhr;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -57,6 +59,27 @@ public class CanReaderService extends Service {
 
     private static final int SPEED_METER_PERIOD = 500;
     private SpeedMeterTimerTask mSpeedMeterTimerTask;
+
+    private class UsbBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (UsbManager.ACTION_USB_DEVICE_DETACHED.equals(intent.getAction())) {
+                UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                if (device != null) {
+                    CanAdapter adapter = canClient.getCanAdapter();
+                    if (adapter instanceof CanHackerFelhr) {
+                        UsbDevice adapterDevice = ((CanHackerFelhr)adapter).getUsbDevice();
+                        if (device.equals(adapterDevice)) {
+                            setCanAdapter(null);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    private UsbBroadcastReceiver mUsbReceiver;
 
     private class TransmitRunnable implements Runnable {
 
@@ -125,15 +148,26 @@ public class CanReaderService extends Service {
         });
     }
 
-    public void setCanAdapter(final CanAdapter adapter) {
+    @Override
+    public void onDestroy()
+    {
+        if (mUsbReceiver != null) {
+            unregisterReceiver(mUsbReceiver);
+            mUsbReceiver = null;
+        }
+    }
 
-        System.out.print("setCanAdapter ");
-        System.out.println(adapter);
+    public void setCanAdapter(final CanAdapter adapter) {
         stopAllTransmits();
 
         if (mSpeedMeterTimerTask != null) {
             mSpeedMeterTimerTask.cancel();
             mSpeedMeterTimerTask = null;
+        }
+
+        if (mUsbReceiver != null) {
+            unregisterReceiver(mUsbReceiver);
+            mUsbReceiver = null;
         }
 
         try {
@@ -144,8 +178,15 @@ public class CanReaderService extends Service {
                         canClient.setAdapter(adapter);
 
                         if (adapter != null) {
+
                             try {
                                 canClient.connect(null);
+
+                                mUsbReceiver = new UsbBroadcastReceiver();
+                                IntentFilter filter = new IntentFilter();
+                                filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+                                registerReceiver(mUsbReceiver, filter);
+
                             } catch (CanClientException e) {
                                 e.printStackTrace();
 
@@ -164,8 +205,7 @@ public class CanReaderService extends Service {
         } catch (CanClientException e) {
             e.printStackTrace();
 
-            Toast toast = Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT);
-            toast.show();
+            toast(e.getMessage());
         }
 
 
@@ -250,7 +290,6 @@ public class CanReaderService extends Service {
         canClient.addEventListener(new CanClient.OnCanClientErrorListener() {
             @Override
             public void handleErrorEvent(final CanClientException e) {
-                //System.out.println(e.getMessage());
                 Handler h = new Handler(CanReaderService.this.getMainLooper());
 
                 h.post(new Runnable() {
@@ -277,8 +316,6 @@ public class CanReaderService extends Service {
         canClient.addEventListener(new CanClient.OnClientConnectedStateChangeListener() {
             @Override
             public void handleClientConnectedStateChanged(CanClient.ConnectionState connection) {
-                System.out.println("handleClientConnectedStateChanged");
-                System.out.println(connection);
 
                 switch (connection) {
                     case DISCONNECTED:

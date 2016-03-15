@@ -85,9 +85,18 @@ public class CanHackerFelhr extends CanHacker {
     }
 
     @Override
-    protected byte[] readBytes(final int timeout) {
+    protected byte[] readBytes(final int timeout) throws CanHackerFelhrException {
+        if (mSerial == null) {
+            throw new CanHackerFelhrException("Device not connected");
+        }
+
         byte[] buffer = new byte[64];
         int readCount = mSerial.syncRead(buffer, timeout);
         return Arrays.copyOfRange(buffer, 0, readCount);
+    }
+
+    public UsbDevice getUsbDevice()
+    {
+        return mUsbDevice;
     }
 }

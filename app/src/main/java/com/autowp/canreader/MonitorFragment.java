@@ -22,7 +22,9 @@ public class MonitorFragment extends ServiceConnectedFragment {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        adapter.notifyDataSetChanged();
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 });
             }

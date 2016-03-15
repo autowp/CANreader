@@ -476,8 +476,14 @@ public class CanClient {
             return buffer;
         }
     }
+
     public ConnectionState getConnectionState()
     {
         return connectionState;
+    }
+
+    public CanAdapter getCanAdapter()
+    {
+        return mAdapter;
     }
 }
