@@ -92,6 +92,10 @@ public class CanHackerFelhr extends CanHacker {
 
         byte[] buffer = new byte[64];
         int readCount = mSerial.syncRead(buffer, timeout);
+
+        if (readCount < 0) {
+            return new byte[0];
+        }
         return Arrays.copyOfRange(buffer, 0, readCount);
     }
 
