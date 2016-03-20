@@ -27,7 +27,7 @@ Highspeed CAN
 
 Highspeed CAN
 
-## 4. [ELM327](ELM327.md) (planned)
+## 4. [ELM327](ELM327.md) (запланировано)
 
 ![](http://www.pichoststone.com/pic/nikingstore/EA/EA00026/n5/0.jpg)
 
