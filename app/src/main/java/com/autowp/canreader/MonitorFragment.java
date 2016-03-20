@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class MonitorFragment extends ServiceConnectedFragment {
 
@@ -50,7 +51,21 @@ public class MonitorFragment extends ServiceConnectedFragment {
             }
         }
 
-
+        @Override
+        public void handleSpeedChanged(final double speed) {
+            FragmentActivity activity = getActivity();
+            if (activity != null) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView tv = (TextView)getView().findViewById(R.id.textViewMonitorSpeed);
+                        if (tv != null) {
+                            tv.setText(String.format("%.2f frame/sec", speed));
+                        }
+                    }
+                });
+            }
+        }
     };
 
     public MonitorFragment() {

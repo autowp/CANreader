@@ -18,6 +18,7 @@ import com.autowp.can.CanBusSpecs;
 import com.autowp.can.CanClient;
 import com.autowp.can.CanClientException;
 import com.autowp.can.CanFrame;
+import com.autowp.can.CanFrameException;
 import com.autowp.can.CanMessage;
 import com.autowp.can.adapter.android.CanHackerFelhr;
 
@@ -54,6 +55,8 @@ public class CanReaderService extends Service {
     private final CanClient canClient;
 
     private int sentCount = 0;
+
+    private int receivedCount = 0;
 
     private ScheduledExecutorService threadsPool = Executors.newScheduledThreadPool(1);
 
@@ -98,23 +101,37 @@ public class CanReaderService extends Service {
     }
 
     private class SpeedMeterTimerTask extends TimerTask {
-        private int previousCount = 0;
+        private int previousSentCount = 0;
+        private int previousReceivedCount = 0;
 
         public SpeedMeterTimerTask() {
-            this.previousCount = sentCount;
+            this.previousSentCount = sentCount;
         }
 
         public void run() {
             double seconds = (double)SPEED_METER_PERIOD / 1000.0;
-            double dx = sentCount - previousCount;
-            triggerTransmitSpeed(dx / seconds);
-            this.previousCount = sentCount;
+
+            double dxSent = sentCount - previousSentCount;
+            triggerTransmitSpeed(dxSent / seconds);
+            this.previousSentCount = sentCount;
+
+            double dxReceived = receivedCount - previousReceivedCount;
+            triggerMonitorSpeed(dxReceived / seconds);
+            this.previousReceivedCount = receivedCount;
         }
     }
 
     private void triggerTransmitSpeed(double speed) {
         synchronized (stateChangeListeners) {
             for (OnTransmitChangeListener listener : transmitListeners) {
+                listener.handleSpeedChanged(speed);
+            }
+        }
+    }
+
+    private void triggerMonitorSpeed(double speed) {
+        synchronized (stateChangeListeners) {
+            for (OnMonitorChangeListener listener : monitorListeners) {
                 listener.handleSpeedChanged(speed);
             }
         }
@@ -134,6 +151,8 @@ public class CanReaderService extends Service {
         void handleMonitorUpdated();
 
         void handleMonitorUpdated(final MonitorCanMessage message);
+
+        void handleSpeedChanged(double speed);
     }
 
     private void toast(final String message)
@@ -326,6 +345,19 @@ public class CanReaderService extends Service {
                         if (mSpeedMeterTimerTask == null) {
                             mSpeedMeterTimerTask = new SpeedMeterTimerTask();
                             timer.schedule(mSpeedMeterTimerTask, 0, SPEED_METER_PERIOD);
+
+                            /*DEBUG*/
+                            /*try {
+                                CanFrame f = new CanFrame(0x0F6, new byte[] {(byte)0x8E, (byte)0x87, 0x32, (byte)0xFA, 0x26, (byte)0x8E, (byte)0xBE, (byte)0x86}, false);
+                                TransmitCanFrame tf = new TransmitCanFrame(f, 500);
+                                transmitFrames.add(tf);
+                                CanFrame f2 = new CanFrame(0x036, new byte[] {(byte)0x0E, 0x00, 0x00, 0x08, 0x01, 0x00, 0x00, (byte)0xA0}, false);
+                                TransmitCanFrame tf2 = new TransmitCanFrame(f2, 100);
+                                transmitFrames.add(tf2);
+                            } catch (CanFrameException e) {
+                                e.printStackTrace();
+                            }*/
+
                         }
                         break;
                     case DISCONNECTING:
@@ -435,6 +467,7 @@ public class CanReaderService extends Service {
 
     private void receive(CanMessage canMessage)
     {
+        receivedCount++;
         boolean found = false;
         for (MonitorCanMessage monitorFrame : monitorFrames) {
             if (monitorFrame.getCanMessage().getId() == canMessage.getId()) {
