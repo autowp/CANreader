@@ -5,29 +5,29 @@ CANreader - приложение для взаимодействия с сеть
 
 # Поддерживаемые адаптеры
 
-## 1. [CanHacker](/autowp/CANreader/wiki/CanHacker-(device))
+## 1. [CanHacker](canhacker.md)
 
 ![](http://can.web-box.ru/_mod_files/ce_images/obschij.jpg)
 
 Highspeed CAN
 
-## 2. [ELM327](/autowp/CANreader/wiki/ELM327) (planned)
+## 2. [ELM327](ELM327.md) (planned)
 
 ![](http://www.pichoststone.com/pic/nikingstore/EA/EA00026/n5/0.jpg)
 
 Highspeed CAN
 
-## 3. [Arduino UNO / Genuino UNO + Seeed studio CAN-shield](/autowp/CANreader/wiki/Seeed-Studio-CAN-BUS-Shield)
+## 3. [Arduino UNO / Genuino UNO + Seeed studio CAN-shield](seeed-can-bus-shield.md)
 
 ![](http://www.seeedstudio.com/wiki/images/d/de/Can_bus_shield_all.jpg)
 
 Highspeed CAN
 
-## 4. [Arduino Nano v3.0](https://www.arduino.cc/en/Main/ArduinoBoardNano) + [CANreader-FT](/autowp/CANreader/wiki/CANreader-FT) or [CANreader-HS](/autowp/CANreader/wiki/CANreader-HS)
+## 4. [Arduino Nano v3.0](https://www.arduino.cc/en/Main/ArduinoBoardNano) + [CANreader-FT](canreader-ft.md) or [CANreader-HS](canreader-hs.md)
 
 ![](https://www.arduino.cc/en/uploads/Main/ArduinoNanoFront_3_sm.jpg)
 
-[CANreader-HS - Highspeed CAN](/autowp/CANreader/wiki/CANreader-HS), [CANreader-FT - Fault Tolerant CAN](/autowp/CANreader/wiki/CANreader-FT)
+[CANreader-HS - Highspeed CAN](canreader-hs.md), [CANreader-FT - Fault Tolerant CAN](canreader-ft.md)
 
 Прошивка для Arduino [Arduino CAN hacker firmware](https://github.com/autowp/can-usb)
 

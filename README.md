@@ -2,6 +2,10 @@
 
 Android CAN client
 
-In development
+In development.
 
-[Wiki](/autowp/CANreader/wiki)
+# Documentation
+
+[English](docs/en/README.md)
+
+[Русский](docs/ru/README.md)
