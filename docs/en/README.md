@@ -9,7 +9,7 @@ CANreader - application for communication with CAN. CanHacker analog. Useless wi
 ## Requirements
 
 - [Android](android.md)
-- One of [supported adapters](adapters.md)
+- [CANreader (device)](canreader-device.md) or one of [supported adapters](adapters.md)
 
 ## Other
 

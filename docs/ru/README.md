@@ -9,7 +9,7 @@ CANreader - приложение и устройство для взаимоде
 ## Требования
 
 - [Android](android.md)
-- Один из [поддерживаемых адаптеров](adapters.md)
+- [CANreader (устройство)](canreader-device.md) или один из [поддерживаемых адаптеров](adapters.md)
 
 ## Другое
 
