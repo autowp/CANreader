@@ -1,9 +1,20 @@
-# CANreader FT
+# CANreader device 
+
+Устройство существует в двух версиях: Fault-tolerant и Highspeed для разных типов CAN-сетей
+
+## CANreader FT
 
 ![](../i/ft-top.png)
 ![](../i/ft-bottom.png)
 
 Used with Fault Tolerant CAN (TJA1054, TJA1055)
+
+## CANreader HS
+
+![](../i/hs-top.png)
+![](../i/hs-bottom.png)
+
+Used with Highspeed CAN
 
 ## Hardware
 
@@ -36,6 +47,8 @@ Can be connected with
 
 ## Bill of materials
 
+### CANreader-FT
+
 ```
 Part       Value         Device          Package      Description
 C1, C2     22pF          C-EUC0805       C0805        CAPACITOR, European symbol
@@ -54,6 +67,27 @@ R4, R5     5,6K          R-EU_R0805      R0805        RESISTOR, European symbol
 U1                       MCP2515         SOIC18W
 U2                       TJA1055T        SOIC14
 J1                       JUMPER                       CS selector
+```
+
+### CANreader-HS
+
+```
+Part     Value      Device           Package          Description
+C1, C2   22pF       C-EUC0805        C0805            CAPACITOR, European symbol
+C3, C4   0.1mF      C-EUC0805        C0805            CAPACITOR, European symbol
+C6       22uF 25V   CPOL-EUSMCC      SMC_C            POLARIZED CAPACITOR, European symbol
+D1       S1M        S1M              SMA
+JP1, JP2            PINHD-1X15       1X15             PIN HEADER
+JP3                 PINHD-1X4-1      1X04             PIN HEADER
+JP4                 PINHD-1X3        1X03             PIN HEADER
+JP5                 PINHD-1X2        1X02             PIN HEADER
+Q1       16MHz      CRYSTALHC49S     HC49S            CRYSTAL
+R1, R6   10K        R-EU_R0805       R0805            RESISTOR, European symbol
+R2       120        R-EU_R0805       R0805            RESISTOR, European symbol
+U1                  MCP2515          SOIC18W
+U2                  MCP2551-I/SN     SOIC8
+J1                  JUMPER                            CS selector
+J2                  JUMPER                            CAN terminal resistor switch
 ```
 
 # Сборка

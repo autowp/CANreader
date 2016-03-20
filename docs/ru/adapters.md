@@ -1,8 +1,3 @@
-CANreader - приложение для взаимодействия с сетью CAN. Аналог CanHacker.
-Для работы требуется CAN-адаптер.
-
-Обмен данными происходит по протоколу lawicel/CanHacker.
-
 # Поддерживаемые адаптеры
 
 ## 1. [CanHacker](canhacker.md)
@@ -23,11 +18,11 @@ Highspeed CAN
 
 Highspeed CAN
 
-## 4. [Arduino Nano v3.0](https://www.arduino.cc/en/Main/ArduinoBoardNano) + [CANreader-FT](canreader-ft.md) or [CANreader-HS](canreader-hs.md)
+## 4. [Arduino Nano v3.0](https://www.arduino.cc/en/Main/ArduinoBoardNano) + [CANreader-FT или CANreader-HS](canreader-device.md)
 
 ![](https://www.arduino.cc/en/uploads/Main/ArduinoNanoFront_3_sm.jpg)
 
-[CANreader-HS - Highspeed CAN](canreader-hs.md), [CANreader-FT - Fault Tolerant CAN](canreader-ft.md)
+CANreader-HS - Highspeed CAN, CANreader-FT - Fault Tolerant CAN
 
 Прошивка для Arduino [Arduino CAN hacker firmware](https://github.com/autowp/can-usb)
 
