@@ -1,4 +1,4 @@
-# Known issues
+# Известные проблемы
 
-1. Arduino Uno can't connect with CanHacker because of long reboot
-2. `Reset` button in CanHacker breaks Arduino Uno/Nano потому что перезагружает ардуино, не желая того
+1. Arduino Uno не удается использовать с CanHacker из-за долгой загрузки и потери первой комманды
+2. Кнопка `Reset` в CanHacker останавливает приложение на Arduino Uno/Nano потому что перезагружает ардуино, не желая того
