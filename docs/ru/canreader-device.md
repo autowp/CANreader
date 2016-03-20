@@ -45,6 +45,16 @@ Used with Highspeed CAN
 2. Bluetooth (с помощью [HC-05 bluetooth receiver](http://www.ebay.com/sch/i.html?_nkw=HC-05%20bluetooth)) (запланировано)
 3. Ethernet (с помощью [arduino nano ethernet shield ENC28J60](http://www.ebay.com/sch/i.html?_nkw=arduino+nano+ENC28J60)) (запланировано)
 
+## Схемотехника
+
+### CANreader-FT
+
+![](../i/canreader-ft.sch.png)
+
+### CANreader-HS
+
+![](../i/canreader-hs.sch.png)
+
 ## Список материалов
 
 ### CANreader-FT

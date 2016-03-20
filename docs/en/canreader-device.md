@@ -45,6 +45,16 @@ Can be connected with
 2. Bluetooth (via [HC-05 bluetooth receiver](http://www.ebay.com/sch/i.html?_nkw=HC-05%20bluetooth)) (planned)
 3. Ethernet (via [arduino nano ethernet shield ENC28J60](http://www.ebay.com/sch/i.html?_nkw=arduino+nano+ENC28J60)) (planned)
 
+## Circuit design
+
+### CANreader-FT
+
+![](../i/canreader-ft.sch.png)
+
+### CANreader-HS
+
+![](../i/canreader-hs.sch.png)
+
 ## Bill of materials
 
 ### CANreader-FT
