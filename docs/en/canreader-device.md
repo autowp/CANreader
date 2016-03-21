@@ -102,6 +102,10 @@ J2                  JUMPER                            CAN terminal resistor swit
 
 # Assembly
 
+Capacitor C6 SMD C (6032) can be replaced with a similar with less capacity.
+
+15-pin connectors (female) can be obtained from large by cutting them.
+
 Упрощенная схема платы
 
 Что и чем можно заменить (про редкий кондесатор, про 15-16pin header, проходной pin-header)
