@@ -596,4 +596,12 @@ public class CanReaderService extends Service {
 
         return false;
     }
+
+    public void setTransmitFrames(List<TransmitCanFrame> list) {
+        clearTransmits();
+        for (TransmitCanFrame frame : list) {
+            add(frame);
+        }
+    }
+
 }

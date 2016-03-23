@@ -23,4 +23,9 @@
     <string name="action_transmit_reset">Reset</string>
     <string name="action_transmit_clear">Clear</string>
     <string name="action_transmit_reset_all">Reset all</string>
+    <string name="action_import_tx_list">Import Tx list</string>
+    <string name="action_share_tx_list">Share Tx list</string>
+    <string name="export_tx_list">Export Tx list</string>
+    <string name="message_file_saved_to_documents">File %s saved to Documents</string>
+    <string name="choose_file_to_import">Choose file to import</string>
 </resources>

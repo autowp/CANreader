@@ -23,4 +23,9 @@
     <string name="action_transmit_reset">Сброс</string>
     <string name="action_transmit_clear">Очистить</string>
     <string name="action_transmit_reset_all">Сбросить все</string>
+    <string name="action_import_tx_list">Импортировать Tx list</string>
+    <string name="action_share_tx_list">Отправить Tx list</string>
+    <string name="export_tx_list">Экспортировать Tx list</string>
+    <string name="message_file_saved_to_documents">Файл %s сохранён в Документы</string>
+    <string name="choose_file_to_import">Выберите файл для импорта</string>
 </resources>

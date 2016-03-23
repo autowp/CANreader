@@ -10,6 +10,17 @@
         android:title="@string/action_settings" />
 
     <item
+        android:id="@+id/action_import_tx_list"
+        android:title="@string/action_import_tx_list" />
+    <item
+        android:id="@+id/action_export_tx_list"
+        android:title="@string/export_tx_list" />
+
+    <item
+        android:id="@+id/action_share_tx_list"
+        android:title="@string/action_share_tx_list" />
+
+    <item
         android:id="@+id/action_about"
         android:title="@string/about" />
 </menu>
