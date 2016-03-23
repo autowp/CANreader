@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:longClickable="true">
 
     <TextView
         android:text="FFFFFFFF"
@@ -34,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="RTR"
+                android:longClickable="true"
                 android:id="@+id/listitem_monitor_rtr" />
 
             <TextView
@@ -45,7 +47,8 @@
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
                 android:paddingEnd="4dp"
-                android:paddingRight="4dp"/>
+                android:paddingRight="4dp"
+                android:longClickable="true"/>
         </LinearLayout>
 
         <LinearLayout
@@ -142,14 +145,16 @@
                 android:layout_height="wrap_content"
                 android:text="999ms"
                 android:id="@+id/listitem_monitor_period"
-                android:layout_marginRight="5dp"  />
+                android:layout_marginRight="5dp"
+                android:longClickable="true"/>
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="999"
                 android:id="@+id/listitem_monitor_count"
-                android:gravity="left" />
+                android:gravity="left"
+                android:longClickable="true"/>
         </LinearLayout>
     </LinearLayout>
 

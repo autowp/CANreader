@@ -2,6 +2,8 @@ package com.autowp.can;
 
 import android.os.Bundle;
 
+import com.autowp.Hex;
+
 public class CanMessage {
     public static final String EXTRA_IS_EXTENDED = "is_extended";
     public static final String EXTRA_IS_RTR = "is_rtr";
@@ -106,5 +108,18 @@ public class CanMessage {
 
     public byte getDLC() {
         return rtr ? dlc : (byte) data.length;
+    }
+
+    public String toString() {
+        String idHex = String.format(extended ? "%08X" : "%03X", this.id);
+
+        String dataStr;
+        if (rtr) {
+            dataStr = "RTR " + getDLC();
+        } else {
+            dataStr = Hex.byteArrayToHexString(this.data);
+        }
+
+        return idHex + " " + dataStr;
     }
 }

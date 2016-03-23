@@ -9,13 +9,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.autowp.can.CanClient;
 
 import org.apache.commons.configuration.ConfigurationException;
 
@@ -42,13 +47,35 @@ public class MainActivity extends AppCompatActivity {
                 canReaderService.setTransmitFrames(mTxListToLoad);
                 mTxListToLoad = null;
             }
+
+            canReaderService.addListener(mOnTransmitChangeListener);
         }
 
         public void onServiceDisconnected(ComponentName name) {
+            canReaderService.removeListener(mOnTransmitChangeListener);
             bound = false;
         }
     };
 
+    private CanReaderService.OnTransmitChangeListener mOnTransmitChangeListener = new CanReaderService.OnTransmitChangeListener() {
+
+        @Override
+        public void handleTransmitUpdated() {
+            System.out.println("handleTransmitUpdated");
+            //supportInvalidateOptionsMenu(); //TODO: invalidate only if add/remove
+            invalidateOptionsMenu();
+        }
+
+        @Override
+        public void handleTransmitUpdated(TransmitCanFrame frame) {
+            System.out.println("handleTransmitUpdated2");
+        }
+
+        @Override
+        public void handleSpeedChanged(double speed) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +141,27 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        super.onPrepareOptionsMenu(menu);
+
+        boolean hasMessages = bound && (canReaderService.getTransmitFrames().size() > 0);
+
+        /*Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
+        buttonStartAll.setEnabled(isConnected && canReaderService.hasStoppedTransmits());
+
+        Button buttonStopAll = (Button) getView().findViewById(R.id.buttonStopAll);
+        buttonStopAll.setEnabled(isConnected && canReaderService.hasStartedTransmits());
+*/
+
+        menu.findItem(R.id.action_export_tx_list).setEnabled(hasMessages);
+        menu.findItem(R.id.action_share_tx_list).setEnabled(hasMessages);
+
+
         return true;
     }
 
@@ -295,6 +343,7 @@ public class MainActivity extends AppCompatActivity {
         if (bound) {
             unbindService(serviceConnection);
             bound = false;
+            canReaderService.removeListener(mOnTransmitChangeListener);
         }
     }
 }

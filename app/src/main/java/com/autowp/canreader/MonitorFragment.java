@@ -1,10 +1,17 @@
 package com.autowp.canreader;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,6 +90,8 @@ public class MonitorFragment extends ServiceConnectedFragment {
             mListView.setAdapter(adapter);
         }
 
+        registerForContextMenu(mListView);
+
         Button buttonMonitorClear = (Button) view.findViewById(R.id.buttonMonitorClear);
         buttonMonitorClear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,5 +121,41 @@ public class MonitorFragment extends ServiceConnectedFragment {
         canReaderService.removeListener(mOnMonitorChangeListener);
         mListView.setAdapter(null);
         adapter = null;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        if (v.getId() == R.id.listViewMonitor) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.monitor_item_menu, menu);
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        System.out.println("onContextItemSelected");
+        if (getUserVisibleHint()) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+            switch (item.getItemId()) {
+                case R.id.action_monitor_delete: {
+                    canReaderService.removeMonitor(info.position);
+                    return true;
+                }
+                case R.id.action_monitor_copy: {
+                    System.out.println("action_transmit_copy");
+                    MonitorCanMessage message = adapter.getItem(info.position);
+                    if (message != null) {
+
+                        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("CAN message", message.getCanMessage().toString());
+                        clipboard.setPrimaryClip(clip);
+                    }
+                    break;
+                }
+            }
+        }
+        return super.onContextItemSelected(item);
     }
 }

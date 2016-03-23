@@ -190,7 +190,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
             AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
             switch (item.getItemId()) {
                 case R.id.action_transmit_delete: {
-                    canReaderService.remove(info.position);
+                    canReaderService.removeTransmit(info.position);
                     updateButtons();
                     return true;
                 }

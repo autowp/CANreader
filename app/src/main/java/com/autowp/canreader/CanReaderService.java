@@ -18,7 +18,6 @@ import com.autowp.can.CanBusSpecs;
 import com.autowp.can.CanClient;
 import com.autowp.can.CanClientException;
 import com.autowp.can.CanFrame;
-import com.autowp.can.CanFrameException;
 import com.autowp.can.CanMessage;
 import com.autowp.can.adapter.android.CanHackerFelhr;
 
@@ -448,13 +447,25 @@ public class CanReaderService extends Service {
         triggerTransmit();
     }
 
-    public void remove(int position)
+    public void removeMonitor(int position)
     {
-        TransmitCanFrame frame = transmitFrames.get(position);
-        remove(frame);
+        MonitorCanMessage frame = monitorFrames.get(position);
+        removeMonitor(frame);
     }
 
-    public void remove(TransmitCanFrame frame)
+    public void removeMonitor(MonitorCanMessage frame)
+    {
+        monitorFrames.remove(frame);
+        triggerMonitor();
+    }
+
+    public void removeTransmit(int position)
+    {
+        TransmitCanFrame frame = transmitFrames.get(position);
+        removeTransmit(frame);
+    }
+
+    public void removeTransmit(TransmitCanFrame frame)
     {
         TimerTask tt = frame.getTimerTask();
         if (tt != null) {

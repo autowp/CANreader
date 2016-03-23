@@ -21,9 +21,12 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.autowp.can.CanAdapter;
+import com.autowp.can.CanAdapterException;
 import com.autowp.can.CanClient;
 import com.autowp.can.adapter.android.CanHackerFelhr;
 import com.autowp.can.adapter.android.CanHackerFelhrException;
+import com.autowp.can.adapter.loopback.Loopback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,16 +156,23 @@ public class ConnectionActivity extends Activity {
     };
     boolean bound = false;
 
+    private void connectLoopback()
+    {
+        Loopback loopback = new Loopback();
+        canReaderService.setCanAdapter(loopback);
+    }
+
     private void connectDevice(UsbDevice device) {
         try {
             UartBaudrate uartBaudrate = (UartBaudrate)mSpinnerUartBaudrate.getSelectedItem();
 
-            CanHackerFelhr canClient = new CanHackerFelhr(mUsbManager, device, uartBaudrate.getValue());
+            CanHackerFelhr adapter = new CanHackerFelhr(mUsbManager, device, uartBaudrate.getValue());
             Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
             canReaderService.setSpeed(baudrate.getValue());
-            canReaderService.setCanAdapter(canClient);
+
+            canReaderService.setCanAdapter(adapter);
             refreshButtonsState();
-        } catch (CanHackerFelhrException e) {
+        } catch (CanAdapterException e) {
             e.printStackTrace();
         }
 
@@ -296,6 +306,8 @@ public class ConnectionActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+                //connectLoopback();
+
                 UsbDevice device = (UsbDevice) mSpinnerDevice.getSelectedItem();
 
                 if (!mUsbManager.hasPermission(device)) {
@@ -305,7 +317,6 @@ public class ConnectionActivity extends Activity {
                 } else {
                     connectDevice(device);
                 }
-
 
             }
         });
