@@ -1,5 +1,8 @@
 package com.autowp.canreader;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -219,6 +222,17 @@ public class TransmitFragment extends ServiceConnectedFragment {
                         canReaderService.resetTransmit(frame);
                     }
                     return true;
+                }
+
+                case R.id.action_transmit_copy: {
+                    TransmitCanFrame frame = adapter.getItem(info.position);
+                    if (frame != null) {
+
+                        ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                        ClipData clip = ClipData.newPlainText("CAN frame", frame.getCanFrame().toString());
+                        clipboard.setPrimaryClip(clip);
+                    }
+                    break;
                 }
             }
         }

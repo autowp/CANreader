@@ -1,5 +1,6 @@
 package com.autowp.can;
 
+import android.app.PendingIntent;
 import android.os.Bundle;
 
 import com.autowp.Hex;
@@ -106,12 +107,16 @@ public class CanFrame {
     }
 
     public String toString() {
-        String idHex = String.format("%03X", this.id);
+        String idHex = String.format(extended ? "%08X" : "%03X", this.id);
 
-        String dataLengthHex = Integer.toHexString(this.data.length);
-        String dataLength = "" + dataLengthHex.charAt(dataLengthHex.length() - 1);
+        String dataStr;
+        if (rtr) {
+            dataStr = "RTR " + getDLC();
+        } else {
+            dataStr = Hex.byteArrayToHexString(this.data);
+        }
 
-        return (idHex + " " + dataLength + " " + Hex.byteArrayToHexString(this.data)).toUpperCase();
+        return idHex + " " + dataStr;
     }
 
     public Bundle toBundle() {
