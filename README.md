@@ -1,11 +1,7 @@
 # CANreader
 
-Android CAN client
+Android CAN client in development.
 
-In development.
+[Documentation on English](docs/en/README.md)
 
-# Documentation
-
-[English](docs/en/README.md)
-
-[Русский](docs/ru/README.md)
+[Документация на русском](docs/ru/README.md)
