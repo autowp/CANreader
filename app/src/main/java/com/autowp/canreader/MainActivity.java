@@ -68,12 +68,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void handleTransmitUpdated(TransmitCanFrame frame) {
-            System.out.println("handleTransmitUpdated2");
         }
 
         @Override
         public void handleSpeedChanged(double speed) {
-
         }
     };
 

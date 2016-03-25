@@ -19,13 +19,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
-import com.autowp.can.CanAdapter;
 import com.autowp.can.CanAdapterException;
 import com.autowp.can.CanClient;
 import com.autowp.can.adapter.android.CanHackerFelhr;
-import com.autowp.can.adapter.android.CanHackerFelhrException;
 import com.autowp.can.adapter.loopback.Loopback;
 
 import java.util.ArrayList;
@@ -39,6 +38,7 @@ public class ConnectionActivity extends Activity {
     private static final String PREFENCES_VID = "vid";
     private static final String PREFENCES_PID = "pid";
     private static final String PREFENCES_UART_BAUDRATE = "uart_baudrate";
+    private static final String PREFENCES_IS_USB = "is_usb";
 
     private UsbBroadcastReceiver mUsbReceiver;
     private UsbDeviceSpinnerAdapter mSpinnerAdapter;
@@ -47,6 +47,8 @@ public class ConnectionActivity extends Activity {
     private UsbManager mUsbManager;
     private Spinner mSpinnerBaudrate;
     private Spinner mSpinnerUartBaudrate;
+
+    private boolean isUsb = true;
 
     private class Baudrate {
         private int value;
@@ -175,16 +177,6 @@ public class ConnectionActivity extends Activity {
         } catch (CanAdapterException e) {
             e.printStackTrace();
         }
-
-        /*try {
-            Elm327Felhr canClient = new Elm327Felhr(mUsbManager, device);
-            Baudrate baudrate = (Baudrate)mSpinnerBaudrate.getSelectedItem();
-            canReaderService.setSpeed(baudrate.getValue());
-            canReaderService.setCanAdapter(canClient);
-            refreshButtonsState();
-        } catch (Elm327FelhrException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -196,7 +188,14 @@ public class ConnectionActivity extends Activity {
 
         final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
 
-        mSpinnerDevice = (Spinner) findViewById(R.id.spinner);
+        isUsb = mPrefences.getBoolean(PREFENCES_IS_USB, true);
+        if (isUsb) {
+            findViewById(R.id.btnUsbConnection).setSelected(true);
+        } else {
+            findViewById(R.id.btnLoopbackConnection).setSelected(true);
+        }
+
+        mSpinnerDevice = (Spinner) findViewById(R.id.spinnerUsbDevice);
 
         mSpinnerDevice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -230,7 +229,7 @@ public class ConnectionActivity extends Activity {
         baudrates.add(new Baudrate(500, "500 Kbit/s"));
         baudrates.add(new Baudrate(1000, "1 Mbit/s"));
 
-        ArrayAdapter<Baudrate> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, baudrates);
+        ArrayAdapter<Baudrate> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, baudrates);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerBaudrate.setAdapter(adapter);
 
@@ -249,8 +248,6 @@ public class ConnectionActivity extends Activity {
         });
 
 
-
-
         mSpinnerUartBaudrate = (Spinner) findViewById(R.id.spinnerUartBaudrate);
 
         List<UartBaudrate> uartBaudrates = new ArrayList<>();
@@ -265,7 +262,7 @@ public class ConnectionActivity extends Activity {
         uartBaudrates.add(new UartBaudrate(460800, "460800 bit/s"));
         uartBaudrates.add(new UartBaudrate(921600, "921600 bit/s"));
 
-        ArrayAdapter<UartBaudrate> uartAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, uartBaudrates);
+        ArrayAdapter<UartBaudrate> uartAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, uartBaudrates);
         uartAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerUartBaudrate.setAdapter(uartAdapter);
 
@@ -306,18 +303,19 @@ public class ConnectionActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                //connectLoopback();
+                if (isUsb) {
+                    UsbDevice device = (UsbDevice) mSpinnerDevice.getSelectedItem();
 
-                UsbDevice device = (UsbDevice) mSpinnerDevice.getSelectedItem();
-
-                if (!mUsbManager.hasPermission(device)) {
-                    Intent intent = new Intent(ACTION_USB_PERMISSION);
-                    PendingIntent pendindIntent = PendingIntent.getBroadcast(ConnectionActivity.this, 0, intent, 0);
-                    mUsbManager.requestPermission(device, pendindIntent);
+                    if (!mUsbManager.hasPermission(device)) {
+                        Intent intent = new Intent(ACTION_USB_PERMISSION);
+                        PendingIntent pendindIntent = PendingIntent.getBroadcast(ConnectionActivity.this, 0, intent, 0);
+                        mUsbManager.requestPermission(device, pendindIntent);
+                    } else {
+                        connectDevice(device);
+                    }
                 } else {
-                    connectDevice(device);
+                    connectLoopback();
                 }
-
             }
         });
     }
@@ -334,7 +332,12 @@ public class ConnectionActivity extends Activity {
             connection = canReaderService.getConnectionState();
         }
 
-        final boolean connectEnabled = bound && (connection == CanClient.ConnectionState.DISCONNECTED) && selectedDevice != null;
+        boolean deviceAvailable = true;
+        if (isUsb) {
+            deviceAvailable = selectedDevice != null;
+        }
+
+        final boolean connectEnabled = bound && (connection == CanClient.ConnectionState.DISCONNECTED) && deviceAvailable;
         final boolean disconnectEnabled = bound && (connection == CanClient.ConnectionState.CONNECTED);
         final boolean progressBarVisible = bound && (connection == CanClient.ConnectionState.CONNECTING || connection == CanClient.ConnectionState.DISCONNECTING);
 
@@ -408,5 +411,36 @@ public class ConnectionActivity extends Activity {
             mUsbReceiver = null;
         }
         super.onStop();
+    }
+
+    protected void refreshOptions()
+    {
+        findViewById(R.id.spinnerUsbDevice).setVisibility(isUsb? View.VISIBLE : View.GONE);
+        findViewById(R.id.spinnerBaudrate).setVisibility(isUsb? View.VISIBLE : View.GONE);
+        findViewById(R.id.spinnerUartBaudrate).setVisibility(isUsb? View.VISIBLE : View.GONE);
+        findViewById(R.id.tvUsbDevice).setVisibility(isUsb? View.VISIBLE : View.GONE);
+        findViewById(R.id.tvBaudrate).setVisibility(isUsb? View.VISIBLE : View.GONE);
+        findViewById(R.id.tvUartBaudrate).setVisibility(isUsb? View.VISIBLE : View.GONE);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        if (checked) {
+            switch (view.getId()) {
+                case R.id.btnUsbConnection:
+                    isUsb = true;
+                    refreshOptions();
+                    refreshButtonsState();
+                    break;
+
+                case R.id.btnLoopbackConnection:
+                    isUsb = false;
+                    refreshOptions();
+                    refreshButtonsState();
+                    break;
+            }
+        }
     }
 }

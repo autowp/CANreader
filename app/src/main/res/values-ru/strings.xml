@@ -29,4 +29,6 @@
     <string name="message_file_saved_to_documents">Файл %s сохранён в Документы</string>
     <string name="choose_file_to_import">Выберите файл для импорта</string>
     <string name="action_transmit_copy">Копировать</string>
+    <string name="conection_usb_serial">USB serial</string>
+    <string name="connection_loopback">Loopback</string>
 </resources>

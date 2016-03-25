@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,52 +7,105 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.autowp.canreader.ConnectionActivity">
+    tools:context="com.autowp.canreader.ConnectionActivity"
+    android:orientation="vertical"
+    android:layout_margin="16dp"
+    android:gravity="center_vertical">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp">
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/conection_usb_serial"
+            android:id="@+id/btnUsbConnection"
+            android:layout_weight="1"
+            android:checked="true"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/connection_loopback"
+            android:id="@+id/btnLoopbackConnection"
+            android:layout_weight="1"
+            android:checked="false"
+            android:onClick="onRadioButtonClicked" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/layoutConnectionOptions"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="CAN baudrate"
+            android:id="@+id/tvBaudrate" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerBaudrate"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="USB serial baudrate"
+            android:id="@+id/tvUartBaudrate" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerUartBaudrate"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="USB device"
+            android:id="@+id/tvUsbDevice" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerUsbDevice"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+    </LinearLayout>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/connect"
         android:id="@+id/buttonConnect"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerUartBaudrate"
-        android:layout_above="@+id/spinnerBaudrate"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_above="@+id/buttonConnect"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/disconnect"
         android:id="@+id/buttonDisconnect"
-        android:layout_below="@+id/buttonConnect"
-        android:layout_centerHorizontal="true" />
-
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinnerBaudrate"
-        android:layout_above="@+id/spinner"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center_horizontal" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/connection_progressbar"
-        android:layout_below="@+id/buttonDisconnect"
-        android:layout_centerHorizontal="true"
-        android:indeterminateOnly="true" />
+        android:indeterminateOnly="true"
+        android:layout_gravity="center_horizontal" />
 
-
-</RelativeLayout>
+</LinearLayout>

@@ -189,10 +189,13 @@ public class CanReaderService extends Service {
         }
 
         try {
+            System.out.println("disconnect");
             canClient.disconnect(new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        System.out.println("disconnected");
+                        System.out.println("connect");
                         canClient.setAdapter(adapter);
 
                         if (adapter != null) {
@@ -204,6 +207,8 @@ public class CanReaderService extends Service {
                                 IntentFilter filter = new IntentFilter();
                                 filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
                                 registerReceiver(mUsbReceiver, filter);
+
+                                System.out.println("connected");
 
                             } catch (CanClientException e) {
                                 e.printStackTrace();

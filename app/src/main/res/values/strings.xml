@@ -29,4 +29,6 @@
     <string name="message_file_saved_to_documents">File %s saved to Documents</string>
     <string name="choose_file_to_import">Choose file to import</string>
     <string name="action_transmit_copy">Copy</string>
+    <string name="conection_usb_serial">USB serial</string>
+    <string name="connection_loopback">Loopback</string>
 </resources>

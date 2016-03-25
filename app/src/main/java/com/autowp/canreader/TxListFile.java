@@ -7,15 +7,13 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.HierarchicalINIConfiguration;
 import org.apache.commons.configuration.SubnodeConfiguration;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
- * Created by autow on 22.03.2016.
+ * Created by autowp on 22.03.2016.
  */
 public class TxListFile {
 
@@ -87,7 +85,7 @@ public class TxListFile {
 
                 String idStr = (String) section.getProperty(prefix + ID);
 
-                if (idStr.equalsIgnoreCase("-1")) {
+                if (idStr == null || idStr.equalsIgnoreCase("-1")) {
                     break;
                 }
 
@@ -99,8 +97,6 @@ public class TxListFile {
                 }
 
                 String dlcStr = (String) section.getProperty(prefix + "DLC");
-                System.out.print("DLC=");
-                System.out.println(dlcStr);
                 byte dlc = Byte.parseByte(dlcStr);
                 String dataStr = (String) section.getProperty(prefix + "Data");
                 boolean isRTR = dataStr.equalsIgnoreCase(RTR);
@@ -109,9 +105,6 @@ public class TxListFile {
                     data = Hex.hexStringToByteArray(dataStr);
                 }
                 int period = Integer.parseInt((String) section.getProperty(prefix + "Period"));
-
-                System.out.print("Data=");
-                System.out.println(Hex.byteArrayToHexString(data));
 
                 CanFrame canFrame;
                 if (isRTR) {
