@@ -31,31 +31,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ServiceConnectedActivity {
     private static final int ACTION_PICK_TXL_TO_SHARE = 1;
-    protected CanReaderService canReaderService;
-    protected boolean bound = false;
 
     private List<TransmitCanFrame> mTxListToLoad = null;
-
-    ServiceConnection serviceConnection = new ServiceConnection() {
-        public void onServiceConnected(ComponentName name, IBinder binder) {
-            canReaderService = ((CanReaderService.TransferServiceBinder) binder).getService();
-            bound = true;
-
-            if (mTxListToLoad != null) {
-                canReaderService.setTransmitFrames(mTxListToLoad);
-                mTxListToLoad = null;
-            }
-
-            canReaderService.addListener(mOnTransmitChangeListener);
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            canReaderService.removeListener(mOnTransmitChangeListener);
-            bound = false;
-        }
-    };
 
     private CanReaderService.OnTransmitChangeListener mOnTransmitChangeListener = new CanReaderService.OnTransmitChangeListener() {
 
@@ -323,25 +302,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume()
-    {
-        super.onResume();
+    protected void afterConnect() {
+        if (mTxListToLoad != null) {
+            canReaderService.setTransmitFrames(mTxListToLoad);
+            mTxListToLoad = null;
+        }
 
-        Intent intent = new Intent(this, CanReaderService.class);
-
-        startService(intent);
-        bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);
+        canReaderService.addListener(mOnTransmitChangeListener);
     }
 
     @Override
-    public void onPause()
-    {
-        super.onPause();
-
-        if (bound) {
-            unbindService(serviceConnection);
-            bound = false;
-            canReaderService.removeListener(mOnTransmitChangeListener);
-        }
+    protected void beforeDisconnect() {
+        canReaderService.removeListener(mOnTransmitChangeListener);
     }
 }

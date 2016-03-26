@@ -68,7 +68,8 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".TxlPickerActivity"></activity>
+        <activity android:name=".TxlPickerActivity" />
+        <activity android:name=".MessageActivity"></activity>
     </application>
 
 </manifest>

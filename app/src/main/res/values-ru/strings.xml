@@ -31,4 +31,5 @@
     <string name="action_transmit_copy">Копировать</string>
     <string name="conection_usb_serial">USB serial</string>
     <string name="connection_loopback">Loopback</string>
+    <string name="action_monitor_focus">Фокусировать</string>
 </resources>

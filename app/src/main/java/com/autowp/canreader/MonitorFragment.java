@@ -3,6 +3,7 @@ package com.autowp.canreader;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.ContextMenu;
@@ -144,7 +145,6 @@ public class MonitorFragment extends ServiceConnectedFragment {
                     return true;
                 }
                 case R.id.action_monitor_copy: {
-                    System.out.println("action_transmit_copy");
                     MonitorCanMessage message = adapter.getItem(info.position);
                     if (message != null) {
 
@@ -152,6 +152,16 @@ public class MonitorFragment extends ServiceConnectedFragment {
                         ClipData clip = ClipData.newPlainText("CAN message", message.getCanMessage().toString());
                         clipboard.setPrimaryClip(clip);
                     }
+                    break;
+                }
+                case R.id.action_monitor_focus: {
+                    MonitorCanMessage message = adapter.getItem(info.position);
+                    if (message != null) {
+                        Intent intent = new Intent(getActivity(), MessageActivity.class);
+                        intent.putExtra(MessageActivity.EXTRA_CAN_ID, message.getCanMessage().getId());
+                        startActivity(intent);
+                    }
+
                     break;
                 }
             }

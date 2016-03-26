@@ -156,6 +156,7 @@ public class CanClient {
                 }
             } catch (CanClientException ex) {
                 fireErrorEvent(ex);
+                ex.printStackTrace();
             }
         }
         @Override

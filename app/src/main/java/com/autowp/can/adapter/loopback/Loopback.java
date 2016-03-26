@@ -5,7 +5,7 @@ import com.autowp.can.CanAdapterException;
 import com.autowp.can.CanFrame;
 
 /**
- * Created by autow on 24.03.2016.
+ * Created by autowp on 24.03.2016.
  */
 public class Loopback extends CanAdapter {
     @Override

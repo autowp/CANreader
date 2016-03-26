@@ -368,7 +368,7 @@ public class CanReaderService extends Service {
                         break;
                 }
 
-                trigerConnectionStateChanged();
+                triggerConnectionStateChanged();
             }
         });
     }
@@ -390,7 +390,7 @@ public class CanReaderService extends Service {
         }
     }
 
-    private void trigerConnectionStateChanged()
+    private void triggerConnectionStateChanged()
     {
         synchronized (connectedStateChangeListeners) {
             CanClient.ConnectionState state = canClient.getConnectionState();
@@ -405,6 +405,15 @@ public class CanReaderService extends Service {
         synchronized (transmitListeners) {
             for (OnMonitorChangeListener listener : monitorListeners) {
                 listener.handleMonitorUpdated();
+            }
+        }
+    }
+
+    private void triggerMonitor(MonitorCanMessage message)
+    {
+        synchronized (transmitListeners) {
+            for (OnMonitorChangeListener listener : monitorListeners) {
+                listener.handleMonitorUpdated(message);
             }
         }
     }
@@ -444,6 +453,17 @@ public class CanReaderService extends Service {
     public ArrayList<MonitorCanMessage> getMonitorFrames()
     {
         return monitorFrames;
+    }
+
+    public MonitorCanMessage getMonitorCanMessage(int id)
+    {
+        for (MonitorCanMessage message : monitorFrames) {
+            if (message.getCanMessage().getId() == id) {
+                return message;
+            }
+        }
+
+        return null;
     }
 
     public void add(final TransmitCanFrame frame)
@@ -490,6 +510,7 @@ public class CanReaderService extends Service {
                 monitorFrame.setCanMessage(canMessage);
                 monitorFrame.incCount();
                 monitorFrame.setTime(new Date());
+                triggerMonitor(monitorFrame);
                 found = true;
                 break;
             }
@@ -498,8 +519,10 @@ public class CanReaderService extends Service {
             MonitorCanMessage monitorFrame = new MonitorCanMessage(canMessage, 0);
             monitorFrame.incCount();
             monitorFrames.add(monitorFrame);
+            triggerMonitor(monitorFrame);
         }
         triggerMonitor();
+
     }
 
     private void send(CanFrame frame)
