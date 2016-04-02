@@ -30,6 +30,15 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/connection_udp"
+            android:id="@+id/btnUdpConnection"
+            android:layout_weight="1"
+            android:checked="false"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/connection_loopback"
             android:id="@+id/btnLoopbackConnection"
             android:layout_weight="1"
@@ -83,6 +92,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerUsbDevice"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Hostname or IP"
+            android:id="@+id/tvUdpHost" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/etUdpHost"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
     </LinearLayout>

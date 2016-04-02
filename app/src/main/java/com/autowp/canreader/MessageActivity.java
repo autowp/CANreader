@@ -10,7 +10,7 @@ import com.autowp.can.CanMessage;
 
 import java.util.Locale;
 
-public class MessageActivity extends ServiceConnectedActivity implements CanReaderService.OnMonitorChangeListener {
+public class MessageActivity extends ServiceConnectedActivity implements CanReaderService.OnMonitorChangedListener {
 
     public static final String EXTRA_CAN_ID = "can_id";
     private int mId;

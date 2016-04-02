@@ -2,7 +2,7 @@ package com.autowp.can.adapter.elm327;
 
 import com.autowp.can.CanAdapter;
 import com.autowp.can.CanAdapterException;
-import com.autowp.can.CanClient;
+import com.autowp.can.CanBusSpecs;
 import com.autowp.can.CanFrame;
 
 import com.autowp.can.adapter.elm327.command.Command;
@@ -55,9 +55,13 @@ public abstract class Elm327 extends CanAdapter {
     private boolean mCollectReponses = true;
 
     private Thread mReceiveThread;
-    
+
+    public Elm327(CanBusSpecs specs) {
+        super(specs);
+    }
+
     @Override
-    public void send(CanFrame message) throws Elm327Exception {
+    protected void doSend(CanFrame message) throws Elm327Exception {
         int id = message.getId();
         byte b0 = (byte)(id & 0x000F);
         byte b1 = (byte)((id & 0x00F0) >> 4);
@@ -65,8 +69,6 @@ public abstract class Elm327 extends CanAdapter {
 
         this.send(new SetHeaderCommand(new byte[] {b0, b1, b2}));
         this.send(new TransmitCommand(message.getData()));
-        
-        this.fireFrameSentEvent(message);
     }
 
     /*public synchronized Elm327 send(final Command c) throws Elm327Exception
@@ -120,99 +122,7 @@ public abstract class Elm327 extends CanAdapter {
         this.send(new MonitorAllCommand());
     }
 
-    @Override
-    public void connect(final Runnable callback) throws Elm327Exception {
-        if (this.isConnected()) {
-            return;
-        }
-
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    connectionState = CanClient.ConnectionState.CONNECTING;
-                    fireConnectionChangedEvent();
-
-                    doConnect();
-
-                    connectionState = CanClient.ConnectionState.CONNECTED;
-                    fireConnectionChangedEvent();
-
-                    if (callback != null) {
-                        callback.run();
-                    }
-
-                } catch (Elm327Exception e) {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
-
-        /*
-
-        serialPort.addEventListener(new SerialReader(), SerialPort.MASK_RXCHAR);*/
-
-
-            /*byte divisor = 0; // baudrate = 500 / divisor
-            switch (this.specs.getSpeed()) {
-                case 20:   divisor = 25; break;
-                case 25:   divisor = 20; break;
-                case 50:   divisor = 10; break;
-                case 100:  divisor = 5; break;
-                case 125:  divisor = 4; break;
-                case 250:  divisor = 2; break;
-                case 500:  divisor = 1; break;
-                default:
-                    throw new Elm327Exception("Unsupported bus speed");
-            }*/
-
-        //
-        //this.send(new CanSilentMonitorCommand(false));
-            /*this.send(new ResetCommand(), new WaitForResponse() {
-                @Override
-                public boolean match(Response response) {
-                    System.out.println("Matching: " + response.toString());
-                    System.out.println(response.toString().equals("ELM327 v1.5"));
-                    System.out.println(response.toString().length());
-                    System.out.println("ELM327 v1.5".length());
-                    return response.toString().equals("ELM327 v1.5");
-                }
-
-                @Override
-                public void execute(Response response) throws Elm327Exception {
-                    System.out.println("execute");
-                    send(new DefaultsCommand());
-                }
-            });
-
-            /*
-            this.send(new ProgParameterSetCommand(PP_CAN_ERROR_CHECKING, (byte)0x38));
-            this.send(new ProgParameterOnCommand(PP_CAN_ERROR_CHECKING));*/
-
-            /*byte options = PP_CAN_OPTIONS_ID_LENGTH_11
-                         | PP_CAN_OPTIONS_DATE_LENGTH_VARIABLE
-                         | PP_CAN_OPTIONS_RCV_ID_LENGTH_DEFAULT
-                         | PP_CAN_OPTIONS_BAUDRATE_MULTIPLIER_NONE
-                         | PP_CAN_OPTIONS_DATA_FOMATTING_ISO15765_4;
-            this.send(new ProgParameterSetCommand(PP_PROTOCOL_B_CAN_OPTIONS, options));
-            this.send(new ProgParameterOnCommand(PP_PROTOCOL_B_CAN_OPTIONS));
-
-            this.send(new ProgParameterSetCommand(PP_PROTOCOL_B_BAUDRATE_DIVISOR, divisor));
-            this.send(new ProgParameterOnCommand(PP_PROTOCOL_B_BAUDRATE_DIVISOR));*/
-
-            /*this.send(new SetProtocolCommand(SetProtocolCommand.USER1_CAN));
-
-            */
-
-    }
-
-    protected void doDisconnect() throws Elm327Exception {
+    protected synchronized void doDisconnect() throws Elm327Exception {
 
         mCollectReponses = true;
 
@@ -227,37 +137,6 @@ public abstract class Elm327 extends CanAdapter {
         }
 
         mCollectReponses = false;
-    }
-
-    @Override
-    public void disconnect(final Runnable callback) throws CanAdapterException {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTING;
-                    fireConnectionChangedEvent();
-
-                    doDisconnect();
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    if (callback != null) {
-                        callback.run();
-                    }
-
-                } catch (CanAdapterException e) {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
     }
 
     protected abstract byte[] readBytes(final int timeout);

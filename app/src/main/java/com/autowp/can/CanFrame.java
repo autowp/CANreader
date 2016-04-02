@@ -1,10 +1,8 @@
 package com.autowp.can;
 
-import android.app.PendingIntent;
 import android.os.Bundle;
 
 import com.autowp.Hex;
-import com.autowp.can.adapter.canhacker.CanHackerException;
 
 public class CanFrame {
     public static final String EXTRA_IS_EXTENDED = "is_extended";

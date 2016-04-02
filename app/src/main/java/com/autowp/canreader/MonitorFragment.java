@@ -23,7 +23,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     private ListView mListView;
 
-    private CanReaderService.OnMonitorChangeListener mOnMonitorChangeListener = new CanReaderService.OnMonitorChangeListener() {
+    private CanReaderService.OnMonitorChangedListener mOnMonitorChangedListener = new CanReaderService.OnMonitorChangedListener() {
         @Override
         public void handleMonitorUpdated() {
             FragmentActivity activity = getActivity();
@@ -106,7 +106,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     @Override
     protected void afterConnect() {
-        canReaderService.addListener(mOnMonitorChangeListener);
+        canReaderService.addListener(mOnMonitorChangedListener);
 
         adapter = new MonitorCanMessageListAdapter(
                 getActivity().getApplicationContext(),
@@ -119,7 +119,7 @@ public class MonitorFragment extends ServiceConnectedFragment {
 
     @Override
     protected void beforeDisconnect() {
-        canReaderService.removeListener(mOnMonitorChangeListener);
+        canReaderService.removeListener(mOnMonitorChangedListener);
         mListView.setAdapter(null);
         adapter = null;
     }

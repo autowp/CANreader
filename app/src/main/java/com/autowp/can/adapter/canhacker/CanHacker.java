@@ -1,11 +1,9 @@
 package com.autowp.can.adapter.canhacker;
 
-import android.widget.Toast;
-
 import com.autowp.Hex;
 import com.autowp.can.CanAdapter;
 import com.autowp.can.CanAdapterException;
-import com.autowp.can.CanClient;
+import com.autowp.can.CanBusSpecs;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanFrameException;
 import com.autowp.can.adapter.android.CanHackerFelhrException;
@@ -46,6 +44,10 @@ public abstract class CanHacker extends CanAdapter {
 
     private final BlockingQueue<Response> responses = new LinkedBlockingQueue<>();
 
+    public CanHacker(CanBusSpecs specs) {
+        super(specs);
+    }
+
     private class ReceiveRunnable implements Runnable {
 
         @Override
@@ -53,10 +55,14 @@ public abstract class CanHacker extends CanAdapter {
             while(!Thread.interrupted()) {
                 try {
                     byte[] data = readBytes(DEFAULT_TIMEOUT);
-                    if (data != null) {
+                    if  (data == null) {
+                        System.err.println("readBytes returns with null. Disconnecting.");
+                        disconnect(null);
+                        break;
+                    } else {
                         processBytes(data);
                     }
-                } catch (CanHackerException e) {
+                } catch (CanAdapterException e) {
                     fireErrorEvent(e);
                 }
             }
@@ -81,7 +87,7 @@ public abstract class CanHacker extends CanAdapter {
     }
 
     @Override
-    public void send(final CanFrame frame) throws CanHackerException
+    protected synchronized void doSend(final CanFrame frame) throws CanHackerException
     {
         try {
             TransmitCommand command = new TransmitCommand(frame);
@@ -92,7 +98,7 @@ public abstract class CanHacker extends CanAdapter {
         }
     }
     
-    public abstract CanHacker send(final Command c) throws CanHackerException;
+    protected abstract CanHacker send(final Command c) throws CanHackerException;
 
     /*public Response receive(int timeout) {
 
@@ -145,7 +151,7 @@ public abstract class CanHacker extends CanAdapter {
                         try {
                             Response response = Response.fromBytes(commandBytes);
                             if (response instanceof FrameResponse) {
-                                fireFrameReceivedEvent(((FrameResponse)response).getFrame());
+                                receive(((FrameResponse)response).getFrame());
                             } else {
                                 if (mCollectReponses) {
                                     responses.add(response);
@@ -327,81 +333,74 @@ public abstract class CanHacker extends CanAdapter {
             mReceiveThread.start();
         }
 
-        BitRateCommand.BitRate busSpeed;
-        switch (specs.getSpeed()) {
-            case 10:   busSpeed = BitRateCommand.BitRate.S0; break;
-            case 20:   busSpeed = BitRateCommand.BitRate.S1; break;
-            case 50:   busSpeed = BitRateCommand.BitRate.S2; break;
-            case 100:  busSpeed = BitRateCommand.BitRate.S3; break;
-            case 125:  busSpeed = BitRateCommand.BitRate.S4; break;
-            case 250:  busSpeed = BitRateCommand.BitRate.S5; break;
-            case 500:  busSpeed = BitRateCommand.BitRate.S6; break;
-            case 800:  busSpeed = BitRateCommand.BitRate.S7; break;
-            case 1000: busSpeed = BitRateCommand.BitRate.S8; break;
-            default:
-                throw new CanHackerException("Unsupported bus speed");
+        try {
 
-        }
+            BitRateCommand.BitRate busSpeed;
+            switch (specs.getSpeed()) {
+                case 10:
+                    busSpeed = BitRateCommand.BitRate.S0;
+                    break;
+                case 20:
+                    busSpeed = BitRateCommand.BitRate.S1;
+                    break;
+                case 50:
+                    busSpeed = BitRateCommand.BitRate.S2;
+                    break;
+                case 100:
+                    busSpeed = BitRateCommand.BitRate.S3;
+                    break;
+                case 125:
+                    busSpeed = BitRateCommand.BitRate.S4;
+                    break;
+                case 250:
+                    busSpeed = BitRateCommand.BitRate.S5;
+                    break;
+                case 500:
+                    busSpeed = BitRateCommand.BitRate.S6;
+                    break;
+                case 800:
+                    busSpeed = BitRateCommand.BitRate.S7;
+                    break;
+                case 1000:
+                    busSpeed = BitRateCommand.BitRate.S8;
+                    break;
+                default:
+                    throw new CanHackerException("Unsupported bus speed");
 
-        // try to reset about 15 seconds for long device bootup like arduino
-        Response response = null;
-        for (int i=0; i<INITIAL_RESET_TIMEOUT / INITIAL_RESET_RETRY_INTERVAL; i++) {
-            clearResponses();
-            response = sendAndWaitResponse(new ResetModeCommand(), INITIAL_RESET_RETRY_INTERVAL);
-            if (response != null) {
-                break;
             }
-        }
 
-        if (response == null) {
-            throw new CanHackerException("C response timeout");
-        }
-
-        if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
-            throw new CanHackerException(
-                    String.format("Not proper response for C `%s`", response.toString())
-            );
-        }
-
-        clearResponses();
-        sendAndWaitOk(new BitRateCommand(busSpeed), 3000);
-        clearResponses();
-        sendAndWaitOk(new OperationalModeCommand(), 3000);
-        clearResponses();
-
-        mCollectReponses = false;
-    }
-
-    public void connect(final Runnable callback) throws CanAdapterException
-    {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    connectionState = CanClient.ConnectionState.CONNECTING;
-                    fireConnectionChangedEvent();
-
-                    doConnect();
-
-                    connectionState = CanClient.ConnectionState.CONNECTED;
-                    fireConnectionChangedEvent();
-
-                    if (callback != null) {
-                        callback.run();
-                    }
-
-                } catch (CanHackerException e) {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    e.printStackTrace();
-                    fireErrorEvent(e);
+            // try to reset about 15 seconds for long device bootup like arduino
+            Response response = null;
+            for (int i = 0; i < INITIAL_RESET_TIMEOUT / INITIAL_RESET_RETRY_INTERVAL; i++) {
+                clearResponses();
+                response = sendAndWaitResponse(new ResetModeCommand(), INITIAL_RESET_RETRY_INTERVAL);
+                if (response != null) {
+                    break;
                 }
             }
-        });
-        t.start();
+
+            if (response == null) {
+                throw new CanHackerException("C response timeout");
+            }
+
+            if (!(response instanceof OkResponse) && !(response instanceof BellResponse)) {
+                throw new CanHackerException(
+                        String.format("Not proper response for C `%s`", response.toString())
+                );
+            }
+
+            clearResponses();
+            sendAndWaitOk(new BitRateCommand(busSpeed), 3000);
+            clearResponses();
+            sendAndWaitOk(new OperationalModeCommand(), 3000);
+            clearResponses();
+
+        } catch (CanHackerException e) {
+            mCollectReponses = false;
+            throw e;
+        }
+
+        mCollectReponses = false;
     }
 
     protected void doDisconnect() throws CanAdapterException {
@@ -420,45 +419,16 @@ public abstract class CanHacker extends CanAdapter {
                 );
             }
 
-            if (mReceiveThread != null) {
-                mReceiveThread.interrupt();
-                mReceiveThread = null;
-            }
         } catch (CanHackerException e) {
             fireErrorEvent(e);
         }
 
+        if (mReceiveThread != null) {
+            System.out.println("mReceiveThread.interrupt");
+            mReceiveThread.interrupt();
+            mReceiveThread = null;
+        }
+
         mCollectReponses = false;
-    }
-
-    public void disconnect(final Runnable callback) throws CanAdapterException
-    {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTING;
-                    fireConnectionChangedEvent();
-
-                    doDisconnect();
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    if (callback != null) {
-                        callback.run();
-                    }
-
-                } catch (CanAdapterException e) {
-
-                    connectionState = CanClient.ConnectionState.DISCONNECTED;
-                    fireConnectionChangedEvent();
-
-                    e.printStackTrace();
-                }
-            }
-        });
-        t.start();
     }
 }

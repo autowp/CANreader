@@ -18,75 +18,16 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.autowp.can.CanClient;
+import com.autowp.can.CanAdapter;
 import com.autowp.can.CanFrameException;
 
-public class TransmitFragment extends ServiceConnectedFragment {
+public class TransmitFragment extends ServiceConnectedFragment
+        implements CanReaderService.OnConnectionStateChangedListener,
+        CanReaderService.OnTransmitChangeListener
+{
     private static final int REQUEST_CODE_NEW = 1;
     private static final int REQUEST_CODE_EDIT = 2;
     private TransmitCanFrameListAdapter adapter;
-
-    private CanReaderService.OnStateChangeListener mOnStateChangeListener = new CanReaderService.OnStateChangeListener() {
-
-        @Override
-        public void handleStateChanged() {
-            updateButtons();
-            if (adapter != null) {
-                adapter.setConnected(canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED);
-            }
-        }
-    };
-
-    private CanReaderService.OnTransmitChangeListener mOnTransmitChangeListener = new CanReaderService.OnTransmitChangeListener() {
-        @Override
-        public void handleTransmitUpdated() {
-            FragmentActivity activity = getActivity();
-            if (activity != null) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void handleTransmitUpdated(final TransmitCanFrame frame) {
-            FragmentActivity activity = getActivity();
-            if (activity != null) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        int start = mListView.getFirstVisiblePosition();
-                        int end = mListView.getLastVisiblePosition();
-                        for(int i=start; i<=end; i++)
-                            if (frame == mListView.getItemAtPosition(i)){
-                                View view = mListView.getChildAt(i-start);
-                                adapter.updateView(view, frame);
-                                break;
-                            }
-                    }
-                });
-            }
-        }
-
-        @Override
-        public void handleSpeedChanged(final double speed) {
-            FragmentActivity activity = getActivity();
-            if (activity != null) {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        TextView tv = (TextView)getView().findViewById(R.id.textViewTransmitSpeed2);
-                        if (tv != null) {
-                            tv.setText(String.format("%.2f frame/sec", speed));
-                        }
-                    }
-                });
-            }
-        }
-    };
 
     private ListView mListView;
 
@@ -136,7 +77,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
     private void updateButtons()
     {
-        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+        boolean isConnected = canReaderService.getConnectionState() == CanAdapter.ConnectionState.CONNECTED;
 
         Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
         buttonStartAll.setEnabled(isConnected && canReaderService.hasStoppedTransmits());
@@ -169,7 +110,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
     {
         super.onPrepareOptionsMenu(menu);
 
-        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+        boolean isConnected = canReaderService.getConnectionState() == CanAdapter.ConnectionState.CONNECTED;
 
         /*Button buttonStartAll = (Button) getView().findViewById(R.id.buttonStartAll);
         buttonStartAll.setEnabled(isConnected && canReaderService.hasStoppedTransmits());
@@ -246,7 +187,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
         registerForContextMenu(mListView);
         if (canReaderService != null && adapter != null) {
-            boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+            boolean isConnected = canReaderService.getConnectionState() == CanAdapter.ConnectionState.CONNECTED;
             adapter.setConnected(isConnected);
         }
     }
@@ -302,8 +243,8 @@ public class TransmitFragment extends ServiceConnectedFragment {
     @Override
     protected void afterConnect()
     {
-        canReaderService.addListener(mOnTransmitChangeListener);
-        canReaderService.addListener(mOnStateChangeListener);
+        canReaderService.addListener((CanReaderService.OnConnectionStateChangedListener) this);
+        canReaderService.addListener((CanReaderService.OnTransmitChangeListener) this);
 
         adapter = new TransmitCanFrameListAdapter(
                 getActivity().getApplicationContext(),
@@ -330,7 +271,7 @@ public class TransmitFragment extends ServiceConnectedFragment {
             }
         });
 
-        boolean isConnected = canReaderService.getConnectionState() == CanClient.ConnectionState.CONNECTED;
+        boolean isConnected = canReaderService.getConnectionState() == CanAdapter.ConnectionState.CONNECTED;
         adapter.setConnected(isConnected);
 
         mListView.setAdapter(adapter);
@@ -341,11 +282,69 @@ public class TransmitFragment extends ServiceConnectedFragment {
 
     @Override
     protected void beforeDisconnect() {
-        canReaderService.removeListener(mOnTransmitChangeListener);
+        canReaderService.removeListener((CanReaderService.OnConnectionStateChangedListener) this);
+        canReaderService.removeListener((CanReaderService.OnTransmitChangeListener) this);
         
         mListView.setAdapter(null);
         adapter = null;
 
         updateButtons();
+    }
+
+    @Override
+    public void handleConnectedStateChanged(CanAdapter.ConnectionState connection) {
+        updateButtons();
+        if (adapter != null) {
+            adapter.setConnected(canReaderService.getConnectionState() == CanAdapter.ConnectionState.CONNECTED);
+        }
+    }
+
+    @Override
+    public void handleTransmitUpdated() {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    @Override
+    public void handleTransmitUpdated(final TransmitCanFrame frame) {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int start = mListView.getFirstVisiblePosition();
+                    int end = mListView.getLastVisiblePosition();
+                    for(int i=start; i<=end; i++)
+                        if (frame == mListView.getItemAtPosition(i)){
+                            View view = mListView.getChildAt(i-start);
+                            adapter.updateView(view, frame);
+                            break;
+                        }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void handleSpeedChanged(final double speed) {
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    TextView tv = (TextView)getView().findViewById(R.id.textViewTransmitSpeed2);
+                    if (tv != null) {
+                        tv.setText(String.format("%.2f frame/sec", speed));
+                    }
+                }
+            });
+        }
     }
 }
