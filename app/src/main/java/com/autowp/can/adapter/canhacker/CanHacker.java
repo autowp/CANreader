@@ -124,7 +124,7 @@ public abstract class CanHacker extends CanAdapter {
         return response;
     }*/
 
-    protected abstract byte[] readBytes(final int timeout) throws CanHackerFelhrException;
+    protected abstract byte[] readBytes(final int timeout) throws CanHackerException;
 
     protected void processBytes(final byte[] bytes) {
         for (byte aByte : bytes) {

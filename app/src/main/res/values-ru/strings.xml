@@ -33,4 +33,5 @@
     <string name="connection_loopback">Loopback</string>
     <string name="action_monitor_focus">Фокусировать</string>
     <string name="connection_udp">Network</string>
+    <string name="connection_bluetooth">Bluetooth</string>
 </resources>

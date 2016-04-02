@@ -30,11 +30,21 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/connection_bluetooth"
+            android:id="@+id/btnBluetoothConnection"
+            android:layout_weight="1"
+            android:checked="false"
+            android:onClick="onRadioButtonClicked" />
+
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/connection_udp"
             android:id="@+id/btnUdpConnection"
             android:layout_weight="1"
             android:checked="false"
-            android:onClick="onRadioButtonClicked" />
+            android:onClick="onRadioButtonClicked"
+            android:visibility="gone" />
 
         <RadioButton
             android:layout_width="match_parent"
@@ -92,6 +102,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/spinnerUsbDevice"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Bluetooth device"
+            android:id="@+id/tvBluetoothDevice" />
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinnerBluetoothDevice"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
 
