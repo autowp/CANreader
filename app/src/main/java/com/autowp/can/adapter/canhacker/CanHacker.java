@@ -52,7 +52,8 @@ public abstract class CanHacker extends CanAdapter {
 
         @Override
         public void run() {
-            while(!Thread.interrupted()) {
+            boolean failed = false;
+            while(!Thread.interrupted() && !failed) {
                 try {
                     byte[] data = readBytes(DEFAULT_TIMEOUT);
                     if  (data == null) {
@@ -63,7 +64,16 @@ public abstract class CanHacker extends CanAdapter {
                         processBytes(data);
                     }
                 } catch (CanAdapterException e) {
+                    failed = true;
+                    System.err.println("Adapter error: " + e.getMessage());
                     fireErrorEvent(e);
+                    try {
+                        disconnect(null);
+                    } catch (CanAdapterException e1) {
+                        System.err.println("Disconnecting error: " + e1.getMessage());
+                        fireErrorEvent(e1);
+                    }
+
                 }
             }
         }
