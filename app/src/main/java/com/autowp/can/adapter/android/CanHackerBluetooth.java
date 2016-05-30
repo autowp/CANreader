@@ -2,15 +2,12 @@ package com.autowp.can.adapter.android;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.hardware.usb.UsbDeviceConnection;
 
 import com.autowp.can.CanAdapterException;
 import com.autowp.can.CanBusSpecs;
 import com.autowp.can.adapter.canhacker.CanHacker;
 import com.autowp.can.adapter.canhacker.CanHackerException;
 import com.autowp.can.adapter.canhacker.command.Command;
-import com.felhr.usbserial.UsbSerialDevice;
-import com.felhr.usbserial.UsbSerialInterface;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -38,7 +35,9 @@ public class CanHackerBluetooth extends CanHacker {
         OutputStream out = null;
         try {
             mSocket = mDevice.createRfcommSocketToServiceRecord(UUID.fromString(SERIAL_UUID));
+            System.out.println("Bluetooth: connect");
             mSocket.connect();
+            System.out.println("Bluetooth: connected");
         } catch (IOException e) {
             throw new CanHackerBluetoothException("Connect I/O error: " + e.getMessage());
         }
@@ -47,7 +46,9 @@ public class CanHackerBluetooth extends CanHacker {
             super.doConnect();
         } catch (CanHackerException e) {
             try {
+                System.out.println("Bluetooth: close");
                 mSocket.close();
+                mSocket = null;
             } catch (IOException e1) {
                 mSocket = null;
                 throw new CanHackerBluetoothException("Connect I/O error: " + e1.getMessage());
@@ -62,12 +63,13 @@ public class CanHackerBluetooth extends CanHacker {
 
         if (mSocket != null) {
             try {
+                System.out.println("Bluetooth: close");
                 mSocket.close();
+                mSocket = null;
             } catch (IOException e1) {
                 mSocket = null;
                 throw new CanHackerBluetoothException("Disconnect I/O error: " + e1.getMessage());
             }
-            mSocket = null;
         }
     }
 
@@ -91,6 +93,10 @@ public class CanHackerBluetooth extends CanHacker {
     protected byte[] readBytes(int timeout) throws CanHackerBluetoothException {
         if (mSocket == null) {
             throw new CanHackerBluetoothException("Device not connected");
+        }
+
+        if (!mSocket.isConnected()) {
+            throw new CanHackerBluetoothException("Socket not connected");
         }
 
         byte[] buffer = new byte[64];

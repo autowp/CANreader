@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanMessage;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -12,10 +13,12 @@ import java.util.Date;
  */
 public class MonitorCanMessage {
 
+    private static final int TIME_MEMORY = 10;
+
     public static final String EXTRA_PERIOD = "period";
     public static final String EXTRA_CAN_FRAME = "can_frame";
     public static final int CHANGE_HIGHLIGHT_PERIOD = 3000;
-    private Date time;
+    private ArrayList<Date> times = new ArrayList<>();
     private int period = 0;
     private int count = 0;
 
@@ -23,11 +26,26 @@ public class MonitorCanMessage {
 
     private ChangeHolder[] changes = new ChangeHolder[8];
 
-    public void setTime(Date time) {
-        if (this.time != null) {
-            period = (int) (time.getTime() - this.time.getTime());
+    public void addTime(Date time) {
+        times.add(time);
+
+        if (times.size() > 1) {
+            long sum = 0;
+            Date prev = times.get(0);
+            int size = times.size();
+            for (int i=1; i<size; i++) {
+                Date current = times.get(i);
+
+                sum += current.getTime() - prev.getTime();
+
+                prev = current;
+            }
+            period = (int) (sum / size);
         }
-        this.time = time;
+
+        if (times.size() > TIME_MEMORY) {
+            times.remove(0);
+        }
     }
 
     public class ChangeHolder {
@@ -56,9 +74,6 @@ public class MonitorCanMessage {
             return now.getTime() - time.getTime() < CHANGE_HIGHLIGHT_PERIOD;
         }
     }
-
-
-
 
     public MonitorCanMessage(final CanMessage canMessage, final int period)
     {

@@ -98,6 +98,8 @@ public abstract class CanAdapter {
                 }
             }
         });
+
+        System.out.println("threadConnect");
         t.start();
     }
 

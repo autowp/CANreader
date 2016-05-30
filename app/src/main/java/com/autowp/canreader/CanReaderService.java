@@ -480,7 +480,7 @@ public class CanReaderService extends Service
             if (monitorFrame.getCanMessage().getId() == canMessage.getId()) {
                 monitorFrame.setCanMessage(canMessage);
                 monitorFrame.incCount();
-                monitorFrame.setTime(new Date());
+                monitorFrame.addTime(new Date());
                 triggerMonitor(monitorFrame);
                 found = true;
                 break;
