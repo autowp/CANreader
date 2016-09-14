@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_monitor_delete"
+        android:title="@string/action_transmit_delete" />
+
+    <item
+        android:id="@+id/action_monitor_copy"
+        android:title="@string/action_transmit_copy" />
+
+    <item
+        android:id="@+id/action_monitor_focus"
+        android:title="@string/action_monitor_focus" />
+
+
+</menu>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CAN reader</string>
+    <string name="app_name">CANreader</string>
     <string name="action_settings">Settings</string>
     <string name="action_transmit_delete">Delete</string>
     <string name="action_transmit_edit">Edit</string>
@@ -20,4 +20,18 @@
     <string name="about">About</string>
     <string name="versions">Version: %1$s (version code %2$d)</string>
     <string name="action_connection">Connection</string>
+    <string name="action_transmit_reset">Reset</string>
+    <string name="action_transmit_clear">Clear</string>
+    <string name="action_transmit_reset_all">Reset all</string>
+    <string name="action_import_tx_list">Import Tx list</string>
+    <string name="action_share_tx_list">Share Tx list</string>
+    <string name="export_tx_list">Export Tx list</string>
+    <string name="message_file_saved_to_documents">File %s saved to Documents</string>
+    <string name="choose_file_to_import">Choose file to import</string>
+    <string name="action_transmit_copy">Copy</string>
+    <string name="conection_usb_serial">USB serial</string>
+    <string name="connection_loopback">Loopback</string>
+    <string name="action_monitor_focus">Focus view</string>
+    <string name="connection_udp">Network</string>
+    <string name="connection_bluetooth">Bluetooth</string>
 </resources>

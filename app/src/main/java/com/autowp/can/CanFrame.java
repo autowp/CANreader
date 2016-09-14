@@ -3,7 +3,6 @@ package com.autowp.can;
 import android.os.Bundle;
 
 import com.autowp.Hex;
-import com.autowp.can.adapter.canhacker.CanHackerException;
 
 public class CanFrame {
     public static final String EXTRA_IS_EXTENDED = "is_extended";
@@ -106,12 +105,16 @@ public class CanFrame {
     }
 
     public String toString() {
-        String idHex = String.format("%03X", this.id);
+        String idHex = String.format(extended ? "%08X" : "%03X", this.id);
 
-        String dataLengthHex = Integer.toHexString(this.data.length);
-        String dataLength = "" + dataLengthHex.charAt(dataLengthHex.length() - 1);
+        String dataStr;
+        if (rtr) {
+            dataStr = "RTR " + getDLC();
+        } else {
+            dataStr = Hex.byteArrayToHexString(this.data);
+        }
 
-        return (idHex + " " + dataLength + " " + Hex.byteArrayToHexString(this.data)).toUpperCase();
+        return idHex + " " + dataStr;
     }
 
     public Bundle toBundle() {

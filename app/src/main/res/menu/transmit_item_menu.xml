@@ -7,4 +7,22 @@
     <item
         android:id="@+id/action_transmit_delete"
         android:title="@string/action_transmit_delete" />
+
+    <item
+        android:id="@+id/action_transmit_reset"
+        android:title="@string/action_transmit_reset" />
+
+    <item
+        android:id="@+id/action_transmit_reset_all"
+        android:title="@string/action_transmit_reset_all" />
+
+    <item
+        android:id="@+id/action_transmit_clear"
+        android:title="@string/action_transmit_clear" />
+
+    <item
+        android:id="@+id/action_transmit_copy"
+        android:title="@string/action_transmit_copy" />
+
+
 </menu>

@@ -1,5 +1,7 @@
 package com.autowp;
 
+import java.util.Arrays;
+
 /**
  * Created by autow on 31.01.2016.
  */
@@ -22,17 +24,20 @@ public class Hex {
             char highChar = (char) s[i++];
             byte high = (byte) Character.digit(highChar, 16);
             if (high == -1) {
-                throw new Exception("unexpected character `" + highChar + "`");
+                throw new Exception("Unexpected character `" + highChar + "`");
             }
 
             while (s[i] == ' ') { i++; }
             char lowChar = (char) s[i++];
             byte low = (byte) Character.digit(lowChar, 16);
             if (low == -1) {
-                throw new Exception("unexpected character `" + lowChar + "`");
+                throw new Exception("Unexpected character `" + lowChar + "`");
             }
 
             data[b++] = (byte) ((high << 4) + low);
+        }
+        if (b < data.length) {
+            data = Arrays.copyOfRange(data, 0, b-1);
         }
         return data;
     }

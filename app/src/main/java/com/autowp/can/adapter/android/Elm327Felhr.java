@@ -4,7 +4,8 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 
-import com.autowp.can.CanClient;
+import com.autowp.can.CanAdapter;
+import com.autowp.can.CanBusSpecs;
 import com.autowp.can.adapter.canhacker.command.Command;
 import com.autowp.can.adapter.elm327.Elm327;
 import com.autowp.can.adapter.elm327.Elm327Exception;
@@ -21,8 +22,8 @@ public class Elm327Felhr extends Elm327 {
     private UsbDevice mUsbDevice;
     private UsbSerialDevice mSerial;
 
-    public Elm327Felhr(final UsbManager usbManager, final UsbDevice usbDevice) throws Elm327FelhrException {
-        super();
+    public Elm327Felhr(CanBusSpecs specs, final UsbManager usbManager, final UsbDevice usbDevice) throws Elm327FelhrException {
+        super(specs);
 
         mUsbManager = usbManager;
         mUsbDevice = usbDevice;
@@ -67,22 +68,14 @@ public class Elm327Felhr extends Elm327 {
         }
     }
 
-    public synchronized Elm327Felhr send(final Command c) throws Elm327FelhrException
+    private synchronized Elm327Felhr send(final Command c) throws Elm327FelhrException
     {
-        if (connectionState == CanClient.ConnectionState.DISCONNECTED) {
-            throw new Elm327FelhrException("CanHacker is disconnected");
-        }
-
-        System.out.println("send " + c.toString());
-
         byte[] command = c.getBytes();
         byte[] data = new byte[command.length + 1];
         System.arraycopy(command, 0, data, 0, command.length);
         data[data.length-1] = Byte.parseByte("\n");
 
         mSerial.syncWrite(data, 60000);
-
-        //mSerial.writeNow(data);
 
         return this;
     }
@@ -93,6 +86,5 @@ public class Elm327Felhr extends Elm327 {
         byte[] buffer = new byte[64];
         int readCount = mSerial.syncRead(buffer, timeout);
         return Arrays.copyOfRange(buffer, 0, readCount);
-        //return mSerial.readNow(64, timeout);
     }
 }

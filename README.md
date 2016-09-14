@@ -1,7 +1,7 @@
 # CANreader
 
-Android CAN client
+Android CAN client in development.
 
-In development
+[Documentation on English](docs/en/README.md)
 
-[Wiki](/autowp/CANreader/wiki)
+[Документация на русском](docs/ru/README.md)
