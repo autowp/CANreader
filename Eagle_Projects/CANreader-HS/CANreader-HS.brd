@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="7.5.0">
+<eagle version="7.6.0">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -144,6 +144,7 @@
 <layer number="255" name="Accent" color="7" fill="1" visible="yes" active="yes"/>
 </layers>
 <board>
+<description>https://github.com/autowp/CANreader</description>
 <plain>
 <wire x1="57.785" y1="20.32" x2="38.735" y2="20.32" width="0.1" layer="20"/>
 <wire x1="38.735" y1="20.32" x2="38.735" y2="70.1675" width="0.1" layer="20"/>
