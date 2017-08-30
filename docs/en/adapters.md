@@ -26,9 +26,3 @@ Highspeed CAN
 ![](http://can.web-box.ru/_mod_files/ce_images/obschij.jpg)
 
 Highspeed CAN
-
-## 4. [ELM327](ELM327.md) (запланировано)
-
-![](http://www.pichoststone.com/pic/nikingstore/EA/EA00026/n5/0.jpg)
-
-Highspeed CAN
