@@ -3,6 +3,8 @@ package com.autowp.can.adapter.elm327.command;
 import com.autowp.Hex;
 import com.autowp.can.adapter.elm327.Elm327Exception;
 
+import java.util.Locale;
+
 public class SetHeaderCommand extends Command {
     
     public static final int HEADER_LENGTH = 3;
@@ -22,7 +24,7 @@ public class SetHeaderCommand extends Command {
     
     @Override
     public String toString() {
-        return "AT SH " + Hex.byteArrayToHexString(bytes).toUpperCase();
+        return "AT SH " + Hex.byteArrayToHexString(bytes).toUpperCase(Locale.ROOT);
     }
 
 }

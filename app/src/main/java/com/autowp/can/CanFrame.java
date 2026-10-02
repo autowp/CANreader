@@ -93,7 +93,7 @@ public class CanFrame {
     }
 
     public byte[] getData() {
-        return this.data;
+        return data == null ? null : data.clone();
     }
 
     public void setExtended(boolean value) {

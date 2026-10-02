@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import com.autowp.Hex;
 import com.autowp.can.adapter.elm327.Elm327Exception;
 
+import java.util.Locale;
+
 public class TransmitCommand extends Command {
 
     private int id;
@@ -31,7 +33,7 @@ public class TransmitCommand extends Command {
     
     @Override
     public String toString() {
-        String[] strings = Hex.byteArrayToHexString(this.data).toUpperCase().split("(?<=\\G.{2})");
+        String[] strings = Hex.byteArrayToHexString(this.data).toUpperCase(Locale.ROOT).split("(?<=\\G.{2})");
         return TextUtils.join(" ", strings);
     }
 

@@ -2,6 +2,8 @@ package com.autowp.can.adapter.elm327.command;
 
 import com.autowp.Hex;
 
+import java.util.Locale;
+
 public class ProgParameterSetCommand extends Command {
     
     protected byte pp;
@@ -15,8 +17,8 @@ public class ProgParameterSetCommand extends Command {
     
     @Override
     public String toString() {
-        String strPP = Hex.byteArrayToHexString(new byte[] {pp}).toUpperCase();
-        String strValue = Hex.byteArrayToHexString(new byte[] {value}).toUpperCase();
+        String strPP = Hex.byteArrayToHexString(new byte[] {pp}).toUpperCase(Locale.ROOT);
+        String strValue = Hex.byteArrayToHexString(new byte[] {value}).toUpperCase(Locale.ROOT);
 
         return "AT PP" + strPP + "SV" + strValue;
     }

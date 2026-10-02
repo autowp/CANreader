@@ -1,9 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">4dp</dimen>
-    <dimen name="activity_vertical_margin">4dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="message_activity_data_textsize">32sp</dimen>
-    <dimen name="message_activity_data_margin">4dp</dimen>
+    <!-- Margins -->
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_large">16dp</dimen>
+    <dimen name="margin_xlarge">24dp</dimen>
+    <dimen name="margin_list_item">8dp</dimen>
+    <dimen name="padding_byte">4dp</dimen>
+    
+    <!-- Text sizes -->
+    <dimen name="can_id_textsize">14sp</dimen>
+    <dimen name="can_data_byte_textsize">12sp</dimen>
+    <dimen name="can_period_textsize">11sp</dimen>
+    <dimen name="can_count_textsize">11sp</dimen>
+    <dimen name="can_rtr_textsize">11sp</dimen>
+    <dimen name="message_activity_data_textsize">14sp</dimen>
+    <dimen name="message_activity_data_margin">8dp</dimen>
+    
+    <!-- Card -->
+    <dimen name="card_corner_radius">8dp</dimen>
+    
+    <!-- Bottom navigation -->
+    <dimen name="bottom_navigation_height">56dp</dimen>
+    
+    <!-- Tablet layouts -->
+    <dimen name="tablet_split_width">400dp</dimen>
 </resources>

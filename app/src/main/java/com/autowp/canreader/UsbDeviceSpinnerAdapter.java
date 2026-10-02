@@ -2,7 +2,6 @@ package com.autowp.canreader;
 
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by autow on 13.02.2016.
@@ -37,7 +37,7 @@ public class UsbDeviceSpinnerAdapter extends ArrayAdapter<UsbDevice> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.usbdevice_spinner_item, null);
+            v = vi.inflate(R.layout.usbdevice_spinner_item, parent, false);
         }
 
         UsbDevice device = getItem(position);
@@ -46,25 +46,16 @@ public class UsbDeviceSpinnerAdapter extends ArrayAdapter<UsbDevice> {
             TextView tvProductName = (TextView)v.findViewById(R.id.textViewProductName);
             TextView tvDeviceInto = (TextView)v.findViewById(R.id.textViewDeviceInfo);
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                tvProductName.setText(device.getProductName());
-                String deviceInfo = String.format(
-                        "%s %04X/%04X, %s",
-                        device.getManufacturerName(),
-                        device.getVendorId(),
-                        device.getProductId(),
-                        device.getDeviceName()
-                );
-                tvDeviceInto.setText(deviceInfo);
-            } else {
-                tvProductName.setText(device.getDeviceName());
-                String deviceInfo = String.format(
-                        "%04X/%04X",
-                        device.getVendorId(),
-                        device.getProductId()
-                );
-                tvDeviceInto.setText(deviceInfo);
-            }
+                String productName = device.getProductName();
+                tvProductName.setText(productName == null ? device.getDeviceName() : productName);
+                tvDeviceInto.setText(String.format(
+                    Locale.ROOT,
+                    "%s %04X/%04X, %s",
+                    device.getManufacturerName() == null ? "" : device.getManufacturerName(),
+                    device.getVendorId(),
+                    device.getProductId(),
+                    device.getDeviceName()
+                ));
 
         }
 

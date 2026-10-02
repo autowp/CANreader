@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="?attr/colorOutlineVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_small"
+        android:gravity="center_vertical">
+
+        <!-- Time -->
+        <TextView
+            android:id="@+id/tvStreamTime"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:fontFamily="monospace" />
+
+        <!-- Channel -->
+        <TextView
+            android:id="@+id/tvStreamChannel"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurface"
+            android:gravity="center"
+            android:background="?attr/colorSurfaceVariant"
+            android:padding="2dp" />
+
+        <!-- Direction -->
+        <TextView
+            android:id="@+id/tvStreamDirection"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:text="Rx"
+            android:gravity="center"
+            android:padding="2dp" />
+
+        <!-- ID -->
+        <TextView
+            android:id="@+id/tvStreamId"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorPrimary"
+            android:fontFamily="monospace"
+            android:paddingStart="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_small" />
+
+        <!-- DLC -->
+        <TextView
+            android:id="@+id/tvStreamDlc"
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:gravity="center"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- Data -->
+        <TextView
+            android:id="@+id/tvStreamData"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurface"
+            android:fontFamily="monospace"
+            android:paddingStart="@dimen/margin_small" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

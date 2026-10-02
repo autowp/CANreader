@@ -1,7 +1,7 @@
 package com.autowp.canreader;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,19 +15,19 @@ public class MessageActivity extends ServiceConnectedActivity implements CanRead
     public static final String EXTRA_CAN_ID = "can_id";
     private int mId;
 
-    private void applyMessage(MonitorCanMessage message) throws Exception {
+    private void applyMessage(MonitorCanMessage message) {
         CanMessage canMessage = message.getCanMessage();
 
         TextView textViewID = (TextView) findViewById(R.id.activity_message_id);
 
         if (textViewID == null) {
-            throw new Exception("Text view not found");
+            throw new IllegalStateException("Message ID view is missing from the layout");
         }
 
         if (canMessage.isExtended()) {
-            textViewID.setText(String.format("%08X", canMessage.getId()));
+            textViewID.setText(String.format(Locale.ROOT, "%08X", canMessage.getId()));
         } else {
-            textViewID.setText(String.format("%03X", canMessage.getId()));
+            textViewID.setText(String.format(Locale.ROOT, "%03X", canMessage.getId()));
         }
 
         TextView textViewPeriod = (TextView) findViewById(R.id.activity_message_period);
@@ -47,7 +47,7 @@ public class MessageActivity extends ServiceConnectedActivity implements CanRead
         if (canMessage.isRTR()) {
 
             TextView textViewData = (TextView) findViewById(R.id.activity_message_dlc);
-            textViewData.setText(String.format("%d", dlc));
+            textViewData.setText(String.format(Locale.getDefault(), "%d", dlc));
 
         } else {
 
@@ -67,13 +67,8 @@ public class MessageActivity extends ServiceConnectedActivity implements CanRead
             for (int i = 0; i < data.length; i++) {
                 boolean highlight = message.getChangeHolder(i).isHighlight();
                 TextView textViewData = (TextView) findViewById(textViewDataID[i]);
-                textViewData.setText(String.format("%02X", data[i]));
-                int color;
-                if (highlight) {
-                    color = android.R.color.holo_blue_dark;
-                } else {
-                    color = android.R.color.primary_text_dark;
-                }
+                textViewData.setText(String.format(Locale.ROOT, "%02X", data[i] & 0xFF));
+                int color = highlight ? R.color.can_tertiary : R.color.can_on_surface;
                 textViewData.setTextColor(ContextCompat.getColor(MessageActivity.this, color));
             }
 
@@ -101,11 +96,7 @@ public class MessageActivity extends ServiceConnectedActivity implements CanRead
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        applyMessage(message);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    applyMessage(message);
                 }
             });
         }
@@ -127,11 +118,7 @@ public class MessageActivity extends ServiceConnectedActivity implements CanRead
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    try {
-                        applyMessage(message);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    applyMessage(message);
                 }
             });
         }

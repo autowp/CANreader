@@ -2,32 +2,32 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:padding="24dp"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_vertical"
     tools:context="com.autowp.canreader.MessageActivity">
 
     <TextView
-        android:text="FFFFFFFF"
+        tools:text="FFFFFFFF"
         android:id="@+id/activity_message_id"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="3"
-        android:textSize="64sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="24dp"
+        android:textSize="36sp"
         android:gravity="center_vertical|center_horizontal"
+        android:textColor="?attr/colorPrimary"
         android:typeface="monospace" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_margin="3dp"
-        android:layout_weight="1">
+        android:layout_weight="0">
 
         <LinearLayout
             android:orientation="horizontal"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="RTR"
+                android:text="@string/can_rtr"
                 android:id="@+id/activity_message_rtr"
                 android:textSize="@dimen/message_activity_data_textsize" />
 
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="8"
+                tools:text="8"
                 android:id="@+id/activity_message_dlc"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
@@ -65,7 +65,7 @@
             android:id="@+id/activity_message_data">
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -119,7 +119,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                 android:textSize="@dimen/message_activity_data_textsize"/>
 
             <TextView
-                android:text="FF"
+                tools:text="FF"
                 android:id="@+id/activity_message_data7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,17 +147,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="999ms"
+                tools:text="999ms"
                 android:id="@+id/activity_message_period"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:textSize="20sp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="999"
+                tools:text="999"
                 android:id="@+id/activity_message_count"
-                android:gravity="left"
+                android:gravity="start"
                 android:textSize="20sp"/>
         </LinearLayout>
     </LinearLayout>

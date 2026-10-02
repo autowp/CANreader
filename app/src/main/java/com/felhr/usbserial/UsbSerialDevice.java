@@ -18,7 +18,7 @@ public abstract class UsbSerialDevice implements UsbSerialInterface
 {
     private static final String CLASS_ID = UsbSerialDevice.class.getSimpleName();
 
-    private static boolean mr1Version;
+    private static final boolean mr1Version = true;
     protected final UsbDevice device;
     protected final UsbDeviceConnection connection;
 
@@ -35,15 +35,6 @@ public abstract class UsbSerialDevice implements UsbSerialInterface
     private UsbEndpoint outEndpoint;
 
     protected boolean asyncMode;
-
-    // Get Android version if version < 4.3 It is not going to be asynchronous read operations
-    static
-    {
-        if(android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.JELLY_BEAN_MR1)
-            mr1Version = true;
-        else
-            mr1Version = false;
-    }
 
     public UsbSerialDevice(UsbDevice device, UsbDeviceConnection connection)
     {

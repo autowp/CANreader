@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_monitor"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="@string/nav_monitor" />
+    <item
+        android:id="@+id/fragment_stream"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="@string/nav_stream" />
+    <item
+        android:id="@+id/fragment_transmit"
+        android:icon="@android:drawable/ic_menu_send"
+        android:title="@string/nav_transmit" />
+    <item
+        android:id="@+id/fragment_tracer"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="@string/nav_tracer" />
+    <item
+        android:id="@+id/fragment_filters"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="@string/nav_filters" />
+</menu>

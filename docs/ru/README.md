@@ -1,28 +1,35 @@
 # CANreader
 
-CANreader - приложение и устройство для взаимодействия с сетью CAN. Аналог CanHacker. Для работы требуется CAN-адаптер.
+CANreader — приложение для Android для мониторинга и передачи CAN-кадров через адаптеры, реализующие протокол CanHacker.
 
 ## Возможности
 
-- Отправки и получений CAN фреймов
-- RTR фреймы
-- Стандартные (11bit) и расширенные (11 bit) CAN фреймы
-- Поддержка двух типов CAN сейтей: high-speed & fault tolerant (только [CANreader-FT](canreader-device.md))
-- Совместимость с CanHacker (приложение для windows): подержка файлов TxList, Trace [запланировано] & RxList [запланировано], единый протокол.
-- Поддержка нескольких адаптеров (на данный момент [CANreader](canreader-device.md), [CanHacker](canhacker.md), [Seeedstudio CAN shield](seeed-can-bus-shield.md))
-- Несколько типов физического соединения: 
-    - последоватьельный порт через USB ([поддержка нескольких чипсетов](https://github.com/felHR85/UsbSerial))
-    - ethernet ([CANreader](canreader-device.md) & [Seeed shield only](seeed-can-bus-shield.md)) [запланировано]. WiFi используя точку доступа
-    - Bluetooth ([CANreader](canreader-device.md) & [Seeed shield only](seeed-can-bus-shield.md)) [запланировано]
+- Мониторинг принятых CAN-сообщений и просмотр отдельных сообщений.
+- Создание, редактирование, периодическая отправка и управление списками кадров.
+- Стандартные 11-битные и расширенные 29-битные идентификаторы, кадры данных и RTR.
+- Импорт и экспорт списков передачи CanHacker в формате `.txl`.
+- Подключение через USB serial, Bluetooth Classic SPP или совместимый с CanHacker сетевой адаптер UDP. Для тестирования доступно loopback-подключение.
 
-## Требования
+Требуется Android 6.0 (API 23) или новее. Поддержка USB host/OTG нужна только для USB-подключения. Для Bluetooth и сетевого подключения USB OTG не требуется.
 
-- [Android](android.md)
-- [CANreader (устройство)](canreader-device.md) или один из [поддерживаемых адаптеров](adapters.md)
+## Адаптеры и устройства
 
-## Другое
+- [Поддерживаемые адаптеры и типы подключения](adapters.md)
+- [Аппаратная часть CANreader на Arduino](canreader-device.md)
+- [Плата Seeed Studio CAN BUS Shield](seeed-can-bus-shield.md)
+- [Устройства CanHacker](canhacker.md)
+- [Статус поддержки ELM327](ELM327.md)
+
+## Безопасность и устранение проблем
 
 - [Известные проблемы](known-issues.md)
-- [CAN bus in car](car.md)
-- [Отказ от ответственности](disclaimer.md)
-- [Лицензия](../../LICENSE.md)
+- [Подключение к CAN-шине автомобиля](car.md)
+- [Отказ от гарантий и предупреждение о безопасности](disclaimer.md)
+- [Совместимость с Android](android.md)
+
+## Приложение
+
+- [CANreader для Android](canreader-android.md)
+- [Лицензия](../../LICENSE)
+
+Инструкции по сборке находятся в [README проекта](../../README.md).

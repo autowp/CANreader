@@ -7,23 +7,23 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <Switch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/can_extended"
             android:id="@+id/switchExtended"
             android:layout_gravity="center_vertical"
-            android:padding="20dp" />
+            android:padding="12dp" />
 
-        <Switch
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="@string/can_rtr"
             android:id="@+id/switchRTR"
             android:layout_gravity="center_vertical"
-            android:padding="20dp" />
+            android:padding="12dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -39,8 +39,9 @@
             android:lines="1"
             android:hint="@string/can_id"
             android:enabled="true"
-            android:padding="20dp"
-            android:textSize="@dimen/abc_text_size_large_material">
+            android:padding="12dp"
+            android:importantForAutofill="no"
+            android:textSize="24sp">
             <requestFocus />
         </EditText>
 
@@ -58,7 +59,8 @@
             android:lines="1"
             android:hint="@string/can_data"
             android:layout_gravity="center_horizontal"
-            android:padding="20dp" />
+            android:padding="12dp"
+            android:importantForAutofill="no" />
 
         <EditText
             android:layout_width="match_parent"
@@ -71,8 +73,9 @@
             android:minLines="1"
             android:singleLine="true"
             android:typeface="normal"
-            android:padding="20dp"
-            android:hint="Data Length Code" />
+            android:padding="12dp"
+            android:hint="@string/can_dlc"
+            android:importantForAutofill="no" />
 
         <EditText
             android:layout_width="match_parent"
@@ -87,10 +90,11 @@
             android:maxLines="1"
             android:maxLength="8"
             android:lines="1"
-            android:padding="20dp"
-            android:singleLine="true" />
+            android:padding="12dp"
+            android:singleLine="true"
+            android:importantForAutofill="no" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/button_create_transmit"

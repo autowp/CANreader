@@ -1,26 +1,34 @@
 package com.autowp.canreader;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.Switch;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.autowp.can.CanFrame;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class TransmitCanFrameListAdapter extends ArrayAdapter<TransmitCanFrame> {
+/**
+ * RecyclerView adapter for transmit CAN frames - MD3 style.
+ */
+public class TransmitCanFrameListAdapter extends RecyclerView.Adapter<TransmitCanFrameListAdapter.ViewHolder> {
 
+    private List<TransmitCanFrame> items;
     private boolean mConnected = false;
 
-    public void setConnected(boolean connected) {
-        this.mConnected = connected;
+    public interface OnItemLongClickListener {
+        void onItemLongClick(int position);
+    }
+
+    private OnItemLongClickListener longClickListener;
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.longClickListener = listener;
     }
 
     public interface OnChangeListener {
@@ -32,20 +40,22 @@ public class TransmitCanFrameListAdapter extends ArrayAdapter<TransmitCanFrame> 
     }
 
     private List<OnChangeListener> changeListeners = new ArrayList<>();
-
     private List<OnSingleShotListener> singleShotListeners = new ArrayList<>();
 
-    private CompoundButton.OnCheckedChangeListener mCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            int position = (int) buttonView.getTag();
-            TransmitCanFrame frame = getItem(position);
-            if (frame.isEnabled() != isChecked) {
-                frame.setEnabled(isChecked);
-                triggerOnTransmitCanFrameChange(position, frame);
-            }
-        }
-    };
+    public TransmitCanFrameListAdapter(List<TransmitCanFrame> items) {
+        this.items = new ArrayList<>(items);
+    }
+
+    public void setConnected(boolean connected) {
+        this.mConnected = connected;
+        notifyDataSetChanged();
+    }
+
+    public void updateItems(List<TransmitCanFrame> newItems) {
+        items.clear();
+        items.addAll(new ArrayList<>(newItems));
+        notifyDataSetChanged();
+    }
 
     public void addListener(OnChangeListener listener) {
         changeListeners.add(listener);
@@ -75,110 +85,155 @@ public class TransmitCanFrameListAdapter extends ArrayAdapter<TransmitCanFrame> 
         }
     }
 
-    public TransmitCanFrameListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
-
-    public TransmitCanFrameListAdapter(Context context, int resource, List<TransmitCanFrame> items) {
-        super(context, resource, items);
-    }
-
-    public void updateView(View v, TransmitCanFrame frame) {
-        TextView textViewCount = (TextView) v.findViewById(R.id.listitem_transmit_count);
-        textViewCount.setText(String.format(Locale.getDefault(), "%d", frame.getCount()));
-
-        Switch switchEnabled = (Switch) v.findViewById(R.id.listitem_transmit_switch);
-        if (frame.isEnabled() != switchEnabled.isChecked()) {
-            switchEnabled.setOnCheckedChangeListener(null);
-            switchEnabled.setChecked(frame.isEnabled());
-        }
-
-        switchEnabled.setOnCheckedChangeListener(mCheckedChangeListener);
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.listitem_transmit, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bind(items.get(position), position);
+    }
 
-        if (v == null) {
-            LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listitem_transmit, parent, false);
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public TransmitCanFrame getItem(int position) {
+        if (position >= 0 && position < items.size()) {
+            return items.get(position);
+        }
+        return null;
+    }
+
+    public List<TransmitCanFrame> getItems() {
+        return items;
+    }
+
+    public void clear() {
+        int count = items.size();
+        items.clear();
+        if (count > 0) {
+            notifyItemRangeRemoved(0, count);
+        }
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvId;
+        TextView tvPeriod;
+        TextView tvCount;
+        TextView tvRtr;
+        TextView tvDlc;
+        TextView tvExtended;
+        View rtrLine;
+        View dataLine;
+        TextView[] tvData = new TextView[CanFrame.MAX_DLC];
+        MaterialSwitch swEnabled;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            tvId = itemView.findViewById(R.id.listitem_transmit_id);
+            tvPeriod = itemView.findViewById(R.id.listitem_transmit_period);
+            tvCount = itemView.findViewById(R.id.listitem_transmit_count);
+            tvRtr = itemView.findViewById(R.id.listitem_transmit_rtr);
+            tvDlc = itemView.findViewById(R.id.listitem_transmit_dlc);
+            tvExtended = itemView.findViewById(R.id.listitem_transmit_extended);
+            rtrLine = itemView.findViewById(R.id.listitem_transmit_rtr_line);
+            dataLine = itemView.findViewById(R.id.listitem_transmit_data);
+            swEnabled = itemView.findViewById(R.id.listitem_transmit_switch);
+
+            tvData[0] = itemView.findViewById(R.id.listitem_transmit_data0);
+            tvData[1] = itemView.findViewById(R.id.listitem_transmit_data1);
+            tvData[2] = itemView.findViewById(R.id.listitem_transmit_data2);
+            tvData[3] = itemView.findViewById(R.id.listitem_transmit_data3);
+            tvData[4] = itemView.findViewById(R.id.listitem_transmit_data4);
+            tvData[5] = itemView.findViewById(R.id.listitem_transmit_data5);
+            tvData[6] = itemView.findViewById(R.id.listitem_transmit_data6);
+            tvData[7] = itemView.findViewById(R.id.listitem_transmit_data7);
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (longClickListener != null) {
+                        longClickListener.onItemLongClick(getAdapterPosition());
+                    }
+                    return true;
+                }
+            });
         }
 
-        TransmitCanFrame frame = getItem(position);
-
-        if (frame != null) {
+        void bind(TransmitCanFrame frame, int position) {
             CanFrame canFrame = frame.getCanFrame();
 
-            TextView textViewID = (TextView) v.findViewById(R.id.listitem_transmit_id);
+            // ID
             if (canFrame.isExtended()) {
-                textViewID.setText(String.format("%08X", canFrame.getId()));
+                tvId.setText(String.format(Locale.ROOT, "%08X", canFrame.getId()));
+                tvExtended.setVisibility(View.VISIBLE);
+                tvExtended.setText("29");
             } else {
-                textViewID.setText(String.format("%03X", canFrame.getId()));
+                tvId.setText(String.format(Locale.ROOT, "%03X", canFrame.getId()));
+                tvExtended.setVisibility(View.GONE);
             }
-            textViewID.setOnClickListener(new View.OnClickListener() {
+
+            // Single shot on ID click
+            tvId.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mConnected) {
-                        TransmitCanFrame frame = getItem(position);
                         triggerSingleShot(position, frame);
                     }
                 }
             });
 
+            // Period
+            tvPeriod.setText(String.format(Locale.getDefault(), "%dms", frame.getPeriod()));
 
-            TextView textViewPeriod = (TextView) v.findViewById(R.id.listitem_transmit_period);
-            textViewPeriod.setText(String.format(Locale.getDefault(), "%dms", frame.getPeriod()));
+            // Count
+            tvCount.setText(String.format(Locale.getDefault(), "%d", frame.getCount()));
 
-            byte dlc = canFrame.getDLC();
+            // RTR line
+            boolean isRtr = canFrame.isRTR();
+            rtrLine.setVisibility(isRtr ? View.VISIBLE : View.GONE);
+            dataLine.setVisibility(isRtr ? View.GONE : View.VISIBLE);
 
-            View rtrLine = v.findViewById(R.id.listitem_transmit_rtr_line);
-            View dataLine = v.findViewById(R.id.listitem_transmit_data);
-
-            rtrLine.setVisibility(canFrame.isRTR() ? View.VISIBLE : View.GONE);
-            dataLine.setVisibility(canFrame.isRTR() ? View.GONE : View.VISIBLE);
-
-            if (canFrame.isRTR()) {
-
-                TextView textViewData = (TextView) v.findViewById(R.id.listitem_transmit_dlc);
-                textViewData.setText(String.format(Locale.getDefault(), "%d", dlc));
-
+            if (isRtr) {
+                tvDlc.setText(String.format(Locale.getDefault(), "%d", canFrame.getDLC()));
             } else {
-
+                // Data bytes
                 byte[] data = canFrame.getData();
-
-                int textViewDataID[] = {
-                    R.id.listitem_transmit_data0,
-                    R.id.listitem_transmit_data1,
-                    R.id.listitem_transmit_data2,
-                    R.id.listitem_transmit_data3,
-                    R.id.listitem_transmit_data4,
-                    R.id.listitem_transmit_data5,
-                    R.id.listitem_transmit_data6,
-                    R.id.listitem_transmit_data7,
-                };
-
-                for (int i=0; i<data.length; i++) {
-                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                    textViewData.setText(String.format("%02X", data[i]));
-                }
-
-                for (int i=data.length; i<CanFrame.MAX_DLC; i++) {
-                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                    textViewData.setText("");
+                for (int i = 0; i < CanFrame.MAX_DLC; i++) {
+                    if (i < data.length) {
+                        tvData[i].setVisibility(View.VISIBLE);
+                        tvData[i].setText(String.format(Locale.ROOT, "%02X", data[i] & 0xFF));
+                    } else {
+                        tvData[i].setVisibility(View.GONE);
+                    }
                 }
             }
 
-
-
-            Switch switchEnabled = (Switch) v.findViewById(R.id.listitem_transmit_switch);
-            switchEnabled.setEnabled(mConnected);
-            switchEnabled.setTag(position);
-
-            updateView(v, frame);
+            // Switch
+            swEnabled.setEnabled(mConnected);
+            swEnabled.setTag(position);
+            swEnabled.setOnCheckedChangeListener(null);
+            swEnabled.setChecked(frame.isEnabled());
+            swEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                Object tag = buttonView.getTag();
+                if (!(tag instanceof Integer)) {
+                    return;
+                }
+                int pos = (Integer) tag;
+                if (pos < 0 || pos >= getItemCount()) {
+                    return;
+                }
+                TransmitCanFrame f = getItem(pos);
+                if (f != null && f.isEnabled() != isChecked) {
+                    f.setEnabled(isChecked);
+                    triggerOnTransmitCanFrameChange(pos, f);
+                }
+            });
         }
-
-        return v;
     }
-
 }

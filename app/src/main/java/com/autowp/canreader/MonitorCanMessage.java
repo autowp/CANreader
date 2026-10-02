@@ -7,6 +7,7 @@ import com.autowp.can.CanMessage;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * Created by autow on 31.01.2016.
@@ -40,7 +41,7 @@ public class MonitorCanMessage {
 
                 prev = current;
             }
-            period = (int) (sum / size);
+            period = (int) (sum / (size - 1));
         }
 
         if (times.size() > TIME_MEMORY) {
@@ -153,5 +154,19 @@ public class MonitorCanMessage {
     public void incCount()
     {
         count++;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MonitorCanMessage that = (MonitorCanMessage) o;
+        return getCanMessage() != null &&
+                Objects.equals(getCanMessage().getId(), that.getCanMessage().getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getCanMessage() != null ? getCanMessage().getId() : 0;
     }
 }

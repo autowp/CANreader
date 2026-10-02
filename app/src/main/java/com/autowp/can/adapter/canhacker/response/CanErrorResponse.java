@@ -3,6 +3,7 @@ package com.autowp.can.adapter.canhacker.response;
 import com.autowp.Hex;
 
 import java.nio.ByteBuffer;
+import java.util.Locale;
 
 public class CanErrorResponse extends Response {
     final public static char CODE = 'F';
@@ -37,7 +38,7 @@ public class CanErrorResponse extends Response {
         byte[] codeBytes = new byte[1];
         codeBytes[0] = (byte)this.errorCode;
         
-        return CODE + Hex.byteArrayToHexString(codeBytes).toUpperCase();
+        return CODE + Hex.byteArrayToHexString(codeBytes).toUpperCase(Locale.ROOT);
     }
 
     public int getErrorCode()

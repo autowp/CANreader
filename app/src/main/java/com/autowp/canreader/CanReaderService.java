@@ -11,6 +11,7 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.autowp.can.CanAdapter;
@@ -28,16 +29,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CanReaderService extends Service
         implements CanAdapter.OnCanFrameTransferListener, CanAdapter.OnCanMessageTransferListener,
             CanAdapter.CanAdapterEventListener {
 
+    private static final String TAG = "CanReaderService";
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
     @Override
     public void handleErrorEvent(final CanAdapterException e) {
-        Handler h = new Handler(CanReaderService.this.getMainLooper());
-
-        h.post(new Runnable() {
+        mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(CanReaderService.this, e.getMessage(),Toast.LENGTH_LONG).show();
@@ -47,7 +50,6 @@ public class CanReaderService extends Service
 
     @Override
     public void handleConnectionStateChanged(CanAdapter.ConnectionState connection) {
-        System.out.println("handleConnectionStateChanged");
         switch (connection) {
             case DISCONNECTED:
                 break;
@@ -68,7 +70,7 @@ public class CanReaderService extends Service
 
     @Override
     public void handleCanMessageReceivedEvent(CanMessage message) {
-        receive(message);
+        mainHandler.post(() -> receive(message));
     }
 
     @Override
@@ -102,9 +104,9 @@ public class CanReaderService extends Service
 
     private CanAdapter canAdapter;
 
-    private int sentCount = 0;
+    private final AtomicInteger sentCount = new AtomicInteger();
 
-    private int receivedCount = 0;
+    private final AtomicInteger receivedCount = new AtomicInteger();
 
     private ScheduledExecutorService threadsPool = Executors.newScheduledThreadPool(1);
 
@@ -152,19 +154,21 @@ public class CanReaderService extends Service
         private int previousReceivedCount = 0;
 
         public SpeedMeterTimerTask() {
-            this.previousSentCount = sentCount;
+            this.previousSentCount = sentCount.get();
         }
 
         public void run() {
             double seconds = (double)SPEED_METER_PERIOD / 1000.0;
 
-            double dxSent = sentCount - previousSentCount;
+            int currentSentCount = sentCount.get();
+            double dxSent = currentSentCount - previousSentCount;
             triggerTransmitSpeed(dxSent / seconds);
-            this.previousSentCount = sentCount;
+            this.previousSentCount = currentSentCount;
 
-            double dxReceived = receivedCount - previousReceivedCount;
+            int currentReceivedCount = receivedCount.get();
+            double dxReceived = currentReceivedCount - previousReceivedCount;
             triggerMonitorSpeed(dxReceived / seconds);
-            this.previousReceivedCount = receivedCount;
+            this.previousReceivedCount = currentReceivedCount;
         }
     }
 
@@ -217,6 +221,9 @@ public class CanReaderService extends Service
             unregisterReceiver(mUsbReceiver);
             mUsbReceiver = null;
         }
+        timer.cancel();
+        threadsPool.shutdownNow();
+        super.onDestroy();
     }
 
     public void setCanAdapter(final CanAdapter adapter) {
@@ -233,15 +240,12 @@ public class CanReaderService extends Service
         }
 
         try {
-            System.out.println("disconnect");
             Runnable connectRunable = new Runnable() {
                 @Override
                 public void run() {
                     triggerConnectionStateChanged();
 
                     try {
-                        System.out.println("disconnected");
-                        System.out.println("connect");
                         canAdapter = adapter;
 
                         if (canAdapter != null) {
@@ -258,8 +262,6 @@ public class CanReaderService extends Service
                                     filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
                                     registerReceiver(mUsbReceiver, filter);
 
-                                    System.out.println("connected");
-
                                     triggerConnectionStateChanged();
                                 }
                             });
@@ -268,8 +270,7 @@ public class CanReaderService extends Service
                     } catch (CanAdapterException e) {
                         canAdapter = null;
                         triggerConnectionStateChanged();
-                        e.printStackTrace();
-
+                        Log.e(TAG, "Unable to connect CAN adapter", e);
                         toast(e.getMessage());
                     }
                 }
@@ -287,8 +288,7 @@ public class CanReaderService extends Service
             }
 
         } catch (CanAdapterException e) {
-            e.printStackTrace();
-
+            Log.e(TAG, "Unable to disconnect CAN adapter", e);
             toast(e.getMessage());
         }
 
@@ -342,22 +342,13 @@ public class CanReaderService extends Service
 
     Timer timer = new Timer();
 
-    /*private class TransmitTimerTask extends TimerTask {
-        private TransmitCanFrame frame;
-        public TransmitTimerTask(TransmitCanFrame frame) {
-            this.frame = frame;
-        }
-
-        public void run() {
-            transmit(frame);
-        }
-    }*/
-
     public void transmit(TransmitCanFrame frame)
     {
-        send(frame.getCanFrame());
+        if (!send(frame.getCanFrame())) {
+            return;
+        }
         frame.incCount();
-        sentCount++;
+        sentCount.incrementAndGet();
         triggerTransmit(frame);
     }
 
@@ -373,7 +364,7 @@ public class CanReaderService extends Service
 
     private void triggerMonitor()
     {
-        synchronized (transmitListeners) {
+        synchronized (monitorListeners) {
             for (OnMonitorChangedListener listener : monitorListeners) {
                 listener.handleMonitorUpdated();
             }
@@ -382,7 +373,7 @@ public class CanReaderService extends Service
 
     private void triggerMonitor(MonitorCanMessage message)
     {
-        synchronized (transmitListeners) {
+        synchronized (monitorListeners) {
             for (OnMonitorChangedListener listener : monitorListeners) {
                 listener.handleMonitorUpdated(message);
             }
@@ -463,18 +454,19 @@ public class CanReaderService extends Service
 
     public void removeTransmit(TransmitCanFrame frame)
     {
-        TimerTask tt = frame.getTimerTask();
-        if (tt != null) {
-            tt.cancel();
-            frame.setTimerTask(null);
+        Future<?> future = frame.getFuture();
+        if (future != null) {
+            future.cancel(true);
+            frame.setFuture(null);
         }
+        frame.setEnabled(false);
         transmitFrames.remove(frame);
         triggerTransmit();
     }
 
     private void receive(CanMessage canMessage)
     {
-        receivedCount++;
+        receivedCount.incrementAndGet();
         boolean found = false;
         for (MonitorCanMessage monitorFrame : monitorFrames) {
             if (monitorFrame.getCanMessage().getId() == canMessage.getId()) {
@@ -496,27 +488,38 @@ public class CanReaderService extends Service
 
     }
 
-    private void send(CanFrame frame)
+    private boolean send(CanFrame frame)
     {
+        CanAdapter adapter = canAdapter;
+        if (adapter == null) {
+            Log.w(TAG, "Cannot send CAN frame while disconnected");
+            return false;
+        }
         try {
-            canAdapter.send(frame);
+            adapter.send(frame);
+            return true;
         } catch (CanAdapterException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Unable to send CAN frame", e);
+            return false;
         }
     }
 
     public void startTransmit(TransmitCanFrame frame)
     {
-        TimerTask tTask = frame.getTimerTask();
-        if (tTask == null) {
-            if (frame.getPeriod() > 0) {
-                TransmitRunnable runnable = new TransmitRunnable(frame);
-                Future<?> future = threadsPool.scheduleWithFixedDelay(runnable, 0, frame.getPeriod(), TimeUnit.MILLISECONDS);
-
-                frame.setFuture(future);
-                frame.setEnabled(true);
-                triggerTransmit(frame);
+        if (frame.getFuture() == null) {
+            if (frame.getPeriod() <= 0) {
+                if (frame.isEnabled()) {
+                    frame.setEnabled(false);
+                    triggerTransmit(frame);
+                }
+                return;
             }
+            TransmitRunnable runnable = new TransmitRunnable(frame);
+            Future<?> future = threadsPool.scheduleWithFixedDelay(runnable, 0, frame.getPeriod(), TimeUnit.MILLISECONDS);
+
+            frame.setFuture(future);
+            frame.setEnabled(true);
+            triggerTransmit(frame);
         }
     }
 
@@ -531,10 +534,8 @@ public class CanReaderService extends Service
     public void stopTransmit(TransmitCanFrame frame)
     {
         Future<?> future = frame.getFuture();
-        //TimerTask tt = frame.getTimerTask();
         if (future != null) {
             future.cancel(true);
-            //future.cancel(false);
             frame.setFuture(null);
         }
         if (frame.isEnabled()) {

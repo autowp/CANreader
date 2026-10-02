@@ -5,7 +5,6 @@ import android.os.Bundle;
 import com.autowp.can.CanFrame;
 import com.autowp.can.CanFrameException;
 
-import java.util.TimerTask;
 import java.util.concurrent.Future;
 
 /**
@@ -20,11 +19,10 @@ public class TransmitCanFrame {
 
     private int period = 0;
 
-    private int count = 0;
+    private volatile int count = 0;
 
-    private boolean enabled = false;
+    private volatile boolean enabled = false;
 
-    TimerTask timerTask;
     private Future<?> future;
 
     public TransmitCanFrame(CanFrame canFrame, int period)
@@ -78,16 +76,6 @@ public class TransmitCanFrame {
         canFrame = CanFrame.fromBundle(bundle.getBundle(EXTRA_CAN_FRAME));
 
         period = bundle.getInt(EXTRA_PERIOD);
-    }
-
-    public TimerTask getTimerTask()
-    {
-        return timerTask;
-    }
-
-    public void setTimerTask(TimerTask value)
-    {
-        timerTask = value;
     }
 
     public void incCount()

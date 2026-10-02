@@ -1,0 +1,918 @@
+﻿Language=en-US
+LanguageName=Template
+
+Humanize=1
+HumanizedCR=\^
+HumanizedCRLF=\+
+HumanizedLF=\#10
+
+[TdlgAbout]
+Caption=About
+stVer.Caption=Version
+stAppInfo.Caption=Universal CAN-FD/CAN/LIN monitor and analyzer
+btOk.Caption=Ok
+stSystemInfo.Caption=System
+stMonitorInfo.Caption=Resolution
+pnShareware.lRegisterType.Caption=Shareware
+pnShareware.btnRegister.Caption=Register
+pnRegistered.lRegisteredTo.Caption=Registered to:
+pnRegistered.lExpired.Caption=Expired:
+pnRegistered.lKey.Caption=Key:
+pnRegistered.btUpdate.Caption=Update
+
+[TdlgAppSettings]
+Caption=Options
+btnOk.Caption=Ok
+btnCancel.Caption=Cancel
+pcOptions.tsTheme.Caption=Interface style
+pcOptions.tsTheme.lTheme.Caption=Style
+pcOptions.tsTheme.cbSyncWithOS.Caption=Sync with OS
+pcOptions.tsGridFont.Caption=Grid font
+pcOptions.tsGridFont.lFontName.Caption=Font name:
+pcOptions.tsGridFont.lFontSize.Caption=Font size:
+pcOptions.tsGridFont.lSample.Caption=Sample:
+pcOptions.tsReceive.Caption=Receive data
+pcOptions.tsReceive.lClearAfter.Caption=Clear after
+pcOptions.tsReceive.lMS.Caption=ms
+pcOptions.tsReceive.lMarkColor.Caption=Mark color
+pcOptions.tsReceive.cbFrameCounter.Caption=Activate unique frame counter
+pcOptions.tsReceive.cbMarkChangedBytes.Caption=Mark changed bytes
+pcOptions.tsReceive.cbColor.Items.Strings=Custom
+pcOptions.tsReceive.cbStreamInWindow.Caption=Open stream in separate window
+pcOptions.tsTransmit.Caption=Transmit data
+pcOptions.tsTransmit.cbRestoreTransmit.Caption=Restore transmit list on start
+pcOptions.tsTransmit.cbTransmitInWindow.Caption=Open transmit in separate window
+pcOptions.tsStreamTracer.Caption=Stream && Tracer
+pcOptions.tsStreamTracer.lEndOfLine.Caption=Stream/Trace end of line
+pcOptions.tsStreamTracer.cbUseSecconds.Caption=Max 1sec in tracer for delays between messages
+pcOptions.tsStreamTracer.GroupBox1.Caption=Copy rows format
+pcOptions.tsStreamTracer.GroupBox1.lData.Caption=Data
+pcOptions.tsStreamTracer.GroupBox1.cbColumnNames.Caption=First row with column names
+pcOptions.tsFilter.Caption=Gateway && Filter
+pcOptions.tsFilter.cbFilterInWindow.Caption=Open gateway && filter in separate window
+pcOptions.tsFilter.cbFilterOnTop.Caption=Always on top
+pcOptions.tsFilter.cbFilterAutoEnabled.Caption=Set new filter active automatically
+pcOptions.tsFilter.cbRestoreFilter.Caption=Restore filter on start
+pcOptions.tsFilter.cbFilterSimpleMode.Caption=Simple mode ( exclude filter mask )
+pcOptions.tsStreamLogging.Caption=Stream logging settings
+pcOptions.tsStreamLogging.cbStreamSaveMetaInfo.Caption=Configure and save meta information
+pcOptions.tsStreamLogging.cbStreamAddLinFilter.Caption=Add LIN filter configuration
+pcOptions.tsUpdates.Caption=Updates
+pcOptions.tsUpdates.lbPreferred.Caption=Preferred update channel
+pcOptions.tsUpdates.cbCheckUpdates.Caption=Automatic check for updates
+pcOptions.tsUpdates.cbCheckFWUpdates.Caption=Automatic check for firmware updates
+pcOptions.tsUpdates.cbDownloadInstall.Caption=Download and install updates
+pcOptions.tsUpdates.cbPreferred.Items.Strings=Auto\^Release\^Test
+
+[TdlgBitRate]
+Caption=Manage bit rates
+lClock.Caption=Clock frequency: %d MHz
+lTiming.Caption=%s timings
+lBitRates.Caption=Bit rates
+lCaption.Caption=Caption
+lBitRate.Caption=Bit rate
+lSamplePoint.Caption=Sample-Point
+lPrescaler.Caption=Prescaler
+lBitRateSpeed.Caption=Kbps
+lActualBR.Caption=Actual bit rate
+lActualBRSpeed.Caption=Kbps
+lActualSP.Caption=Actual Sample-Point
+lAccuracy.Caption=Accuracy
+btnCancel.Caption=Cancel
+btnOk.Caption=Ok
+bbAdd.Caption=Add
+bbRemove.Caption=Remove
+
+[TdlgBitRateLIN]
+Caption=Manage bit rates
+lBitRates.Caption=Bit rates
+lCaption.Caption=Caption
+lBitRate.Caption=Bit rate
+lBitRateSpeed.Caption=bps
+btnCancel.Caption=Cancel
+btnOk.Caption=Ok
+bbAdd.Caption=Add
+bbRemove.Caption=Remove
+
+[TdlgChannelConfigure]
+pnButtons.btnOk.Caption=Ok
+pnButtons.btnCancel.Caption=Cancel
+
+[TdlgComment]
+Caption=Edit comment for %s
+lComment.Caption=Comment:
+btnOk.Caption=Set
+btnCancel.Caption=Cancel
+
+[TdlgDevChanSpeedInfo]
+Caption=Channel speed settings
+lFreq.Caption=Clock frequency: %d MHz
+gbNominal.Caption=Nominal speed
+gbNominal.lNBitRate.Caption=Bit rate
+gbNominal.lNPrescaler.Caption=Prescaler
+gbData.Caption=Data speed
+gbData.lDBitRate.Caption=Bit rate
+gbData.lDPrescaler.Caption=Prescaler
+btnOk.Caption=Ok
+
+[TdlgDeviceConfigure]
+Caption=Device configure
+pcSettings.tsDevice.Caption=Device
+pcSettings.tsDevice.lDeviceType.Caption=Device type
+pcSettings.tsDevice.lDeviceMode.Caption=Device mode
+pcSettings.tsDevice.lSourceType.Caption=Source type
+pcSettings.tsDevice.cbDeviceType.Text=Select device type
+pcSettings.tsDevice.cbDeviceType.Items.Strings=Select device type
+pcSettings.tsDevice.cbDeviceMode.Text=Select device mode
+pcSettings.tsDevice.cbDeviceMode.Items.Strings=Select device mode
+pcSettings.tsDevice.cbSourceType.Text=Select source type
+pcSettings.tsDevice.cbSourceType.Items.Strings=Select source type
+pcSettings.tsDevice.pnBaudrate.lBaudrate.Caption=Source baudrate
+pcSettings.tsDevice.pnSourceFileName.lSourceFileName.Caption=Source
+pcSettings.tsDevice.pnSourceList.lSourceList.Caption=Source
+pcSettings.tsDevice.pnSourceList.cbSourceList.Text=Select source
+pcSettings.tsDevice.pnSourceList.cbSourceList.Items.Strings=Select source
+pcSettings.tsDevice.pnSourceText.lSourceText.Caption=Source
+btnOk.Caption=Ok
+btnCancel.Caption=Cancel
+
+[TdlgDeviceInfo]
+Caption=Device information
+btnClose.Caption=Close
+
+[TdlgFHProperties]
+Caption=Reopen menu properties
+lNumber.Caption=Number of files
+gbItems.Caption=Reopen items
+gbItems.pnActions.btnClear.Caption=Clear
+gbItems.pnActions.btnDelete.Caption=Delete
+gbItems.pnActions.btnDeleteNonExistent.Caption=Delete nonexistent files
+btnCancel.Caption=Cancel
+btnSave.Caption=Save
+
+[TdlgFramesView]
+tbToolBar.tbComment.Hint=Set comment for selected row (F4)
+tbToolBar.tbCopy.Hint=Copy to TX-List
+
+[TdlgGatewayEdit]
+Caption=Gateway mode
+lFromChannel.Caption=From channel:
+lToChannel.Caption=To channel:
+rbAccept.Caption=Accept all
+rbReject.Caption=Reject all
+cbEnabled.Caption=Enable gateway
+btnOk.Caption=Ok
+btnCancel.Caption=Cancel
+
+[TdlgHWFilterEdit]
+Caption=Set mask filter
+lMask.Caption=Mask
+lCode.Caption=Id
+stMask.Caption=Mask: 0 - Don't care / 1 - Relevant
+edMask.Hint=0 - Don't care / 1 - Relevant
+cbEnabled.Caption=Enable filter
+btnOk.Caption=Set
+btnCancel.Caption=Cancel
+cb29bit.Caption=29 bit filter
+
+[TdlgLicense]
+Caption=License
+lKey.Caption=Key
+lLicense.Caption=License
+lID.Caption=System ID
+btnRegister.Caption=Register
+btnClose.Caption=Close
+btnLoad.Caption=Load from file
+
+[TdlgLogSettings]
+Caption=Stream log settings
+lLogsList.Caption=Log list
+btnOk.Caption=Apply
+btnCancel.Caption=Cancel
+pcLogSettings.tsGeneral.Caption=General
+pcLogSettings.tsGeneral.lDirName.Caption=Path to logs directory
+pcLogSettings.tsGeneral.cbStartOnConnect.Caption=Start logging after connecting to the device
+pcLogSettings.tsGeneral.cbRecordTX.Caption=Record TX messages (for CAN/FD/XL)
+pcLogSettings.tsGeneral.leFileNameMask.EditLabel.Caption=File name mask  (the .trc file extension is added automatically)
+pcLogSettings.tsGeneral.cbBinaryLog.Caption=Save binary trace file (Faster, Experimental)
+pcLogSettings.tsMetaInfo.Caption=Meta
+pcLogSettings.tsMetaInfo.lTransportType.Caption=Transport type
+pcLogSettings.tsMetaInfo.lTransportBrand.Caption=Brand
+pcLogSettings.tsMetaInfo.lTransportModel.Caption=Model
+pcLogSettings.tsMetaInfo.lTransportBody.Caption=Body
+pcLogSettings.tsMetaInfo.lTransportYear.Caption=Year
+pcLogSettings.tsFilter.Caption=Filter
+pcLogSettings.tsFilter.cbDisableHwFilter.Caption=Disable hardware filter
+leLogName.EditLabel.Caption=Log name
+btnOpen.Caption=Open
+btnSave.Caption=Save
+btnNew.Caption=New
+bbAddFile.Caption=Add
+bbRemoveFile.Caption=Remove
+bbDuplicate.Hint=Duplicate
+pmSave.miSave.Caption=Save
+pmSave.miSaveAs.Caption=Save as...
+
+[TdlgMarker]
+Caption=Set breakpoint / label
+lbLabel.Caption=Label:
+lbComment.Caption=Comment:
+btOk.Caption=Set
+btCancel.Caption=Cancel
+
+[TdlgMarkerList]
+Caption=Break points / Labels list
+btOk.Caption=Save
+btCancel.Caption=Cancel
+btnGo.Caption=Go to Label
+
+[TdlgRangeFilterEdit]
+Caption=Range filter
+gbRange.Caption=Range
+gbRange.lFrom.Caption=From
+gbRange.lTo.Caption=To
+gbRange.cbEnabled.Caption=Enable filter
+gbExclude.Caption=Exclude
+gbExclude.lExclude.Caption=List of excluded identifiers
+gbExclude.stInfo.Caption=Use a comma as a delimiter for identifiers
+btnSet.Caption=Set
+btnCancel.Caption=Cancel
+
+[TdlgRangeFilterExEdit]
+Caption=Range exclude filter
+lMask.Caption=Mask
+lCode.Caption=Id
+stMask.Caption=Mask: 0 - Don't care / 1 - Relevant
+edMask.Hint=0 - Don't care / 1 - Relevant
+cbEnabled.Caption=Enable exclude
+btnOk.Caption=Set
+btnCancel.Caption=Cancel
+
+[TdlgRarePeriod]
+Caption=Set rary data period
+lbPeriod.Caption=Set the minimal period of rarely changing data
+lMS.Caption=ms
+btnSet.Caption=Set
+btnCancel.Caption=Cancel
+
+[TdlgTracerDelay]
+Caption=Custom delay
+lCustomDelay.Caption=Delay (10 - 9999)
+lMS.Caption=ms
+btSet.Caption=Set
+
+[TdlgTracerRow]
+Caption=Add tracer row
+gbDBC.Caption=DBC
+gbDBC.lNode.Caption=Node
+gbDBC.lMessage.Caption=Message
+btnSave.Caption=Save
+btnCancel.Caption=Cancel
+gbData.Caption=Raw data
+gbSignals.Caption=Signals
+gbMessage.Caption=Message
+gbMessage.lBusType.Caption=Bus type
+gbFlags.Caption=Flags
+gbFlags.pnLIN.cbMaster.Caption=Master
+gbFlags.pnLIN.cbEnhanced.Caption=Enhanced CRC
+gbOptions.Caption=Options
+gbOptions.lDelay.Caption=Delay (ms)
+gbOptions.lValue.Caption=Value
+gbOptions.lBefore.Caption=Before
+gbOptions.lAfter.Caption=After
+gbOptions.btnFillData.Caption=Fill data
+
+[TdlMsgIdEdit]
+Caption=Set frame message ID
+lMsgID.Caption=Message ID
+btnOk.Caption=Ok
+btnCancel.Caption=Cancel
+
+[TframeBase64Tasks]
+pnTransmit.pnTask.pnMsg.lData.Caption=Data
+pnTransmit.pnTask.pnMsg.lComment.Caption=Comment
+
+[TframeBase8Tasks]
+pnTransmit.pnTask.pnMsg.lData.Caption=Data
+pnTransmit.pnTask.pnMsg.lComment.Caption=Comment
+
+[TframeBaseTasks]
+pnTransmit.pnTask.pnChannel.lChannel.Caption=Channel
+pnTransmit.pnTask.pnMsgCfg.lPeriod.Caption=Period (ms)
+pnTransmit.pnTask.pnMsgCfg.lValue.Caption=Value
+pmPopup.miSingle.Caption=Single
+alTasks.acExecShot.Caption=Shot
+alTasks.acTaskAdd.Caption=Add
+alTasks.acTaskCopy.Caption=Copy
+alTasks.acTaskDelete.Caption=Delete
+alTasks.acExecRunPause.Caption=Run/Pause
+alTasks.acTaskClear.Caption=Clear transmit list
+alTasks.acTaskFillData.Caption=Fill data
+alTasks.acExecRunAll.Caption=Run All
+alTasks.acExecPauseAll.Caption=Pause All
+alTasks.acCounterReset.Caption=Reset counter
+alTasks.acCounterResetAll.Caption=Reset all counters
+alTasks.acFileLoad.Caption=Load
+alTasks.acFileSave.Caption=Save
+
+[TframeCANTasks]
+pnTransmit.pnTask.pnTrigger.lTrigger.Caption=Trigger
+pnTransmit.pnTask.pnTrigger.lDelay.Caption=Delay (ms)
+pnTransmit.pnTask.pnTrigger.lAction.Caption=Trigged action
+pnTransmit.pnTask.pnTrigger.pnTriggerMsg.lTriggerData.Caption=Data
+pnTransmit.pnTask.pnTrigger.pnTriggerChannel.cbTriggerChannel.Items.Strings=Any
+pnTransmit.pnTask.pnTrigger.cbTrigger.Items.Strings=None\^Single\^Run\^Stop
+
+[TFrameDeviceChannel]
+lChanAlias.Caption=Channel alias
+pnNominalBaudrate.lNominalBaudrate.Caption=Nominal baudrate
+pnNominalBaudrate.btnNBRConfigure.Hint=Configure baudrates
+pnListenMode.cbListenMode.Caption=Listen only mode
+pnLIN_CRC_Type.lLIN_CRC_Type.Caption=LIN CRC Type
+pnLIN_CRC_Type.rbLINClassicCRC.Caption=Classic CRC
+pnLIN_CRC_Type.rbLINEnhancedCRC.Caption=Enhanced CRC
+pnAutoOpen.cbAutoOpen.Caption=Auto open after connecting to device
+pnTerminator.cbTerminator.Caption=Connect terminator 120Ohm
+pnPullUp.cbPullUpDataLine.Caption=Pull up data line
+pnChannelMode.lChannelMode.Caption=Channel mode
+pnDataBaudrate.lDataBaudrate.Caption=Data baudrate
+pnDataBaudrate.btnDBRConfigure.Hint=Configure baudrates
+pnFDCANMode.lCANMode.Caption=CAN-FD Mode
+pnFDCANMode.cbClassicCAN.Caption=Classic CAN
+pnFDCANMode.cbBitRateSwitch.Caption=Bit rate switch
+pnIDLEDelay.lIDLEDelay.Caption=IDLE processing delay
+pnIDLEDelay.cbIDLEDelay.Items.Strings=No delay\^100 us\^200 us\^250 us\^500 us\^750 us\^1000 us\^1500 us\^2000 us
+pnTxConfirm.cbTxConfirm.Caption=Transmit confirmation
+pnFDFrameFormat.lFDFrameFormat.Caption=CAN-FD Frame Format
+
+[TframeLINResponse]
+lData.Caption=Data
+btnProtectId.Caption=Protect ID
+cbSlaveResponseEnabled.Caption=Slave response enabled
+btSetResponse.Caption=Set response data
+
+[TframeLINTransmit]
+pnTransmit.pnTask.pnMsgCfg.btnProtectId.Caption=Protect ID
+
+[TframeLogChannelFilter]
+lFilterMode.Caption=Filter mode
+lMsgIDLength.Caption=MsgID length
+lFIlterType.Caption=FIlter type
+cbFilterMode.Items.Strings=Reject all messages except messages from filter\^Accept all messages except messages from filter
+cbFilterType.Items.Strings=ID/Mask\^Range
+pnIDMask.lMask.Caption=Mask
+pnRange.lIDStart.Caption=Start ID
+pnRange.lIDFinish.Caption=Finish ID
+btnAdd.Caption=Add
+btnRemove.Caption=Remove
+btnDuplicate.Caption=Duplicate
+
+[TframeReceive]
+pmPopup.miSaveRXList.Caption=Save RX-list
+pmPopup.miStreamLoad.Caption=Load stream data
+pmPopup.miStreamSave.Caption=Save stream data
+pmPopup.miStreamToTracer.Caption=Open stream in tracer
+pmPopup.miClear.Caption=Clear table
+pmPopup.miMsgBitMap.Caption=View message bit-map
+pmPopup.miMessageSignalsShow.Caption=Show message signals
+pmPopup.miComment.Caption=Set message comment
+pmPopup.miCopy.Caption=Copy message to TX-List
+pmPopup.miToFilter.Caption=Add message ID to filter
+pmPopup.miHexMsgID.Caption=Message ID in HEX
+pmPopup.miClearProtect.Caption=Clear protect bits
+pmPopup.miSort.Caption=Sort received messages
+pmPopup.miGroupByChannel.Caption=Group by channel
+
+[TframeReceiveChannel]
+gbMain.Caption=Channel ...
+pmPopup.miSaveRXList.Caption=Save RX-list
+pmPopup.miClear.Caption=Clear table
+pmPopup.miMsgBitMap.Caption=View message bit-map
+pmPopup.miComment.Caption=Set message comment
+pmPopup.miCopy.Caption=Copy message to TX-List
+pmPopup.miToFilter.Caption=Add message ID to filter
+pmPopup.miHexMsgID.Caption=Message ID in HEX
+pmPopup.miClearProtect.Caption=Clear protect bits
+pmPopup.miSort.Caption=Sort received messages
+
+[TframeTracerSignalBase]
+lSignal.Caption=Signal
+
+[TfrmBruteForceCAN]
+Caption=CAN Bomber
+cbStop.Caption=Stop when received
+btnInc.Caption=Step +
+btnDec.Caption=Step -
+btnShot.Caption=Shot
+btnRun.Caption=Run
+btnScript.Caption=Script
+gbCRC.Caption=CRC calculation
+gbCRC.lCRCType.Caption=Type
+gbCRC.lInsertTo.Caption=Insert CRC to
+gbCRC.cbCRC_Data0.Caption=Data 0
+gbCRC.cbCRC_Data1.Caption=Data 1
+gbCRC.cbCRC_Data2.Caption=Data 2
+gbCRC.cbCRC_Data3.Caption=Data 3
+gbCRC.cbCRC_Data4.Caption=Data 4
+gbCRC.cbCRC_Data5.Caption=Data 5
+gbCRC.cbCRC_Data6.Caption=Data 6
+gbCRC.cbCRC_Data7.Caption=Data 7
+gbCRC.gbSignalGroup.lIDValue.Caption=Value
+gbCRC.gbSignalGroup.lIDPosition.Caption=Position
+gbCRC.cbSignalGroup.Caption=Signal Group ID
+gbCRC.btnCustomCrcScript.Caption=Custom CRC Script
+gbCRC.gbCounter.lCounterMask.Caption=Mask
+gbCRC.gbCounter.lCounterPosition.Caption=Position
+gbCRC.cbCounter.Caption=Counter
+gbCRC.btnCalcCRC.Caption=Calculate
+gbConfiguration.Caption=Configuration
+gbConfiguration.lChannel.Caption=Channel
+gbConfiguration.lFrom.Caption=ID From
+gbConfiguration.lTo.Caption=To
+gbConfiguration.lMode.Caption=Mode
+gbConfiguration.lPeriod.Caption=Period
+gbConfiguration.lPerStep.Caption=Msg per step
+gbConfiguration.cbMode.Items.Strings=ID counter\^ID list\^ID list cycle\^Data counter\^Data counter with shift
+gbConfiguration.gbIDList.Caption=Unique ID list
+gbMessage.Caption=Message
+gbMessage.lMsgID.Caption=Current ID
+gbMessage.lValue.Caption=Value
+gbMessage.btnFill.Caption=Fill data
+rbStopAnyMessage.Caption=any message
+rbStopMessage.Caption=message
+pmIDList.miFromReceiveMonitor.Caption=From receive monitor
+pmIDList.miIDAdd.Caption=Add ID
+pmIDList.miIDRemove.Caption=Delete ID
+pmIDList.miLoadIDList.Caption=Load list
+pmIDList.miSaveList.Caption=Save list
+pmIDList.miClearList.Caption=Clear
+
+[TfrmBruteForceLIN]
+Caption=LIN Bomber
+lValue.Caption=Value
+lPerStep.Caption=Msg per step
+lPeriod.Caption=Period
+lData.Caption=Data
+lProtected.Caption=ProtectedID
+lTo.Caption=Bombing to
+lChannel.Caption=Channel
+btnFill.Caption=Fill data
+btnRun.Caption=Run
+cb3DRequest.Caption=Send diag. master request 0x3D (0x7D) after 0x3C
+
+[TfrmDBCManager]
+Caption=DBC Manager
+alMain.acNew.Hint=Create new DBC file
+alMain.acOpen.Hint=Open DBC file
+alMain.acSave.Hint=Save changes
+alMain.acClose.Hint=Close DBC file
+alMain.acUp.Hint=Change priority to Up
+alMain.acDown.Hint=Change priority to Down
+alMain.acRefresh.Hint=Reload DBC files from disk
+pmAssign.miUnassignAll.Caption=Unassign from all channels
+pmAssign.miUnassignAllFromAll.Caption=Unassign from all channels for all DBC
+
+[TfrmDBCSignalViewer]
+Caption=Signal viewer
+pnControl.lNode.Caption=Node
+pnControl.lMessage.Caption=Message
+pnControl.lSignal.Caption=Signal
+pnControl.btSignalAdd.Caption=Add to viewer
+pnControl.btSignalCreate.Caption=Create new signal
+pnControl.btSignalRemove.Caption=Remove selected signal
+pnControl.cbActual.Caption=Actual received
+
+[TfrmDetails]
+gbBitMap.Caption=Bytes bit map
+gbBitMap.pnTitle.lDecByte.Caption=Dec byte
+gbComment.Caption=Comment
+
+[TfrmESEditor]
+alEditor.acOpen.Caption=Open
+alEditor.acOpen.Hint=Open file
+alEditor.acSave.Caption=Save...
+alEditor.acSave.Hint=Save file
+alEditor.acAccept.Hint=Test and accept script
+alEditor.acSaveAs.Caption=Save as...
+alEditor.acNew.Hint=New script
+alEditor.acRemove.Hint=Remove script
+
+[TfrmFilter]
+Caption=Filter
+
+[TfrmMain]
+tbMain.tbConnect.Hint=Connect/Disconnect
+tbMain.tbDeviceChannelOptions.Hint=Switch channel options
+tbMain.tbClear.Hint=Clear received data (Ctrl+N)
+tbMain.tbDBCManager.Hint=Open DBC manager
+tbMain.tbStream.Hint=Open received data stream (F2)
+tbMain.tbTracer.Hint=Open tracer (F12)
+tbMain.tbTransmit.Hint=Open transmit window
+tbMain.tbTransmit.Caption=Transmit
+tbMain.tbFilter.Hint=Set hardware CAN-Filter (Ctrl+F)
+tbMain.tbLogs.Hint=Stream logging settings
+pnWorkArea.pcReceive.tsReceive.Caption=Receive
+pnWorkArea.pcReceive.tsReceive.gvReceive.Caption=Receive
+pnWorkArea.pcReceive.tsSeparateReceive.Caption=Separate receive
+pnWorkArea.pnTransmit.pcTransmit.tsCANTasks.Caption=CAN Transmit
+pnWorkArea.pnTransmit.pcTransmit.tsLINTasks.Caption=LIN Transmit
+pnWorkArea.pnTransmit.pcTransmit.tsLINBruteForce.Caption=LIN Response
+pnWorkArea.pnTransmit.pcTransmit.tsLINBruteForce.pnLINCustom.gbLINResponse.Caption=LIN Response
+pnWorkArea.pnTransmit.pcTransmit.tsFDTasks.Caption=FD Transmit
+pnWorkArea.tbActionBar.tbReceiveSwitch.Hint=Stream/Monitor switcher (F2)
+pnWorkArea.tbActionBar.tbMsgBitMap.Hint=View bit-map for selected message (F3)
+pnWorkArea.tbActionBar.tbMsgDetail.Hint=View frames for selected message (Ctrl-F3)
+pnWorkArea.tbActionBar.tbCopy.Hint=Copy to TX-List
+pnWorkArea.tbActionBar.tbComment.Hint=Set comment for selected message (F4)
+pnWorkArea.tbActionBar.tbSplitReceive.Hint=Split received messages to channels
+pnWorkArea.tbActionBar.tbRarelyData.Hint=Monitor rarely changing data
+pnWorkArea.tbActionBar.tbRecord.Hint=Record / Pause (F5)
+pnWorkArea.tbActionBar.tbToTracer.Hint=Move trace to Tracer (Ctrl+F12)
+pnWorkArea.tbActionBar.tbSetLabel.Hint=Add breakpoint / Set marker (F8 / Automatic marker - F9)
+pnWorkArea.tbActionBar.tbAllLabels.Hint=Show all markers
+pnWorkArea.tbActionBar.tbLoadStream.Hint=Load stream from file
+pnWorkArea.tbActionBar.tbSaveStream.Hint=Save stream to file
+mmMain.miFile.Caption=File
+mmMain.miFile.miSaveReceive.Caption=Save receive list
+mmMain.miFile.miLoadTransmit.Caption=Load transmit
+mmMain.miFile.miSaveTransmit.Caption=Save transmit
+mmMain.miFile.miLoadComments.Caption=Load comments
+mmMain.miFile.miSaveComments.Caption=Save comments
+mmMain.miFile.miQuit.Caption=Quit
+mmMain.miConnect.Caption=Connect
+mmMain.miStream.Caption=Stream
+mmMain.miTracer.Caption=Tracer
+mmMain.miGateway.Caption=Gateway
+mmMain.miBruteForce.Caption=Bomber
+mmMain.miDBC.Caption=DBC
+mmMain.miDBC.miDBCManager.Caption=Manager
+mmMain.miDBC.miDBCSignalViewer.Caption=Signal viewer
+mmMain.miSettings.Caption=Settings
+mmMain.miSettings.miAppSettings.Caption=Options
+mmMain.miSettings.miVehicleDB.Caption=Vehicles DB
+mmMain.miSettings.miLanguage.Caption=Language
+mmMain.miAboutGroup.miDeviceLoad.Caption=Device load
+mmMain.miAboutGroup.miDeviceInfo.Caption=Device info
+mmMain.miAboutGroup.miRegister.Caption=Register...
+mmMain.miAboutGroup.miCheckVersion.Caption=Check for Updates...
+mmMain.miAboutGroup.miAbout.Caption=About
+pmLogs.miLogSettingsOpen.Caption=Open settings
+pmLogs.miLogSettingsRecent.Caption=Open recent
+pmRarelyData.miRarelyData.Caption=Rare data highlighting
+pmRarelyData.miRarelyDataTime.Caption=Set rare data period
+pmComment.miCommentsLoad.Caption=Open comments
+pmComment.miCommentsLoadRecent.Caption=Open recent
+pmComment.miCommentsSave.Caption=Save comments
+pmComment.miCommentsClear.Caption=Clear
+
+[TfrmStream]
+Caption=Received data stream
+tbMain.tbClear.Hint=Clear received data (Ctrl+N)
+tbMain.tbOpenStream.Hint=Load stream from file
+tbMain.tbSaveStream.Hint=Save stream to file
+tbMain.tbDBC.Hint=Open DBC manager
+tbMain.tbComment.Hint=Set comment for selected message (F4)
+tbMain.tbCopy.Hint=Copy to TX-List
+tbMain.tbRecord.Hint=Record / Pause (F5)
+tbMain.tbToTracer.Hint=Move trace to Tracer (Ctrl+F12)
+tbMain.tbSetLabel.Hint=Add breakpoint / Set marker (F8 / Automatic marker - F9)
+tbMain.tbAllLabels.Hint=Show all markers
+pmDBC.miDBCManager.Caption=Manager
+pmDBC.miDBCSignalViewer.Caption=Signal viewer
+pmComment.miCommentOpen.Caption=Open comments
+pmComment.miCommentRecent.Caption=Open recent
+pmComment.miCommentSave.Caption=Save comments
+pmComment.miCommentClear.Caption=Clear
+
+[TfrmTracer]
+tbToolBar.tbTraceOpen.Caption=Reopen
+tbToolBar.tbDBC.Hint=Open DBC manager
+tbToolBar.tbDelay.Hint=Delay time between messages
+tbToolBar.tbTransmit.Hint=Transmit data to CAN
+tbToolBar.tbCopy.Hint=Copy to TX-List
+pnAddActions.cbStopOnReceiveData.Caption=Stop on receive data
+pnAddActions.pnChannel.lOnlyChannel.Caption=Only for Channel:
+pnAddActions.pnChannel.cbOnlyChannel.Text=Channel 1
+pnAddActions.pnChannel.cbOnlyChannel.Items.Strings=Channel 1
+pnAddActions.cbStopOnBreak.Caption=Stop on break point
+pnAddActions.stVisible.Caption=Rows: 0 of 0
+sbStatus.Panels.(3).Text=Delay: Auto
+pnFilter.pnFilterBtn.btnFilterAll.Caption=All
+pnFilter.pnFilterBtn.btnFilterNone.Caption=None
+pmTransmit.miToMonitor.Caption=To Monitor
+pmDelay.miClockAuto.Caption=Default message delay
+pmDelay.miUseSecondsInDelay.Caption=Max 1sec in message delay
+pmDelay.miClock10.Caption=10 ms message delay
+pmDelay.miClock20.Caption=20 ms message delay
+pmDelay.miClock30.Caption=30 ms message delay
+pmDelay.miClock40.Caption=40 ms message delay
+pmDelay.miClock50.Caption=50 ms message delay
+pmDelay.miClockCustom.Caption=Custom message delay
+pmTrace.miTraceStart.Caption=Set trace start
+pmTrace.miTraceFinish.Caption=Set trace finish
+alTrace.acFilterClearAll.Caption=Clear all
+alTrace.acFilterSetAll.Caption=Set all
+alTrace.acFilterInverce.Caption=Invert selection
+alTrace.acFilterSelectMessages.Caption=Select messages
+alTrace.acFilterDeselectMessages.Caption=Deselect messages
+alTrace.acFilter.Caption=Message filter
+alTrace.acTraceOpen.Caption=Open
+alTrace.acTraceNew.Caption=New
+alTrace.acTraceSave.Caption=Save
+alTrace.acTraceSaveAs.Caption=Save as...
+alTrace.acCommentOpen.Caption=Open
+alTrace.acCommentEdit.Caption=Edit
+alTrace.acCommentClear.Caption=Clear
+alTrace.acTraceRowAdd.Caption=Add
+alTrace.acTraceRowInsert.Caption=Insert
+alTrace.acTraceRowEdit.Caption=Edit
+alTrace.acTraceRowDelete.Caption=Delete
+alTrace.acTraceRowsDelete.Caption=Delete selected rows
+alTrace.acTraceRowsCopy.Caption=Copy selected rows
+alTrace.acDisableRow.Caption=Disable row
+alTrace.acDisableSelected.Caption=Disable selected
+alTrace.acDisableByID.Caption=Disable by message ID
+alTrace.acEnableRow.Caption=Enable row
+alTrace.acEnableSelected.Caption=Enable selected
+alTrace.acEnableByID.Caption=Enable by message ID
+alTrace.acStep.Hint=Step
+alTrace.acRun.Hint=Run/Pause trace
+alTrace.acLoop.Hint=Repeat
+alTrace.acCancelSelection.Caption=Cancel selection
+alTrace.acPlaySelected.Hint=Allow play selected
+alTrace.acFilterDisableMessages.Caption=Disable messages
+alTrace.acFilterEnableMessages.Caption=Enable messages
+alTrace.acDBC.Caption=DBC
+alTrace.acFindMessages.Caption=Find messages
+alTrace.acTimeDefault.Caption=Default Timestamp
+alTrace.acTimeLinear.Caption=Linear time
+alTrace.acTimeLocal.Caption=Local time
+mmMain.miTraceFile.Caption=Log file
+mmMain.miTraceFile.miOpenRecent.Caption=Open recent
+mmMain.miCommen.Caption=Comment
+
+[TfrmTransmit]
+Caption=Transmit
+
+[ResourceStrings]
+64704_DBC_Parser_rsDBCErrorSignalExist=Signal %s already exist for message
+64733_DBC_Parser_rsDBCErrorFormat=Invalid DBC file format! Line: %d
+64734_DBC_Parser_rsDBCErrorToken=Invalid token ordering
+64735_DBC_Parser_rsDBCErrorSignalNotFound=Signal %s not found
+64800_Transport_Serial_rsErrOpeningDetail2=[3] Set settings for device
+64801_Transport_Serial_rsErrOpeningDetail3=[4] Set of events to be monitored
+64802_Transport_Serial_rsErrOpeningDetail4=[5] Initializes parameters
+64803_Transport_Serial_rsErrOpeningDetail5=[6] Discards all characters from the output or input buffer
+64804_Transport_Serial_rsErrOpeningDetail6=[7] Set time-out parameters
+64817_Base_Resource_rsDIGatewayToChannel=to channel %d with %d filters
+64818_Base_Resource_rsLogSelectDirectory=Select folder
+64830_Transport_Serial_rsErrOpeningDetail0=[1] Get handle of device
+64831_Transport_Serial_rsErrOpeningDetail1=[2] Get settings of device
+64832_Base_Resource_rsDIFirmware=Firmware
+64833_Base_Resource_rsDIFeatures=Features
+64834_Base_Resource_rsDIChannels=Channels
+64835_Base_Resource_rsDIFeaturesNo=No additional features
+64836_Base_Resource_rsDIFeatureGateway=Gateway
+64837_Base_Resource_rsCIFeatureCSD=CAN speed detection
+64838_Base_Resource_rsCIFeatureALS=Arbitration lost control
+64839_Base_Resource_rsCIFeatureTerminator=Terminator 120Ohm
+64840_Base_Resource_rsCIFeaturePullUp=Pull up line to +12V
+64841_Base_Resource_rsCIFeatureIDLE=LIN IDLE detection timeout
+64842_Base_Resource_rsCIFeatureDSD=CAN-FD data speed detection
+64843_Base_Resource_rsCIFeatureNonISO=CAN-FD non ISO frame format support
+64844_Base_Resource_rsDIFeatureFilters=Filters
+64845_Base_Resource_rsDIFilters=filters
+64848_Base_Resource_rsScriptOverwrite=Overwrite
+64849_Base_Resource_rsScriptSaveModified=Script are modified. Save changes?
+64850_Base_Resource_rsLicNeverExpires=Never expires
+64851_Base_Resource_rsLicExpired=Expired
+64852_Base_Resource_rsLicErrorKeyEnter=Please enter license key
+64853_Base_Resource_rsLicErrorCodeEnter=Please enter license
+64854_Base_Resource_rsLicError=Invalid license key or code
+64855_Base_Resource_rsLicInvalidLicense=Invalid license file!
+64856_Base_Resource_rsLicRestart=Restart application required!
+64857_Base_Resource_rsLicExpirationSoon=The license "%s" for %s ( %s ) will end on %s ( %s )
+64858_Base_Resource_rsLicExpirationDays=in %d days
+64859_Base_Resource_rsLicExpirationToday=today
+64860_Base_Resource_rsLicDeviceConfirm=Connect to the %s device to confirm the application license.
+64861_Base_Resource_rsLicSelectFile=License file
+64862_Base_Resource_rsDIDevice=Device
+64863_Base_Resource_rsDISerial=Serial
+64864_Base_Resource_rsColorWhite=White
+64865_Base_Resource_rsDBCAllNodes=All nodes
+64866_Base_Resource_rsDBCAreUsed=Unable to close DBC file %s. Used elsewhere.
+64867_Base_Resource_rsDBCDifferentBusTypes=A different BusType attribute between the already added DBC files and the new DBC file.
+64868_Base_Resource_rsDBCAssignToChannel=Assign to channel %s
+64869_Base_Resource_rsDBCSignalViewer=Signal viewer for channel %s
+64870_Base_Resource_rsDBCManagerWarn=Close other windows that use DBC files.
+64871_Base_Resource_rsLicenseError=License error
+64872_Base_Resource_rsLicenseTermsError=The terms of the software license agreement have been violated.
+64873_Base_Resource_rsBruteForceCRCNone=None
+64874_Base_Resource_rsBFAllowIncrement=Allow increment of byte %0:.2d/x%0:.2x
+64875_Base_Resource_rsBFIncrementValue=Increment value of byte %0:.2d/x%0:.2x
+64876_Base_Resource_rsBFValue=Value of byte %0:.2d/x%0:.2x
+64877_Base_Resource_rsFHProperties=Properties...
+64878_Base_Resource_rsScriptModified=Modified
+64879_Base_Resource_rsScriptInsert=Insert
+64880_Base_Resource_rsNoNewVersion=No new version of the application.
+64881_Base_Resource_rsColorBlack=Black
+64882_Base_Resource_rsColorMaroon=Maroon
+64883_Base_Resource_rsColorGreen=Green
+64884_Base_Resource_rsColorOlive=Olive
+64885_Base_Resource_rsColorNavy=Navy
+64886_Base_Resource_rsColorPurple=Purple
+64887_Base_Resource_rsColorTeal=Teal
+64888_Base_Resource_rsColorGray=Gray
+64889_Base_Resource_rsColorSilver=Silver
+64890_Base_Resource_rsColorRed=Red
+64891_Base_Resource_rsColorLime=Lime
+64892_Base_Resource_rsColorYellow=Yellow
+64893_Base_Resource_rsColorBlue=Blue
+64894_Base_Resource_rsColorFuchsia=Fuchsia
+64895_Base_Resource_rsColorAqua=Aqua
+64896_Base_Resource_rsTraceSelectedRows=Active row: %d / Selected: %d
+64897_Base_Resource_rsTraceCaption=Tracer
+64898_Base_Resource_rsTraceFile=Tracer - %s
+64899_Base_Resource_rsTraceVisible=Rows: %d of %d
+64900_Base_Resource_rsTraceToChannel=Use channel %s
+64901_Base_Resource_rsTraceDelay=Delay: %s
+64902_Base_Resource_rsTraceDelayAuto=Auto
+64903_Base_Resource_rsTraceDelayMS=%d ms
+64904_Base_Resource_rsTraceChanUnknown=Unknown
+64905_Base_Resource_rsTraceRowAdd=Add tracer row
+64906_Base_Resource_rsTraceRowInsert=Insert tracer row
+64907_Base_Resource_rsTraceRowEdit=Edit tracer row
+64908_Base_Resource_rsTraceDBCManager=Tracer DBC Manager
+64910_Base_Resource_rsNotificationAppBody=A new version of the application is available!\^New version: %s
+64911_Base_Resource_rsDownloadQuery=%s\^Download?
+64912_Base_Resource_rsTriggerAnyChannel=Any
+64913_Base_Resource_rsMFCaptionChan=[%s] %s: Message frames
+64914_Base_Resource_rsMFCaption=%1:s: Message frames
+64915_Base_Resource_rsMDCaptionChan=[%s] %s: Message details
+64916_Base_Resource_rsMDCaption=%1:s: Message details
+64917_Base_Resource_rsSplitCaptionChannel=%sChannel %d
+64918_Base_Resource_rsSplitCaptionAlias=%sChannel %d: %s
+64919_Base_Resource_rsTraceAllSupported=All supported formats
+64920_Base_Resource_rsTraceLoading=Loading...
+64921_Base_Resource_rsTraceLoaded=Loaded
+64922_Base_Resource_rsTraceIndexing=Indexing...
+64923_Base_Resource_rsTraceIndexed=Indexed
+64924_Base_Resource_rsTraceScanning=Scanning...
+64925_Base_Resource_rsTraceScanned=Scanned
+64926_Base_Resource_rsTraceNextRow=Next trace row: %d
+64927_Base_Resource_rsTraceActiveRow=Active row: %d
+64928_Base_Resource_rsFilterTypeFull=Filter by ID/Mask
+64929_Base_Resource_rsFilterTypeSimple=Filter by ID
+64930_Base_Resource_rsFilterDescrRange=Range %s-%s
+64931_Base_Resource_rsFilterDescrMask=Mask %s/%s
+64932_Base_Resource_rsFilterDescrID=Message %s
+64933_Base_Resource_rsFilterDescrError=Bad filter
+64934_Base_Resource_rsGateway=Gateway
+64935_Base_Resource_rsGatewayAll=%s all from %d to %d
+64936_Base_Resource_rsGatewayAllExcept=%s all from %d to %d except
+64937_Base_Resource_rsGatewayAccept=Accept
+64938_Base_Resource_rsGatewayReject=Reject
+64939_Base_Resource_rsGatewayFilter=[%d] Id: %s / Mask: %s
+64940_Base_Resource_rsGatewayFilterSingle=[%d] Id: %s
+64941_Base_Resource_rsGatewayFilterDual=[%d] Id 1: %s / Id 2: %s
+64942_Base_Resource_rsRcvDetailAlwaysOnTop=Make window always in top
+64943_Base_Resource_rsRcvDetailNormal=Make window is normal
+64944_Base_Resource_rsColumnDeviceState=State
+64947_Base_Resource_rsColumnDBCFile=File
+64948_Base_Resource_rsColumnDBCAssignedTo=Assigned to
+64949_Base_Resource_rsColumnDBCUse=Use
+64950_Base_Resource_rsColumnDBCMessageID=ID
+64951_Base_Resource_rsColumnDBCMessageName=Message
+64952_Base_Resource_rsColumnDBCSignalName=Signal
+64953_Base_Resource_rsColumnDBCSignalValue=Value
+64954_Base_Resource_rsColumnDBCSignalUnit=Unit
+64955_Base_Resource_rsColumnDBCSignalGraph=Graph
+64956_Base_Resource_rsRangeFilter=Channel %d: From %s to %s
+64957_Base_Resource_rsRangeFilterExclude=Exclude Id: %s / Mask: %s
+64958_Base_Resource_rsRangeFilterExcludeLite=Exclude Id: %s
+64959_Base_Resource_rsFilterRange=Range Filter
+64960_Base_Resource_rsColumnLabel=Label
+64962_Base_Resource_rsColumnFilterChannel=CH
+64963_Base_Resource_rsColumnFilterNumber=Num
+64964_Base_Resource_rsColumnFilterMask=Mask
+64965_Base_Resource_rsColumnFilterId=ID
+64966_Base_Resource_rsColumnFilterPGN=PGN
+64967_Base_Resource_rsColumnFilterName=Name
+64968_Base_Resource_rsColumnFilterCount=Count
+64971_Base_Resource_rsColumnDevice=Device
+64972_Base_Resource_rsColumnDeviceDescr=Description
+64973_Base_Resource_rsColumnDeviceFirmware=Firmware
+64974_Base_Resource_rsColumnDeviceSource=Source
+64975_Base_Resource_rsColumnDeviceBaudrate=Baudrate
+64976_Base_Resource_rsColumnMsgID=ID
+64977_Base_Resource_rsColumnMsgPriority=Priority
+64978_Base_Resource_rsColumnMsgPGN=PGN
+64979_Base_Resource_rsColumnMsgName=Name
+64980_Base_Resource_rsColumnMsgNode=Node
+64981_Base_Resource_rsColumnMsgSrc=Src
+64982_Base_Resource_rsColumnMsgDst=Dst
+64983_Base_Resource_rsColumn_DLC=DLC
+64984_Base_Resource_rsColumnData=Data
+64985_Base_Resource_rsColumnCRC=CRC
+64986_Base_Resource_rsColumnPeriod=Period
+64987_Base_Resource_rsColumnCount=Count
+64988_Base_Resource_rsColumnFC=FC
+64989_Base_Resource_rsColumn_ASCII=ASCII
+64991_Base_Resource_rsColumnComment=Comment
+64992_Base_Resource_rsOptionTerminator=Enable 120 Ohm terminator
+64993_Base_Resource_rsOptionALSControl=Enable ALS control
+64994_Base_Resource_rsOptionTxConfirm=Transmit confirmation
+64995_Base_Resource_rsOptionPullUp=Pull Up LIN to +12V
+64996_Base_Resource_rsOptionEnhancedCRC=Enhanced CRC
+64997_Base_Resource_rsTransmitExecRun=Run
+64998_Base_Resource_rsTransmitExecPause=Pause
+64999_Base_Resource_rsTransmitExecRunPause=Run/Pause
+65000_Base_Resource_rsTransmitCustomCRC=Custom CRC
+65003_Base_Resource_rsColumnTimeStamp=Time
+65004_Base_Resource_rsColumnFlags=Flags
+65006_Base_Resource_rsColumnChannel=CH
+65007_Base_Resource_rsColumnRxTx=Rx/Tx
+65015_Base_Resource_rsTimingTypeNominal=Nominal
+65016_Base_Resource_rsTimingTypeData=Data
+65017_Base_Resource_rsTimingAutoDetect=Auto detect
+65018_Base_Resource_rsTimingProbe=Probe: %s
+65019_Base_Resource_rsTimingResult=Detect result: %s
+65020_Base_Resource_rsTimingFailed=Failed
+65021_Base_Resource_rsTimingDetecting=Detecting...
+65022_Base_Resource_rsTimingSpeedInfo=Speed information
+65023_Base_Resource_rsSourceSerialPort=Serial port
+65024_Base_Resource_rsDevStateChanClosing=Closing
+65025_Base_Resource_rsDevStateChanOpening=Opening
+65026_Base_Resource_rsDevStateChanOpened=Opened
+65027_Base_Resource_rsDevStateChanFailure=Failure
+65028_Base_Resource_rsDevStateClosing=Disconnecting
+65029_Base_Resource_rsDevStateError=Error
+65030_Base_Resource_rsSBStreamRecording=Record
+65031_Base_Resource_rsBruteForceRun=Run
+65032_Base_Resource_rsBruteForceStop=Stop
+65033_Base_Resource_rsChannelNum=Channel %d%s
+65034_Base_Resource_rsChannelModeNormal=Normal
+65035_Base_Resource_rsChannelModeSilent=Listen only
+65036_Base_Resource_rsChannelModeLoopback=Silent loopback
+65037_Base_Resource_rsSameAsChannel1=Same as channel 1
+65040_Base_Resource_rsErrCfgDevType=Device type is not selected.
+65041_Base_Resource_rsErrCfgSetDeviceMode=Need to select the mode of device.
+65042_Base_Resource_rsErrCfgSetSourceType=Need to select the type of data source for device.
+65043_Base_Resource_rsErrCfgSetSourceText=Need to define a string for the data source.
+65044_Base_Resource_rsErrCfgSetSourceList=Need to select the data source for device.
+65045_Base_Resource_rsErrConnectionTimeout=Connection to device timeout. Waiting reply for command %s over %d ms.
+65046_Base_Resource_rsErrProto=Received from device unknown data:\^%s
+65047_Base_Resource_rsErrOpenChannel=Can't open channel %d...
+65048_Base_Resource_rsErrWMIProblem=A problem has been detected!\^Some features may not work correctly.
+65049_Base_Resource_rsWMI=Windows Management Instrumentation
+65050_Base_Resource_rsRcvFramesRows=Rows: %d
+65051_Base_Resource_rsCfgRestartRequired=(application restart required)
+65052_Base_Resource_rsDevStateClosed=Not connected
+65053_Base_Resource_rsDevStateOpening=Connecting...
+65054_Base_Resource_rsDevStateOpened=Connected
+65055_Base_Resource_rsDevStateChanClosed=Closed
+65056_Base_Resource_rsWarnCantAddFilter=Can't add filter.
+65057_Base_Resource_rsWarnFileNotExists=File %s does not exists!
+65058_Base_Resource_rsErrCantReplaceFile=Can't replace file.
+65059_Base_Resource_rsErrCantSaveFile=Can't save file.
+65060_Base_Resource_rsErrDevType=Invalid device type.
+65061_Base_Resource_rsErrDevSerial=Bad device serial number.
+65062_Base_Resource_rsErrDevUpgradeFirmware=Firmware upgrade required!
+65063_Base_Resource_rsErrApplicationUpdate=Application update required!
+65064_Base_Resource_rsErrBootLoader=CAN-Hacker device in bootloader mode...
+65065_Base_Resource_rsErrUnknown=Unknown error.
+65066_Base_Resource_rsErrOpening=Can't open %s port with error:\^%s
+65067_Base_Resource_rsErrOpeningDetails=Can't open %s port with error:\^%s\^Details: %s.
+65068_Base_Resource_rsErrInvalidFileFormat=Invalid file format!
+65069_Base_Resource_rsErrInvalidFileFmtLine=Invalid file format at line %d!
+65070_Base_Resource_rsErrUnsupportedFormat=Unsupported file format feature!
+65071_Base_Resource_rsErrUnsupportedFmtLine=Unsupported file format feature at line %d!
+65072_Base_Resource_rsMenuStream=Stream
+65073_Base_Resource_rsMenuMonitor=Monitor
+65074_Base_Resource_rsStreamSaved=Stream saved!
+65075_Base_Resource_rsReceiveMonitor=Receive [ Monitor ]
+65076_Base_Resource_rsReceiveStream=Receive [ Stream ]
+65077_Base_Resource_rsMsgTitleError=Error
+65078_Base_Resource_rsMsgTitleConfirm=Confirm
+65079_Base_Resource_rsMsgTitleInfo=Info
+65080_Base_Resource_rsMsgTitleWarn=Warning
+65081_Base_Resource_rsMsgDontShow=Don't show this again
+65082_Base_Resource_rsConfirmFileReplace=File already exists. Replace?
+65083_Base_Resource_rsConfirmAppendComments=Add loaded comments to exist list?
+65084_Base_Resource_rsConfirmClearTasks=Clear transmit tasks?
+65085_Base_Resource_rsConfirmRestartApp=Restart application?
+65086_Base_Resource_rsInfoRestartApp=Application restart required.
+65087_Base_Resource_rsInfoCopyID=Copy system identifier to clipboard
+65091_Base_Resource_rsEndOfSupport=End of support for Windows XP, Vista and Server 2003.
+65092_Base_Resource_rsAppUpdateRequered=Your application is out of date. It needs to be updated to the latest version.
+65093_Base_Resource_rsLicenseRequired=To continue using the program, connect to your CAN-Hacker device or purchase a license to use the application.
+65094_Base_Resource_rsDeviceLocked=You are using a non-original CAN-Hacker device. This device cannot be used due to licensing restrictions. If you want to use your device, please purchase a license.
+65095_Base_Resource_rsSystemLocked=Your system is locked due to a violation of the license agreement.
+65096_Base_Resource_rsLicenseLocked=Your license is locked due to a violation of the license agreement. Contact with support.
+65097_Base_Resource_rsLicenseLockedMsg=Your license has been blocked for the following reason:
+65098_Base_Resource_rsConnectionRequired=To continue normal use of the program, you need access to the Internet to check the device license.\^\^To do this, provide your computer with access to the Internet and connect to your device for 5-10 minutes.
+65099_Base_Resource_rsConnectionUpdated=Thank you for connecting to the Internet. We have updated important information about your device.
+65100_Base_Resource_rsApplicationClosed=The application will be closed.
+65101_Base_Resource_rsDebuggerDetected=An application was detected running under debugger.
+65102_Base_Resource_rsMenuConnect=Connect
+65103_Base_Resource_rsMenuDisconnect=Disconnect

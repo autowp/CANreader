@@ -2,6 +2,8 @@ package com.autowp.can.adapter.elm327.command;
 
 import com.autowp.Hex;
 
+import java.util.Locale;
+
 public class SetProtocolCommand extends Command {
     
     public static final byte AUTOMATIC = 0;
@@ -27,6 +29,6 @@ public class SetProtocolCommand extends Command {
     
     @Override
     public String toString() {
-        return "AT SP " + Hex.byteArrayToHexString(new byte[] {protocol}).toUpperCase();
+        return "AT SP " + Hex.byteArrayToHexString(new byte[] {protocol}).toUpperCase(Locale.ROOT);
     }
 }

@@ -1,11 +1,12 @@
 package com.autowp.canreader;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.autowp.can.CanFrame;
@@ -15,99 +16,143 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by autow on 31.01.2016.
+ * RecyclerView adapter for monitor CAN messages - MD3 style.
+ * Uses ViewHolder pattern for optimal performance.
  */
-public class MonitorCanMessageListAdapter extends ArrayAdapter<MonitorCanMessage> {
-    public MonitorCanMessageListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+public class MonitorCanMessageListAdapter extends RecyclerView.Adapter<MonitorCanMessageListAdapter.ViewHolder> {
+
+    private Context context;
+    private List<MonitorCanMessage> items;
+
+    public MonitorCanMessageListAdapter(Context context, List<MonitorCanMessage> items) {
+        this.context = context;
+        this.items = new java.util.ArrayList<>(items);
     }
 
-    public MonitorCanMessageListAdapter(Context context, int resource, List<MonitorCanMessage> items) {
-        super(context, resource, items);
-    }
-
-    public void updateView(View v, MonitorCanMessage frame)
-    {
-        TextView textViewPeriod = (TextView) v.findViewById(R.id.listitem_monitor_period);
-        textViewPeriod.setText(String.format(Locale.getDefault(), "%dms", frame.getPeriod()));
-
-        TextView textViewCount = (TextView) v.findViewById(R.id.listitem_monitor_count);
-        textViewCount.setText(String.format(Locale.getDefault(), "%d", frame.getCount()));
+    public void updateItems(List<MonitorCanMessage> newItems) {
+        items.clear();
+        items.addAll(new java.util.ArrayList<>(newItems));
+        notifyDataSetChanged();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.listitem_monitor, parent, false);
+        return new ViewHolder(view);
+    }
 
-        if (v == null) {
-            LayoutInflater vi;
-            vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listitem_monitor, null);
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bind(items.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    public MonitorCanMessage getItem(int position) {
+        if (position >= 0 && position < items.size()) {
+            return items.get(position);
+        }
+        return null;
+    }
+
+    public List<MonitorCanMessage> getItems() {
+        return items;
+    }
+
+    public void updateItem(int position, MonitorCanMessage message) {
+        if (position >= 0 && position < items.size()) {
+            items.set(position, message);
+            notifyItemChanged(position);
+        }
+    }
+
+    public void clear() {
+        items.clear();
+        notifyDataSetChanged();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView tvId;
+        TextView tvPeriod;
+        TextView tvCount;
+        TextView tvRtr;
+        TextView tvDlc;
+        TextView tvExtended;
+        View rtrLine;
+        View dataLine;
+        TextView[] tvData = new TextView[CanFrame.MAX_DLC];
+        ImageView ivComment;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            tvId = itemView.findViewById(R.id.listitem_monitor_id);
+            tvPeriod = itemView.findViewById(R.id.listitem_monitor_period);
+            tvCount = itemView.findViewById(R.id.listitem_monitor_count);
+            tvRtr = itemView.findViewById(R.id.listitem_monitor_rtr);
+            tvDlc = itemView.findViewById(R.id.listitem_monitor_dlc);
+            tvExtended = itemView.findViewById(R.id.listitem_monitor_extended);
+            rtrLine = itemView.findViewById(R.id.listitem_monitor_rtr_line);
+            dataLine = itemView.findViewById(R.id.listitem_monitor_data);
+            ivComment = itemView.findViewById(R.id.listitem_monitor_comment_icon);
+
+            tvData[0] = itemView.findViewById(R.id.listitem_monitor_data0);
+            tvData[1] = itemView.findViewById(R.id.listitem_monitor_data1);
+            tvData[2] = itemView.findViewById(R.id.listitem_monitor_data2);
+            tvData[3] = itemView.findViewById(R.id.listitem_monitor_data3);
+            tvData[4] = itemView.findViewById(R.id.listitem_monitor_data4);
+            tvData[5] = itemView.findViewById(R.id.listitem_monitor_data5);
+            tvData[6] = itemView.findViewById(R.id.listitem_monitor_data6);
+            tvData[7] = itemView.findViewById(R.id.listitem_monitor_data7);
         }
 
-        MonitorCanMessage message = getItem(position);
-
-        if (message != null) {
+        void bind(MonitorCanMessage message) {
             CanMessage canMessage = message.getCanMessage();
 
-            TextView textViewID = (TextView) v.findViewById(R.id.listitem_monitor_id);
+            // ID
             if (canMessage.isExtended()) {
-                textViewID.setText(String.format("%08X", canMessage.getId()));
+                tvId.setText(String.format(Locale.ROOT, "%08X", canMessage.getId()));
+                tvExtended.setVisibility(View.VISIBLE);
+                tvExtended.setText("29");
             } else {
-                textViewID.setText(String.format("%03X", canMessage.getId()));
+                tvId.setText(String.format(Locale.ROOT, "%03X", canMessage.getId()));
+                tvExtended.setVisibility(View.GONE);
             }
 
-            updateView(v, message);
+            // Period and Count
+            tvPeriod.setText(String.format(Locale.getDefault(), "%dms", message.getPeriod()));
+            tvCount.setText(String.format(Locale.getDefault(), "%d", message.getCount()));
 
-            byte dlc = canMessage.getDLC();
+            // RTR line
+            boolean isRtr = canMessage.isRTR();
+            rtrLine.setVisibility(isRtr ? View.VISIBLE : View.GONE);
+            dataLine.setVisibility(isRtr ? View.GONE : View.VISIBLE);
 
-            View rtrLine = v.findViewById(R.id.listitem_monitor_rtr_line);
-            View dataLine = v.findViewById(R.id.listitem_monitor_data);
-
-            rtrLine.setVisibility(canMessage.isRTR() ? View.VISIBLE : View.GONE);
-            dataLine.setVisibility(canMessage.isRTR() ? View.GONE : View.VISIBLE);
-
-            if (canMessage.isRTR()) {
-
-                TextView textViewData = (TextView) v.findViewById(R.id.listitem_monitor_dlc);
-                textViewData.setText(String.format("%d", dlc));
-
+            if (isRtr) {
+                tvDlc.setText(String.format(Locale.getDefault(), "%d", canMessage.getDLC()));
             } else {
-
+                // Data bytes
                 byte[] data = canMessage.getData();
-
-                int textViewDataID[] = {
-                        R.id.listitem_transmit_data0,
-                        R.id.listitem_transmit_data1,
-                        R.id.listitem_transmit_data2,
-                        R.id.listitem_transmit_data3,
-                        R.id.listitem_transmit_data4,
-                        R.id.listitem_transmit_data5,
-                        R.id.listitem_transmit_data6,
-                        R.id.listitem_transmit_data7,
-                };
-
-                for (int i = 0; i < data.length; i++) {
-                    boolean highlight = message.getChangeHolder(i).isHighlight();
-                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                    textViewData.setText(String.format("%02X", data[i]));
-                    int color;
-                    if (highlight) {
-                        color = android.R.color.holo_blue_dark;
+                for (int i = 0; i < CanFrame.MAX_DLC; i++) {
+                    if (i < data.length) {
+                        tvData[i].setVisibility(View.VISIBLE);
+                        boolean highlight = message.getChangeHolder(i).isHighlight();
+                        tvData[i].setText(String.format(Locale.ROOT, "%02X", data[i] & 0xFF));
+                        int color = highlight ? R.color.can_tertiary : R.color.can_on_surface;
+                        tvData[i].setTextColor(ContextCompat.getColor(context, color));
                     } else {
-                        color = android.R.color.primary_text_dark;
+                        tvData[i].setVisibility(View.GONE);
                     }
-                    textViewData.setTextColor(ContextCompat.getColor(getContext(), color));
-                }
-
-                for (int i = data.length; i < CanFrame.MAX_DLC; i++) {
-                    TextView textViewData = (TextView) v.findViewById(textViewDataID[i]);
-                    textViewData.setText("");
                 }
             }
 
+            // Comment icon - show if message has comment
+            // TODO: Get comment from message or separate storage
+            // For now, hide it
+            ivComment.setVisibility(View.GONE);
         }
-
-        return v;
     }
 }

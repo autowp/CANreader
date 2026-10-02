@@ -1,0 +1,11 @@
+<resources>
+    <color name="can_primary">#80D5C8</color>
+    <color name="can_on_primary">#003731</color>
+    <color name="can_secondary">#F2A48D</color>
+    <color name="can_on_secondary">#561E0F</color>
+    <color name="can_tertiary">#A9C3F2</color>
+    <color name="can_surface">#101817</color>
+    <color name="can_on_surface">#DDE5E2</color>
+    <color name="can_on_surface_variant">#B9C8C3</color>
+    <color name="can_outline_variant">#3C4A46</color>
+</resources>

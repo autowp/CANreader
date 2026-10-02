@@ -4,7 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by autowp on 26.03.2016.
@@ -12,9 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class ServiceConnectedActivity extends AppCompatActivity {
     protected CanReaderService canReaderService;
     protected boolean bound = false;
+    private boolean bindingRequested = false;
 
     ServiceConnection serviceConnection = new ServiceConnection() {
         public void onServiceConnected(ComponentName name, IBinder binder) {
+            if (!bindingRequested || !getLifecycle().getCurrentState().isAtLeast(
+                    androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                return;
+            }
             canReaderService = ((CanReaderService.TransferServiceBinder) binder).getService();
             bound = true;
 
@@ -22,9 +27,11 @@ public abstract class ServiceConnectedActivity extends AppCompatActivity {
         }
 
         public void onServiceDisconnected(ComponentName name) {
-            beforeDisconnect();
-
+            if (bound) {
+                beforeDisconnect();
+            }
             bound = false;
+            canReaderService = null;
         }
     };
 
@@ -33,10 +40,11 @@ public abstract class ServiceConnectedActivity extends AppCompatActivity {
     {
         super.onResume();
 
-        Intent intent = new Intent(this, CanReaderService.class);
-
-        startService(intent);
-        bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);
+        if (!bindingRequested) {
+            Intent intent = new Intent(this, CanReaderService.class);
+            startService(intent);
+            bindingRequested = bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);
+        }
     }
 
     @Override
@@ -46,9 +54,13 @@ public abstract class ServiceConnectedActivity extends AppCompatActivity {
 
         if (bound) {
             beforeDisconnect();
-            unbindService(serviceConnection);
-            bound = false;
         }
+        if (bindingRequested) {
+            bindingRequested = false;
+            unbindService(serviceConnection);
+        }
+        bound = false;
+        canReaderService = null;
     }
 
     abstract protected void afterConnect();

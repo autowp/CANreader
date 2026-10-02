@@ -1,28 +1,35 @@
 # CANreader
 
-CANreader - application for communication with CAN. CanHacker analog. Useless without CAN-adapter.
+CANreader is an Android client for monitoring and transmitting CAN frames through adapters that implement the CanHacker protocol.
 
 ## Features
 
-- Send and receive CAN frames
-- RTR frames
-- Standart (11bit) and extended (11 bit) CAN frames
-- Support two CAN networks types: high-speed & fault tolerant ([CANreader-FT](canreader-device.md) only)
-- CanHacker (windows application) compatibility: TxList, Trace [planned] & RxList [planned]  files support, same protocol.
-- Support various adapters (currently [CANreader](canreader-device.md), [CanHacker](canhacker.md), [Seeedstudio CAN shield](seeed-can-bus-shield.md))
-- Various types of connection: 
-    - USB serial ([support various chipsets](https://github.com/felHR85/UsbSerial))
-    - ethernet ([CANreader](canreader-device.md) & [Seeed shield only](seeed-can-bus-shield.md)) [planned]. WiFi using external access point
-    - Bluetooth ([CANreader](canreader-device.md) & [Seeed shield only](seeed-can-bus-shield.md)) [planned]
+- Monitor received CAN messages and inspect individual messages.
+- Create, edit, schedule, and manage transmit frames.
+- Support standard 11-bit and extended 29-bit identifiers, data frames, and RTR frames.
+- Import and export CanHacker `.txl` transmit lists.
+- Connect over USB serial, Bluetooth Classic SPP, or a CanHacker-compatible UDP network endpoint. A loopback adapter is available for testing.
 
-## Requirements
+The app requires Android 6.0 (API 23) or later. USB host/OTG support is required only for USB connections. Bluetooth and network connections do not require USB OTG.
 
-- [Android](android.md)
-- [CANreader (device)](canreader-device.md) or one of [supported adapters](adapters.md)
+## Adapters and hardware
 
-## Other
+- [Supported adapters and connection types](adapters.md)
+- [CANreader Arduino hardware](canreader-device.md)
+- [Seeed Studio CAN BUS Shield](seeed-can-bus-shield.md)
+- [CanHacker devices](canhacker.md)
+- [ELM327 status](ELM327.md)
+
+## Safety and troubleshooting
 
 - [Known issues](known-issues.md)
-- [CAN bus in car](car.md)
-- [Disclaimer](disclaimer.md)
-- [License](../../LICENSE.md)
+- [Connecting to a vehicle CAN bus](car.md)
+- [Disclaimer and safety notice](disclaimer.md)
+- [Android compatibility](android.md)
+
+## App
+
+- [CANreader for Android](canreader-android.md)
+- [License](../../LICENSE)
+
+See the [project README](../../README.md) for build instructions.

@@ -1,13 +1,11 @@
-# CanHacker (device)
+# CanHacker-compatible devices
 
-![](http://can.web-box.ru/_mod_files/ce_images/obschij.jpg)
+CANreader uses the CanHacker command protocol. A device sold as “CanHacker” is usable only when its interface and firmware are compatible with that protocol.
 
-[![](http://www.vscom.de/images/420_larger.jpg)](http://www.vscom.de/vscom-usb-can.html)
+The Android app can connect through:
 
-![](http://bmwtools.info/forum/uploads/monthly_07_2014/post-1623-0-57195500-1404411863.jpg)
+- USB serial, with Android USB host/OTG support.
+- Bluetooth Classic SPP, after pairing the adapter.
+- A compatible UDP network endpoint.
 
-Требуется USB-host, бывают версии с UART-интерфейсом. Highspeed CAN
-
-Большой спектр похожих устройств.
-
-[Оригинальное устройство: Схемы, прошивки и др.](http://www.mictronics.de/projects/usb-can-bus/)
+The app does not connect to Windows desktop software itself. Confirm the device's supported protocol, serial settings, CAN bit rate, and transport with its manufacturer or firmware documentation. See [supported adapters](adapters.md).

@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<color name="can_primary">#006B63</color>
+	<color name="can_on_primary">#FFFFFF</color>
+	<color name="can_secondary">#B64D36</color>
+	<color name="can_on_secondary">#FFFFFF</color>
+	<color name="can_tertiary">#405C8A</color>
+	<color name="can_surface">#F5F7F6</color>
+	<color name="can_on_surface">#172321</color>
+	<color name="can_on_surface_variant">#4C5A57</color>
+	<color name="can_outline_variant">#C3CFCC</color>
 </resources>

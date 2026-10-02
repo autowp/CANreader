@@ -1,0 +1,918 @@
+﻿Language=ru-RU
+LanguageName=Русский
+
+Humanize=1
+HumanizedCR=\^
+HumanizedCRLF=\+
+HumanizedLF=\#10
+
+[TdlgAbout]
+Caption=О программе
+stVer.Caption=Версия
+stAppInfo.Caption=Анализатор CAN-FD/CAN/LIN шин
+btOk.Caption=Принять
+stSystemInfo.Caption=Система
+stMonitorInfo.Caption=Разрешение
+pnShareware.lRegisterType.Caption=Условно-бесплатно
+pnShareware.btnRegister.Caption=Регистрация
+pnRegistered.lRegisteredTo.Caption=Зарегистрировано на:
+pnRegistered.lExpired.Caption=Истекает:
+pnRegistered.lKey.Caption=Ключ:
+pnRegistered.btUpdate.Caption=Обновить
+
+[TdlgAppSettings]
+Caption=Настройки приложения
+btnOk.Caption=Принять
+btnCancel.Caption=Отмена
+pcOptions.tsTheme.Caption=Стиль интерфейса
+pcOptions.tsTheme.lTheme.Caption=Стиль
+pcOptions.tsTheme.cbSyncWithOS.Caption=Синхронизировать с ОС
+pcOptions.tsGridFont.Caption=Шрифт в таблицах
+pcOptions.tsGridFont.lFontName.Caption=Шрифт:
+pcOptions.tsGridFont.lFontSize.Caption=Размер:
+pcOptions.tsGridFont.lSample.Caption=Пример:
+pcOptions.tsReceive.Caption=Приём данных
+pcOptions.tsReceive.lClearAfter.Caption=Сбросить после
+pcOptions.tsReceive.lMS.Caption=мс
+pcOptions.tsReceive.lMarkColor.Caption=Цвет
+pcOptions.tsReceive.cbFrameCounter.Caption=Агрегатор уникальных данных сообщения
+pcOptions.tsReceive.cbMarkChangedBytes.Caption=Подсвечивать изменённые байты
+pcOptions.tsReceive.cbColor.Items.Strings=Пользовательский
+pcOptions.tsReceive.cbStreamInWindow.Caption=Открывать запись потока в отдельном окне
+pcOptions.tsTransmit.Caption=Передача данных
+pcOptions.tsTransmit.cbRestoreTransmit.Caption=Восстанавливать список на отправку при запуске
+pcOptions.tsTransmit.cbTransmitInWindow.Caption=Открывать передачу в отдельном окне
+pcOptions.tsStreamTracer.Caption=Поток и трейсер
+pcOptions.tsStreamTracer.lEndOfLine.Caption=Символ завершения строки
+pcOptions.tsStreamTracer.cbUseSecconds.Caption=Максимум 1сек задержка между сообщениями в трейсе
+pcOptions.tsStreamTracer.GroupBox1.Caption=Настройка копирования строк
+pcOptions.tsStreamTracer.GroupBox1.lData.Caption=Данные
+pcOptions.tsStreamTracer.GroupBox1.cbColumnNames.Caption=Первая строка с названиями столбцов
+pcOptions.tsFilter.Caption=Фильтр и шлюз
+pcOptions.tsFilter.cbFilterInWindow.Caption=Открыть фильтр и шлюз в отдельном окне
+pcOptions.tsFilter.cbFilterOnTop.Caption=Всегда поверх остальных окон
+pcOptions.tsFilter.cbFilterAutoEnabled.Caption=Делать новый фильтр активным
+pcOptions.tsFilter.cbRestoreFilter.Caption=Восстанавливать фильтр при запуске
+pcOptions.tsFilter.cbFilterSimpleMode.Caption=Простой режим ( исключить маску фильтра )
+pcOptions.tsStreamLogging.Caption=Настройка логирования потока
+pcOptions.tsStreamLogging.cbStreamSaveMetaInfo.Caption=Настраивать и сохранять метаинформацию
+pcOptions.tsStreamLogging.cbStreamAddLinFilter.Caption=Добавить настройку фильтра LIN
+pcOptions.tsUpdates.Caption=Обновления
+pcOptions.tsUpdates.lbPreferred.Caption=Предпочтительный канал обновлений
+pcOptions.tsUpdates.cbCheckUpdates.Caption=Автоматическая проверка обновлений
+pcOptions.tsUpdates.cbCheckFWUpdates.Caption=Автоматически проверять обновления прошивок
+pcOptions.tsUpdates.cbDownloadInstall.Caption=Скачивать и устанавливать обновления
+pcOptions.tsUpdates.cbPreferred.Items.Strings=Авто\^Финальная\^Тестовая
+
+[TdlgBitRate]
+Caption=Управление скоростями
+lClock.Caption=Частота: %d МГц
+lTiming.Caption=Настройка времени: %s
+lBitRates.Caption=Скорости
+lCaption.Caption=Название
+lBitRate.Caption=Скорость
+lSamplePoint.Caption=Точка отбора
+lPrescaler.Caption=Делитель
+lBitRateSpeed.Caption=Kbps
+lActualBR.Caption=Актуальная скорость
+lActualBRSpeed.Caption=Kbps
+lActualSP.Caption=Актуальная точка отбора
+lAccuracy.Caption=Точность
+btnCancel.Caption=Отмена
+btnOk.Caption=Принять
+bbAdd.Caption=Добавить
+bbRemove.Caption=Удалить
+
+[TdlgBitRateLIN]
+Caption=Управление скоростями
+lBitRates.Caption=Скорости
+lCaption.Caption=Название
+lBitRate.Caption=Скорость
+lBitRateSpeed.Caption=bps
+btnCancel.Caption=Отмена
+btnOk.Caption=Принять
+bbAdd.Caption=Добавить
+bbRemove.Caption=Удалить
+
+[TdlgChannelConfigure]
+pnButtons.btnOk.Caption=Принять
+pnButtons.btnCancel.Caption=Отмена
+
+[TdlgComment]
+Caption=Изменить комментарий для %s
+lComment.Caption=Комментарий:
+btnOk.Caption=Установить
+btnCancel.Caption=Отмена
+
+[TdlgDevChanSpeedInfo]
+Caption=Подобранные настройки скорости соединения
+lFreq.Caption=Рабочая частота: %d МГц
+gbNominal.Caption=Номинальная скорость
+gbNominal.lNBitRate.Caption=Скорость
+gbNominal.lNPrescaler.Caption=Делитель
+gbData.Caption=Скорость данных
+gbData.lDBitRate.Caption=Скорость
+gbData.lDPrescaler.Caption=Делитель
+btnOk.Caption=Закрыть
+
+[TdlgDeviceConfigure]
+Caption=Настройки устройства
+pcSettings.tsDevice.Caption=Устройство
+pcSettings.tsDevice.lDeviceType.Caption=Тип устройства
+pcSettings.tsDevice.lDeviceMode.Caption=Режим устройства
+pcSettings.tsDevice.lSourceType.Caption=Тип источника
+pcSettings.tsDevice.cbDeviceType.Text=Выберите тип устройства
+pcSettings.tsDevice.cbDeviceType.Items.Strings=Выберите тип устройства
+pcSettings.tsDevice.cbDeviceMode.Text=Выберите режим устройства
+pcSettings.tsDevice.cbDeviceMode.Items.Strings=Выберите режим устройства
+pcSettings.tsDevice.cbSourceType.Text=Выберите тип источника
+pcSettings.tsDevice.cbSourceType.Items.Strings=Выберите тип источника
+pcSettings.tsDevice.pnBaudrate.lBaudrate.Caption=Скорость соединения
+pcSettings.tsDevice.pnSourceFileName.lSourceFileName.Caption=Источник
+pcSettings.tsDevice.pnSourceList.lSourceList.Caption=Источник
+pcSettings.tsDevice.pnSourceList.cbSourceList.Text=Выберите источник
+pcSettings.tsDevice.pnSourceList.cbSourceList.Items.Strings=Выберите источник
+pcSettings.tsDevice.pnSourceText.lSourceText.Caption=Источник
+btnOk.Caption=Принять
+btnCancel.Caption=Отмена
+
+[TdlgDeviceInfo]
+Caption=Информация об устройстве
+btnClose.Caption=Закрыть
+
+[TdlgFHProperties]
+Caption=Настройка повторно открываемых файлов
+lNumber.Caption=Число файлов
+gbItems.Caption=Повторно открываемые файлы
+gbItems.pnActions.btnClear.Caption=Очистить
+gbItems.pnActions.btnDelete.Caption=Удалить
+gbItems.pnActions.btnDeleteNonExistent.Caption=Удалить несуществующие
+btnCancel.Caption=Отмена
+btnSave.Caption=Сохранить
+
+[TdlgFramesView]
+tbToolBar.tbComment.Hint=Установить комментарий для выбранного сообщения (F4)
+tbToolBar.tbCopy.Hint=Копировать в TX-List
+
+[TdlgGatewayEdit]
+Caption=Режим шлюза
+lFromChannel.Caption=Из канала:
+lToChannel.Caption=В канал:
+rbAccept.Caption=Пропустить все
+rbReject.Caption=Отклонить все
+cbEnabled.Caption=Включить шлюз
+btnOk.Caption=Установить
+btnCancel.Caption=Отмена
+
+[TdlgHWFilterEdit]
+Caption=Установить фильтр
+lMask.Caption=Маска
+lCode.Caption=Id
+stMask.Caption=Маска: 0 - Не важен / 1 - Важен
+edMask.Hint=0 - Не важен / 1 - Важен
+cbEnabled.Caption=Включить фильтр
+btnOk.Caption=Установить
+btnCancel.Caption=Отмена
+cb29bit.Caption=29 bit фильтр
+
+[TdlgLicense]
+Caption=Ввод лицензия
+lKey.Caption=Ключ
+lLicense.Caption=Лицензия
+lID.Caption=ID системы
+btnRegister.Caption=Регистрация
+btnClose.Caption=Закрыть
+btnLoad.Caption=Загрузить из файла
+
+[TdlgLogSettings]
+Caption=Настройки записей трейсов
+lLogsList.Caption=Список трейсов
+btnOk.Caption=Применить
+btnCancel.Caption=Отмена
+pcLogSettings.tsGeneral.Caption=Основное
+pcLogSettings.tsGeneral.lDirName.Caption=Директория сохранения трейсов
+pcLogSettings.tsGeneral.cbStartOnConnect.Caption=Включить запись после подключения к устройству
+pcLogSettings.tsGeneral.cbRecordTX.Caption=Записывать TX сообщения (для CAN/FD/XL)
+pcLogSettings.tsGeneral.leFileNameMask.EditLabel.Caption=Маска файла (расширение файла .trc добавляется автоматически)
+pcLogSettings.tsGeneral.cbBinaryLog.Caption=Сохранять трейст в бинарном виде (Быстрее, Экспериментально)
+pcLogSettings.tsMetaInfo.Caption=Метаинформация
+pcLogSettings.tsMetaInfo.lTransportType.Caption=Тип транспорта
+pcLogSettings.tsMetaInfo.lTransportBrand.Caption=Марка
+pcLogSettings.tsMetaInfo.lTransportModel.Caption=Модель
+pcLogSettings.tsMetaInfo.lTransportBody.Caption=Кузов
+pcLogSettings.tsMetaInfo.lTransportYear.Caption=Год
+pcLogSettings.tsFilter.Caption=Фильтр
+pcLogSettings.tsFilter.cbDisableHwFilter.Caption=Запретить аппаратные фильтры
+leLogName.EditLabel.Caption=Название трейса
+btnOpen.Caption=Открыть
+btnSave.Caption=Сохранить
+btnNew.Caption=Новый
+bbAddFile.Caption=Добавить
+bbRemoveFile.Caption=Удалить
+bbDuplicate.Hint=Дублировать
+pmSave.miSave.Caption=Сохранить
+pmSave.miSaveAs.Caption=Сохранить как...
+
+[TdlgMarker]
+Caption=Установить точку останова / Метку
+lbLabel.Caption=Метка:
+lbComment.Caption=Комментарий:
+btOk.Caption=Установить
+btCancel.Caption=Отмена
+
+[TdlgMarkerList]
+Caption=Список точек останова / меток
+btOk.Caption=Сохранить
+btCancel.Caption=Отмена
+btnGo.Caption=К метке
+
+[TdlgRangeFilterEdit]
+Caption=Фильтр на диапазон
+gbRange.Caption=Диапазон
+gbRange.lFrom.Caption=От
+gbRange.lTo.Caption=По
+gbRange.cbEnabled.Caption=Активировать фильтр
+gbExclude.Caption=Исключить
+gbExclude.lExclude.Caption=Список исключённых идентификаторов
+gbExclude.stInfo.Caption=Используйте запятую как разделитель
+btnSet.Caption=Установить
+btnCancel.Caption=Отмена
+
+[TdlgRangeFilterExEdit]
+Caption=Исключение из фильтра
+lMask.Caption=Маска
+lCode.Caption=Id
+stMask.Caption=Маска: 0 - Не важен / 1 - Важен
+edMask.Hint=0 - Не важен / 1 - Важен
+cbEnabled.Caption=Активировать исключение
+btnOk.Caption=Установить
+btnCancel.Caption=Отмена
+
+[TdlgRarePeriod]
+Caption=Период изменения редких данных
+lbPeriod.Caption=Задать минимальный период редко меняющихся данных
+lMS.Caption=мс
+btnSet.Caption=Установить
+btnCancel.Caption=Отмена
+
+[TdlgTracerDelay]
+Caption=Пользовательская пауза
+lCustomDelay.Caption=Пауза (10 - 9999)
+lMS.Caption=мс
+btSet.Caption=Установить
+
+[TdlgTracerRow]
+Caption=Добавить строку
+gbDBC.Caption=DBC
+gbDBC.lNode.Caption=Узел
+gbDBC.lMessage.Caption=Сообщение
+btnSave.Caption=Сохранить
+btnCancel.Caption=Отмена
+gbData.Caption=Сырые данные
+gbSignals.Caption=Сигналы
+gbMessage.Caption=Сообщение
+gbMessage.lBusType.Caption=Тип шины
+gbFlags.Caption=Флаги
+gbFlags.pnLIN.cbMaster.Caption=Master
+gbFlags.pnLIN.cbEnhanced.Caption=Enhanced CRC
+gbOptions.Caption=Опции
+gbOptions.lDelay.Caption=Пауза (мс)
+gbOptions.lValue.Caption=Значение
+gbOptions.lBefore.Caption=Перед
+gbOptions.lAfter.Caption=После
+gbOptions.btnFillData.Caption=Заполнить
+
+[TdlMsgIdEdit]
+Caption=Установить ID сообщения
+lMsgID.Caption=ID сообщения
+btnOk.Caption=Принять
+btnCancel.Caption=Отмена
+
+[TframeBase64Tasks]
+pnTransmit.pnTask.pnMsg.lData.Caption=Данные
+pnTransmit.pnTask.pnMsg.lComment.Caption=Комментарий
+
+[TframeBase8Tasks]
+pnTransmit.pnTask.pnMsg.lData.Caption=Данные
+pnTransmit.pnTask.pnMsg.lComment.Caption=Комментарий
+
+[TframeBaseTasks]
+pnTransmit.pnTask.pnChannel.lChannel.Caption=Канал
+pnTransmit.pnTask.pnMsgCfg.lPeriod.Caption=Период (мс)
+pnTransmit.pnTask.pnMsgCfg.lValue.Caption=Значение
+pmPopup.miSingle.Caption=Одиночный
+alTasks.acExecShot.Caption=Отправить
+alTasks.acTaskAdd.Caption=Добавить
+alTasks.acTaskCopy.Caption=Копировать
+alTasks.acTaskDelete.Caption=Удалить
+alTasks.acExecRunPause.Caption=Старт/Пауза
+alTasks.acTaskClear.Caption=Очистить список
+alTasks.acTaskFillData.Caption=Заполнить
+alTasks.acExecRunAll.Caption=Запустить все
+alTasks.acExecPauseAll.Caption=Остановить все
+alTasks.acCounterReset.Caption=Сбросить счётчик
+alTasks.acCounterResetAll.Caption=Сбросить все счётчики
+alTasks.acFileLoad.Caption=Загрузить
+alTasks.acFileSave.Caption=Сохранить
+
+[TframeCANTasks]
+pnTransmit.pnTask.pnTrigger.lTrigger.Caption=Триггер
+pnTransmit.pnTask.pnTrigger.lDelay.Caption=Задержка
+pnTransmit.pnTask.pnTrigger.lAction.Caption=Действие
+pnTransmit.pnTask.pnTrigger.pnTriggerMsg.lTriggerData.Caption=Данные
+pnTransmit.pnTask.pnTrigger.pnTriggerChannel.cbTriggerChannel.Items.Strings=Любой
+pnTransmit.pnTask.pnTrigger.cbTrigger.Items.Strings=Нет\^Одиночный\^Старт\^Стоп
+
+[TFrameDeviceChannel]
+lChanAlias.Caption=Название канала
+pnNominalBaudrate.lNominalBaudrate.Caption=Номинальная скорость
+pnNominalBaudrate.btnNBRConfigure.Hint=Настроить скорости
+pnListenMode.cbListenMode.Caption=Только слушать
+pnLIN_CRC_Type.lLIN_CRC_Type.Caption=Тип CRC
+pnLIN_CRC_Type.rbLINClassicCRC.Caption=Классический
+pnLIN_CRC_Type.rbLINEnhancedCRC.Caption=Расширенный
+pnAutoOpen.cbAutoOpen.Caption=Автоматическое открытие
+pnTerminator.cbTerminator.Caption=Включить терминатор 120Ohm
+pnPullUp.cbPullUpDataLine.Caption=Подтянуть шину данных
+pnChannelMode.lChannelMode.Caption=Режим канала
+pnDataBaudrate.lDataBaudrate.Caption=Скорость данных
+pnDataBaudrate.btnDBRConfigure.Hint=Настроить скорости
+pnFDCANMode.lCANMode.Caption=Режим CAN-FD
+pnFDCANMode.cbClassicCAN.Caption=Классический CAN
+pnFDCANMode.cbBitRateSwitch.Caption=Переключение скоростей
+pnIDLEDelay.lIDLEDelay.Caption=Задержка обработки IDLE
+pnIDLEDelay.cbIDLEDelay.Items.Strings=Не использовать\^100 мкс\^200 мкс\^250 мкс\^500 мкс\^750 мкс\^1000 мкс\^1500 мкс\^2000 мкс
+pnTxConfirm.cbTxConfirm.Caption=Подтверждение отправки сообщения
+pnFDFrameFormat.lFDFrameFormat.Caption=CAN-FD Протокол
+
+[TframeLINResponse]
+lData.Caption=Данные
+btnProtectId.Caption=Protected ID
+cbSlaveResponseEnabled.Caption=Разрешить ответ подчинённого
+btSetResponse.Caption=Установить ответ
+
+[TframeLINTransmit]
+pnTransmit.pnTask.pnMsgCfg.btnProtectId.Caption=Protected ID
+
+[TframeLogChannelFilter]
+lFilterMode.Caption=Режим фильтра
+lMsgIDLength.Caption=Длина MsgID
+lFIlterType.Caption=Тип фильтра
+cbFilterMode.Items.Strings=Отклонить все сообщения кроме из фильтра\^Принимать все сообщения кроме из фильтра
+cbFilterType.Items.Strings=ID/Маска\^Диапазон
+pnIDMask.lMask.Caption=Маска
+pnRange.lIDStart.Caption=Стартовый ID
+pnRange.lIDFinish.Caption=Конечный ID
+btnAdd.Caption=Добавить
+btnRemove.Caption=Удалить
+btnDuplicate.Caption=Дублировать
+
+[TframeReceive]
+pmPopup.miSaveRXList.Caption=Сохранить RX-list
+pmPopup.miStreamLoad.Caption=Загрузить данные
+pmPopup.miStreamSave.Caption=Сохранить данные
+pmPopup.miStreamToTracer.Caption=Открыть в отладчике
+pmPopup.miClear.Caption=Очистить
+pmPopup.miMsgBitMap.Caption=Битовая карта
+pmPopup.miMessageSignalsShow.Caption=Показать сигналы
+pmPopup.miComment.Caption=Установить комментарий
+pmPopup.miCopy.Caption=Копировать сообщение в TX-List
+pmPopup.miToFilter.Caption=Добавить ID сообщения в фильтр
+pmPopup.miHexMsgID.Caption=ID сообщения в HEX
+pmPopup.miClearProtect.Caption=Сбросить бит защищённости
+pmPopup.miSort.Caption=Сортировать принятые сообщения
+pmPopup.miGroupByChannel.Caption=Группировать по каналам
+
+[TframeReceiveChannel]
+gbMain.Caption=Канал %d
+pmPopup.miSaveRXList.Caption=Сохранить RX-list
+pmPopup.miClear.Caption=Очистить
+pmPopup.miMsgBitMap.Caption=Просмотреть битовую карту сообщения
+pmPopup.miComment.Caption=Установить комментарий
+pmPopup.miCopy.Caption=Копировать сообщение в TX-List
+pmPopup.miToFilter.Caption=Добавить ID сообщения в фильтр
+pmPopup.miHexMsgID.Caption=ID сообщения в HEX
+pmPopup.miClearProtect.Caption=Сбросить бит защищённости
+pmPopup.miSort.Caption=Сортировать принятые сообщения
+
+[TframeTracerSignalBase]
+lSignal.Caption=Сигнал
+
+[TfrmBruteForceCAN]
+Caption=Бомбер CAN
+cbStop.Caption=Остановить при получении
+btnInc.Caption=Шаг +
+btnDec.Caption=Шаг -
+btnShot.Caption=Отправить
+btnRun.Caption=Старт
+btnScript.Caption=Скрипт
+gbCRC.Caption=Расчёт CRC
+gbCRC.lCRCType.Caption=Тип
+gbCRC.lInsertTo.Caption=Вставить CRC в
+gbCRC.cbCRC_Data0.Caption=Data 0
+gbCRC.cbCRC_Data1.Caption=Байт 1
+gbCRC.cbCRC_Data2.Caption=Байт 2
+gbCRC.cbCRC_Data3.Caption=Байт 3
+gbCRC.cbCRC_Data4.Caption=Байт 4
+gbCRC.cbCRC_Data5.Caption=Байт 5
+gbCRC.cbCRC_Data6.Caption=Байт 6
+gbCRC.cbCRC_Data7.Caption=Байт 7
+gbCRC.gbSignalGroup.lIDValue.Caption=Значение
+gbCRC.gbSignalGroup.lIDPosition.Caption=Позиция
+gbCRC.cbSignalGroup.Caption=Signal Group ID
+gbCRC.btnCustomCrcScript.Caption=Скрипт расчёта CRC
+gbCRC.gbCounter.lCounterMask.Caption=Маска
+gbCRC.gbCounter.lCounterPosition.Caption=Позиция
+gbCRC.cbCounter.Caption=Счётчик
+gbCRC.btnCalcCRC.Caption=Рассчитать
+gbConfiguration.Caption=Настройка
+gbConfiguration.lChannel.Caption=Канал
+gbConfiguration.lFrom.Caption=ID с
+gbConfiguration.lTo.Caption=по
+gbConfiguration.lMode.Caption=Режим
+gbConfiguration.lPeriod.Caption=Период
+gbConfiguration.lPerStep.Caption=Сообщ. за шаг
+gbConfiguration.cbMode.Items.Strings=Счётчик ID сообщений\^Список ID сообщений\^Цикл по списку ID сообщений\^Счётчик данных\^Счётчик данных+сдвиг
+gbConfiguration.gbIDList.Caption=Список ID
+gbMessage.Caption=Сообщение
+gbMessage.lMsgID.Caption=Текущий ID
+gbMessage.lValue.Caption=Заполнить значением
+gbMessage.btnFill.Caption=Заполнить
+rbStopAnyMessage.Caption=любого сообщения
+rbStopMessage.Caption=сообщения
+pmIDList.miFromReceiveMonitor.Caption=ID из монитора приёма
+pmIDList.miIDAdd.Caption=Добавить ID
+pmIDList.miIDRemove.Caption=Удалить ID
+pmIDList.miLoadIDList.Caption=Загрузить список
+pmIDList.miSaveList.Caption=Сохранить список
+pmIDList.miClearList.Caption=Очистить
+
+[TfrmBruteForceLIN]
+Caption=Бомбер LIN
+lValue.Caption=Значение
+lPerStep.Caption=Сообщений за шаг
+lPeriod.Caption=Период
+lData.Caption=Данные
+lProtected.Caption=Защищённый ID
+lTo.Caption=Перебрать до
+lChannel.Caption=Канал
+btnFill.Caption=Заполнить
+btnRun.Caption=Запустить
+cb3DRequest.Caption=Отправить диаг. запрос мастера 0x3D (0x7D) после 0x3C
+
+[TfrmDBCManager]
+Caption=DBC Manager
+alMain.acNew.Hint=Создать новый DBC файл
+alMain.acOpen.Hint=Открыть DBC файл
+alMain.acSave.Hint=Сохранить изменения
+alMain.acClose.Hint=Закрыть DBC файл
+alMain.acUp.Hint=Изменить приоритет ввер
+alMain.acDown.Hint=Изменить приоритет вниз
+alMain.acRefresh.Hint=Перезагрузить DBC файлы
+pmAssign.miUnassignAll.Caption=Отвязать от всех каналов
+pmAssign.miUnassignAllFromAll.Caption=Отвязать все DBC файлы
+
+[TfrmDBCSignalViewer]
+Caption=Просмотр сигналов
+pnControl.lNode.Caption=Узлы
+pnControl.lMessage.Caption=Сообщения
+pnControl.lSignal.Caption=Сигналы
+pnControl.btSignalAdd.Caption=Добавить в просмотр
+pnControl.btSignalCreate.Caption=Создать новый сигнал
+pnControl.btSignalRemove.Caption=Удалить выбранный сигнал
+pnControl.cbActual.Caption=Принятые
+
+[TfrmDetails]
+gbBitMap.Caption=Битовая карта
+gbBitMap.pnTitle.lDecByte.Caption=Десятичное число
+gbComment.Caption=Комментарий
+
+[TfrmESEditor]
+alEditor.acOpen.Caption=Открыть	файл
+alEditor.acOpen.Hint=Открыть файл
+alEditor.acSave.Caption=Сохранить...
+alEditor.acSave.Hint=Сохранить файл
+alEditor.acAccept.Hint=Проверить и применить скрипт
+alEditor.acSaveAs.Caption=Сохранить как...
+alEditor.acNew.Hint=Новый скрипт
+alEditor.acRemove.Hint=Удалить скрипт
+
+[TfrmFilter]
+Caption=Фильтры
+
+[TfrmMain]
+tbMain.tbConnect.Hint=Подключиться/Отключиться
+tbMain.tbDeviceChannelOptions.Hint=Изменение опций каналов
+tbMain.tbClear.Hint=Сбросить полученные данные
+tbMain.tbDBCManager.Hint=Открыть DBC менеджер
+tbMain.tbStream.Hint=Открыть окно потока принимаемых данных (F2)
+tbMain.tbTracer.Hint=Открыть отладчик (F12)
+tbMain.tbTransmit.Hint=Открыть окно передачи
+tbMain.tbTransmit.Caption=Передача данных
+tbMain.tbFilter.Hint=Настройки CAN-фильтра
+tbMain.tbLogs.Hint=Настройки фонового логирования потока
+pnWorkArea.pcReceive.tsReceive.Caption=Приём
+pnWorkArea.pcReceive.tsReceive.gvReceive.Caption=Приём
+pnWorkArea.pcReceive.tsSeparateReceive.Caption=Раздельный приём
+pnWorkArea.pnTransmit.pcTransmit.tsCANTasks.Caption=CAN Передача
+pnWorkArea.pnTransmit.pcTransmit.tsLINTasks.Caption=LIN Передача
+pnWorkArea.pnTransmit.pcTransmit.tsLINBruteForce.Caption=Ответ LIN
+pnWorkArea.pnTransmit.pcTransmit.tsLINBruteForce.pnLINCustom.gbLINResponse.Caption=Ответ LIN
+pnWorkArea.pnTransmit.pcTransmit.tsFDTasks.Caption=FD Передача
+pnWorkArea.tbActionBar.tbReceiveSwitch.Hint=Переключение Монитор/Поток (F2)
+pnWorkArea.tbActionBar.tbMsgBitMap.Hint=Просмотр битовой карты для выбранного сообщения (F3)
+pnWorkArea.tbActionBar.tbMsgDetail.Hint=Просмотр истории данных для выбранного сообщения (Ctrl-F3)
+pnWorkArea.tbActionBar.tbCopy.Hint=Копировать в список для передачи
+pnWorkArea.tbActionBar.tbComment.Hint=Установить комментарий для выбранного сообщения (F4)
+pnWorkArea.tbActionBar.tbSplitReceive.Hint=Просмотр сообщений в разрезе каналов
+pnWorkArea.tbActionBar.tbRarelyData.Hint=Отслеживать редко меняющиеся данные
+pnWorkArea.tbActionBar.tbRecord.Hint=Включить / остановить запись потока (F5)
+pnWorkArea.tbActionBar.tbToTracer.Hint=Открыть в отладчике (Ctrl+F12)
+pnWorkArea.tbActionBar.tbSetLabel.Hint=Добавить точку останова / метку (F8 / Автоматическая метка - F9)
+pnWorkArea.tbActionBar.tbAllLabels.Hint=Показать все метки
+pnWorkArea.tbActionBar.tbLoadStream.Hint=Загрузить поток (трейс) из файла
+pnWorkArea.tbActionBar.tbSaveStream.Hint=Сохранить поток (трейс) в файл
+mmMain.miFile.Caption=Файл
+mmMain.miFile.miSaveReceive.Caption=Сохранить список принятых сообщений
+mmMain.miFile.miLoadTransmit.Caption=Загрузить данные для передачи
+mmMain.miFile.miSaveTransmit.Caption=Сохранить данные для передачи
+mmMain.miFile.miLoadComments.Caption=Загрузить комментарии
+mmMain.miFile.miSaveComments.Caption=Сохранить комментарии
+mmMain.miFile.miQuit.Caption=Выход
+mmMain.miConnect.Caption=Подключиться
+mmMain.miStream.Caption=Поток
+mmMain.miTracer.Caption=Отладчик
+mmMain.miGateway.Caption=Шлюз
+mmMain.miBruteForce.Caption=Бомбер
+mmMain.miDBC.Caption=DBC
+mmMain.miDBC.miDBCManager.Caption=Менеджер
+mmMain.miDBC.miDBCSignalViewer.Caption=Просмотр сигналов
+mmMain.miSettings.Caption=Настройки
+mmMain.miSettings.miAppSettings.Caption=Настройки приложения
+mmMain.miSettings.miVehicleDB.Caption=База автомобилей
+mmMain.miSettings.miLanguage.Caption=Язык
+mmMain.miAboutGroup.miDeviceLoad.Caption=Загрузка устройства
+mmMain.miAboutGroup.miDeviceInfo.Caption=Информация об устройстве
+mmMain.miAboutGroup.miRegister.Caption=Регистрация...
+mmMain.miAboutGroup.miCheckVersion.Caption=Проверить обновления...
+mmMain.miAboutGroup.miAbout.Caption=О программе
+pmLogs.miLogSettingsOpen.Caption=Загрузить настройки
+pmLogs.miLogSettingsRecent.Caption=Недавно открытые
+pmRarelyData.miRarelyData.Caption=Подсветка редких данных
+pmRarelyData.miRarelyDataTime.Caption=Задать период редких данных
+pmComment.miCommentsLoad.Caption=Открыть файл с комментариями
+pmComment.miCommentsLoadRecent.Caption=Недавно открытые
+pmComment.miCommentsSave.Caption=Сохранить комментарии в файл
+pmComment.miCommentsClear.Caption=Сбросить файл комментарииев
+
+[TfrmStream]
+Caption=Поток принимаемых данных
+tbMain.tbClear.Hint=Очистить поток (Ctrl+N)
+tbMain.tbOpenStream.Hint=Загрузить поток (трейс) из файла
+tbMain.tbSaveStream.Hint=Сохранить поток (трейс) в файл
+tbMain.tbDBC.Hint=Открыть DBC менеджер
+tbMain.tbComment.Hint=Установить комментарий для выбранного сообщения (F4)
+tbMain.tbCopy.Hint=Копировать в список для передачи
+tbMain.tbRecord.Hint=Включить / остановить запись потока (F5)
+tbMain.tbToTracer.Hint=Открыть в отладчике (Ctrl+F12)
+tbMain.tbSetLabel.Hint=Добавить точку останова / метку (F8 / Автоматическая метка - F9)
+tbMain.tbAllLabels.Hint=Показать все метки
+pmDBC.miDBCManager.Caption=DBC менеджер
+pmDBC.miDBCSignalViewer.Caption=Просмотр чигналов
+pmComment.miCommentOpen.Caption=Открыть файл с комментариями
+pmComment.miCommentRecent.Caption=Недавно открытые
+pmComment.miCommentSave.Caption=Сохранить комментарии в файл
+pmComment.miCommentClear.Caption=Сбросить файл комментарииев
+
+[TfrmTracer]
+tbToolBar.tbTraceOpen.Caption=Повторно открыть
+tbToolBar.tbDBC.Hint=Открыть DBC менеджер
+tbToolBar.tbDelay.Hint=Пауза между отправкой сообщений
+tbToolBar.tbTransmit.Hint=Отсылать в шину CAN
+tbToolBar.tbCopy.Hint=Копировать в TX-List
+pnAddActions.cbStopOnReceiveData.Caption=Остановить при получении данных
+pnAddActions.pnChannel.lOnlyChannel.Caption=Только для канала:
+pnAddActions.pnChannel.cbOnlyChannel.Text=Канал 1
+pnAddActions.pnChannel.cbOnlyChannel.Items.Strings=Канал 1
+pnAddActions.cbStopOnBreak.Caption=Остановить в точке останова
+pnAddActions.stVisible.Caption=Строк: 0 из 0
+sbStatus.Panels.(3).Text=Задержка: Авто
+pnFilter.pnFilterBtn.btnFilterAll.Caption=Все
+pnFilter.pnFilterBtn.btnFilterNone.Caption=Сброс
+pmTransmit.miToMonitor.Caption=В монитор
+pmDelay.miClockAuto.Caption=Пауза между сообщений по умолчанию
+pmDelay.miUseSecondsInDelay.Caption=Макс. 1сек задержка
+pmDelay.miClock10.Caption=Пауза 10 мс
+pmDelay.miClock20.Caption=Пауза 20 мс
+pmDelay.miClock30.Caption=Пауза 30 мс
+pmDelay.miClock40.Caption=Пауза 40 мс
+pmDelay.miClock50.Caption=Пауза 50 мс
+pmDelay.miClockCustom.Caption=Пользовательсякая пауза
+pmTrace.miTraceStart.Caption=Установить начало
+pmTrace.miTraceFinish.Caption=Установить конец
+alTrace.acFilterClearAll.Caption=Сбросить всё
+alTrace.acFilterSetAll.Caption=Выбрать всё
+alTrace.acFilterInverce.Caption=Инвертировать выделение
+alTrace.acFilterSelectMessages.Caption=Выделить сообщения
+alTrace.acFilterDeselectMessages.Caption=Снять выделение
+alTrace.acFilter.Caption=Фильтр сообщений
+alTrace.acTraceOpen.Caption=Открыть
+alTrace.acTraceNew.Caption=Новый
+alTrace.acTraceSave.Caption=Сохранить
+alTrace.acTraceSaveAs.Caption=Сохранить как...
+alTrace.acCommentOpen.Caption=Открыть
+alTrace.acCommentEdit.Caption=Редактировать
+alTrace.acCommentClear.Caption=Очистить
+alTrace.acTraceRowAdd.Caption=Добавить
+alTrace.acTraceRowInsert.Caption=Вставить
+alTrace.acTraceRowEdit.Caption=Редактировать
+alTrace.acTraceRowDelete.Caption=Удалить
+alTrace.acTraceRowsDelete.Caption=Удалить выделенные строки
+alTrace.acTraceRowsCopy.Caption=Копировать выделенные строки
+alTrace.acDisableRow.Caption=Запретить строку
+alTrace.acDisableSelected.Caption=Запретить выделенное
+alTrace.acDisableByID.Caption=Запретить по идентификатору
+alTrace.acEnableRow.Caption=Разрешить строку
+alTrace.acEnableSelected.Caption=Разрешить выделенное
+alTrace.acEnableByID.Caption=Разрешить по идентификатору
+alTrace.acStep.Hint=Шаг
+alTrace.acRun.Hint=Запустить/Остановить отладку
+alTrace.acLoop.Hint=Повторять
+alTrace.acCancelSelection.Caption=Снять выделение
+alTrace.acPlaySelected.Hint=Разрешить запуск выделенного
+alTrace.acFilterDisableMessages.Caption=Запретить сообщения
+alTrace.acFilterEnableMessages.Caption=Разрешить сообщения
+alTrace.acDBC.Caption=DBC
+alTrace.acFindMessages.Caption=Найти сообщения
+alTrace.acTimeDefault.Caption=Временная метка
+alTrace.acTimeLinear.Caption=Линейное время
+alTrace.acTimeLocal.Caption=Локальное время
+mmMain.miTraceFile.Caption=Трейс
+mmMain.miTraceFile.miOpenRecent.Caption=Недавно открытые
+mmMain.miCommen.Caption=Комментарий
+
+[TfrmTransmit]
+Caption=Передача
+
+[ResourceStrings]
+64704_DBC_Parser_rsDBCErrorSignalExist=Сигнал %s уже существует у сообщения
+64733_DBC_Parser_rsDBCErrorFormat=Неверный формат DBC файла! Строка: %d
+64734_DBC_Parser_rsDBCErrorToken=Неверная последовательность токенов
+64735_DBC_Parser_rsDBCErrorSignalNotFound=Сигнал %s не найден
+64800_Transport_Serial_rsErrOpeningDetail2=[3] Задание настроек устройства
+64801_Transport_Serial_rsErrOpeningDetail3=[4] Выставление обработчиков событий устройства
+64802_Transport_Serial_rsErrOpeningDetail4=[5] Параметры инициализации
+64803_Transport_Serial_rsErrOpeningDetail5=[6] Сброс буферов
+64804_Transport_Serial_rsErrOpeningDetail6=[7] Выставление таймеров
+64817_Base_Resource_rsDIGatewayToChannel=в канал %d с %d фильтрами
+64818_Base_Resource_rsLogSelectDirectory=Выберите каталог
+64830_Transport_Serial_rsErrOpeningDetail0=[1] Получение указателя на устройство
+64831_Transport_Serial_rsErrOpeningDetail1=[2] Получение настроек устройства
+64832_Base_Resource_rsDIFirmware=Прошивка
+64833_Base_Resource_rsDIFeatures=Возможности
+64834_Base_Resource_rsDIChannels=Каналы
+64835_Base_Resource_rsDIFeaturesNo=Нет дополнительных функций
+64836_Base_Resource_rsDIFeatureGateway=Шлюз
+64837_Base_Resource_rsCIFeatureCSD=Автоматической определение скорости CAN
+64838_Base_Resource_rsCIFeatureALS=Контроль проигрыша арбитража ALS
+64839_Base_Resource_rsCIFeatureTerminator=Терминатор 120Ом
+64840_Base_Resource_rsCIFeaturePullUp=Подтягивание линии к +12В
+64841_Base_Resource_rsCIFeatureIDLE=Время определения IDLE для шины LIN
+64842_Base_Resource_rsCIFeatureDSD=Определение скорости данных для CAN-FD
+64843_Base_Resource_rsCIFeatureNonISO=Формат фреймов CAN-FD по спецификации Bosch
+64844_Base_Resource_rsDIFeatureFilters=Фильтры
+64845_Base_Resource_rsDIFilters=фильтров
+64848_Base_Resource_rsScriptOverwrite=Замена
+64849_Base_Resource_rsScriptSaveModified=Скрипт модифицирован. Сохранить изменения?
+64850_Base_Resource_rsLicNeverExpires=Бесконечная
+64851_Base_Resource_rsLicExpired=Истекашая
+64852_Base_Resource_rsLicErrorKeyEnter=Пожалуйста, введите ключ лицензии
+64853_Base_Resource_rsLicErrorCodeEnter=Пожалуйста, введите код лицензии
+64854_Base_Resource_rsLicError=Неправильный ключ или код лицензии
+64855_Base_Resource_rsLicInvalidLicense=Неправильное содержимое файла лицензии!
+64856_Base_Resource_rsLicRestart=Необходимо перезапустить приложение!
+64857_Base_Resource_rsLicExpirationSoon=Лицензия "%s" для %s ( %s ) заканчивается %s ( %s )
+64858_Base_Resource_rsLicExpirationDays=через %d дней
+64859_Base_Resource_rsLicExpirationToday=сегодня
+64860_Base_Resource_rsLicDeviceConfirm=Подключите устройство %s для подтверждения лицензии приложения.
+64861_Base_Resource_rsLicSelectFile=Файл лицензии
+64862_Base_Resource_rsDIDevice=Устройство
+64863_Base_Resource_rsDISerial=Серийный номер
+64864_Base_Resource_rsColorWhite=Белый
+64865_Base_Resource_rsDBCAllNodes=Все узлы
+64866_Base_Resource_rsDBCAreUsed=Не могу закрыть DBC файл %s. Где-то ещё используется.
+64867_Base_Resource_rsDBCDifferentBusTypes=Разные значения атрибута BusType между уже добавленными файлами DBC и новым файлом DBC.
+64868_Base_Resource_rsDBCAssignToChannel=Привязать к каналу %s
+64869_Base_Resource_rsDBCSignalViewer=Просмотр сигналов для канала %s
+64870_Base_Resource_rsDBCManagerWarn=Закройте другие окна, использующие DBC-файлы.
+64871_Base_Resource_rsLicenseError=Ошибка лицензии
+64872_Base_Resource_rsLicenseTermsError=Нарушены условия лицензионного соглашения на программное обеспечение.
+64873_Base_Resource_rsBruteForceCRCNone=Нет
+64874_Base_Resource_rsBFAllowIncrement=Включить увеличение байта %0:.2d/x%0:.2x
+64875_Base_Resource_rsBFIncrementValue=На сколько увеличить байт %0:.2d/x%0:.2x
+64876_Base_Resource_rsBFValue=Значение байта %0:.2d/x%0:.2x
+64877_Base_Resource_rsFHProperties=Настройка...
+64878_Base_Resource_rsScriptModified=Изменён
+64879_Base_Resource_rsScriptInsert=Вставка
+64880_Base_Resource_rsNoNewVersion=Нет обновления ПО.
+64881_Base_Resource_rsColorBlack=Чёрный
+64882_Base_Resource_rsColorMaroon=Бордовый
+64883_Base_Resource_rsColorGreen=Зелёный
+64884_Base_Resource_rsColorOlive=Оливковый
+64885_Base_Resource_rsColorNavy=Тёмно-синий
+64886_Base_Resource_rsColorPurple=Розовый
+64887_Base_Resource_rsColorTeal=Сине-зелёный
+64888_Base_Resource_rsColorGray=Серый
+64889_Base_Resource_rsColorSilver=Серебрянный
+64890_Base_Resource_rsColorRed=Красный
+64891_Base_Resource_rsColorLime=Светло-зелёный
+64892_Base_Resource_rsColorYellow=Жёлтый
+64893_Base_Resource_rsColorBlue=Синий
+64894_Base_Resource_rsColorFuchsia=Фиолетовый
+64895_Base_Resource_rsColorAqua=Голубой
+64896_Base_Resource_rsTraceSelectedRows=Текущая строка: %d / Выдылено: %d
+64897_Base_Resource_rsTraceCaption=Отладчик
+64898_Base_Resource_rsTraceFile=Отладчик - %s
+64899_Base_Resource_rsTraceVisible=Строк: %d из %d
+64900_Base_Resource_rsTraceToChannel=Передача в канал %s
+64901_Base_Resource_rsTraceDelay=Пауза: %s
+64902_Base_Resource_rsTraceDelayAuto=Авто
+64903_Base_Resource_rsTraceDelayMS=%d мс
+64904_Base_Resource_rsTraceChanUnknown=Неизвестно
+64905_Base_Resource_rsTraceRowAdd=Добавить
+64906_Base_Resource_rsTraceRowInsert=Вставить
+64907_Base_Resource_rsTraceRowEdit=Отредактировать
+64908_Base_Resource_rsTraceDBCManager=Tracer DBC Manager
+64910_Base_Resource_rsNotificationAppBody=Новая версия программного обеспечения доступна!\^Новая версия: %s
+64911_Base_Resource_rsDownloadQuery=%s\^Загрузить?
+64912_Base_Resource_rsTriggerAnyChannel=Все
+64913_Base_Resource_rsMFCaptionChan=[%s] %s: Данные сообщения
+64914_Base_Resource_rsMFCaption=%1:s: Данные сообщения
+64915_Base_Resource_rsMDCaptionChan=[%s] %s: Детали сообщения
+64916_Base_Resource_rsMDCaption=%1:s: Детали сообщения
+64917_Base_Resource_rsSplitCaptionChannel=%sКанал %d
+64918_Base_Resource_rsSplitCaptionAlias=%sКанал %d: %s
+64919_Base_Resource_rsTraceAllSupported=Все поддерживаемые форматы
+64920_Base_Resource_rsTraceLoading=Загрузка...
+64921_Base_Resource_rsTraceLoaded=Загружен
+64922_Base_Resource_rsTraceIndexing=Индексирование...
+64923_Base_Resource_rsTraceIndexed=Индексировано
+64924_Base_Resource_rsTraceScanning=Сканирование...
+64925_Base_Resource_rsTraceScanned=Отсканировано
+64926_Base_Resource_rsTraceNextRow=Для отладки: %d
+64927_Base_Resource_rsTraceActiveRow=Текущая строка: %d
+64928_Base_Resource_rsFilterTypeFull=Фильтр ID/Маска
+64929_Base_Resource_rsFilterTypeSimple=Фильтр ID
+64930_Base_Resource_rsFilterDescrRange=Диапазон %s-%s
+64931_Base_Resource_rsFilterDescrMask=Маска %s/%s
+64932_Base_Resource_rsFilterDescrID=Сообщение %s
+64933_Base_Resource_rsFilterDescrError=Плохой фильтр
+64934_Base_Resource_rsGateway=Шлюз
+64935_Base_Resource_rsGatewayAll=%s все из %d в %d
+64936_Base_Resource_rsGatewayAllExcept=%s все из %d в %d исключая
+64937_Base_Resource_rsGatewayAccept=Пропускать
+64938_Base_Resource_rsGatewayReject=Отклонять
+64939_Base_Resource_rsGatewayFilter=[%d] Id: %s / Маска: %s
+64940_Base_Resource_rsGatewayFilterSingle=[%d] Id: %s
+64941_Base_Resource_rsGatewayFilterDual=[%d] Id 1: %s / Id 2: %s
+64942_Base_Resource_rsRcvDetailAlwaysOnTop=Сделать окно всегда сверху
+64943_Base_Resource_rsRcvDetailNormal=Сделать окно нормальным
+64944_Base_Resource_rsColumnDeviceState=Состояние
+64947_Base_Resource_rsColumnDBCFile=Файл
+64948_Base_Resource_rsColumnDBCAssignedTo=Привязан к
+64949_Base_Resource_rsColumnDBCUse=Влючен
+64950_Base_Resource_rsColumnDBCMessageID=ID
+64951_Base_Resource_rsColumnDBCMessageName=Сообщение
+64952_Base_Resource_rsColumnDBCSignalName=Сигнал
+64953_Base_Resource_rsColumnDBCSignalValue=Значение
+64954_Base_Resource_rsColumnDBCSignalUnit=Ед.
+64955_Base_Resource_rsColumnDBCSignalGraph=График
+64956_Base_Resource_rsRangeFilter=Канал %d: С %s по %s
+64957_Base_Resource_rsRangeFilterExclude=Исключить Id: %s / Маска: %s
+64958_Base_Resource_rsRangeFilterExcludeLite=Исключить Id: %s
+64959_Base_Resource_rsFilterRange=Фильтр Диапазон
+64960_Base_Resource_rsColumnLabel=Метка
+64962_Base_Resource_rsColumnFilterChannel=CH
+64963_Base_Resource_rsColumnFilterNumber=Num
+64964_Base_Resource_rsColumnFilterMask=Маска
+64965_Base_Resource_rsColumnFilterId=ID
+64966_Base_Resource_rsColumnFilterPGN=PGN
+64967_Base_Resource_rsColumnFilterName=Название
+64968_Base_Resource_rsColumnFilterCount=Кол-во
+64971_Base_Resource_rsColumnDevice=Устройство
+64972_Base_Resource_rsColumnDeviceDescr=Описание
+64973_Base_Resource_rsColumnDeviceFirmware=Прошивка
+64974_Base_Resource_rsColumnDeviceSource=Источник
+64975_Base_Resource_rsColumnDeviceBaudrate=Скорость
+64976_Base_Resource_rsColumnMsgID=ID
+64977_Base_Resource_rsColumnMsgPriority=Приоритет
+64978_Base_Resource_rsColumnMsgPGN=PGN
+64979_Base_Resource_rsColumnMsgName=Название
+64980_Base_Resource_rsColumnMsgNode=Узел
+64981_Base_Resource_rsColumnMsgSrc=Src
+64982_Base_Resource_rsColumnMsgDst=Dst
+64983_Base_Resource_rsColumn_DLC=DLC
+64984_Base_Resource_rsColumnData=Данные
+64985_Base_Resource_rsColumnCRC=CRC
+64986_Base_Resource_rsColumnPeriod=Период
+64987_Base_Resource_rsColumnCount=Счётчик
+64988_Base_Resource_rsColumnFC=FC
+64989_Base_Resource_rsColumn_ASCII=ASCII
+64991_Base_Resource_rsColumnComment=Комментарий
+64992_Base_Resource_rsOptionTerminator=Включить терминатор 120 Ом
+64993_Base_Resource_rsOptionALSControl=Включить контроль ALS
+64994_Base_Resource_rsOptionTxConfirm=Подтверждение отправки сообщения
+64995_Base_Resource_rsOptionPullUp=Подтянуть LIN к +12В
+64996_Base_Resource_rsOptionEnhancedCRC=Расширенный CRC
+64997_Base_Resource_rsTransmitExecRun=Старт
+64998_Base_Resource_rsTransmitExecPause=Пауза
+64999_Base_Resource_rsTransmitExecRunPause=Старт/Пауза
+65000_Base_Resource_rsTransmitCustomCRC=CRC скрипт
+65003_Base_Resource_rsColumnTimeStamp=Время
+65004_Base_Resource_rsColumnFlags=Флаги
+65006_Base_Resource_rsColumnChannel=CH
+65007_Base_Resource_rsColumnRxTx=Rx/Tx
+65015_Base_Resource_rsTimingTypeNominal=Номинальное
+65016_Base_Resource_rsTimingTypeData=Данных
+65017_Base_Resource_rsTimingAutoDetect=Определение скорости
+65018_Base_Resource_rsTimingProbe=Пробуем: %s
+65019_Base_Resource_rsTimingResult=Результат: %s
+65020_Base_Resource_rsTimingFailed=Неудачно
+65021_Base_Resource_rsTimingDetecting=Определение...
+65022_Base_Resource_rsTimingSpeedInfo=Информация о соединении
+65023_Base_Resource_rsSourceSerialPort=Последовательный порт
+65024_Base_Resource_rsDevStateChanClosing=Закрытие
+65025_Base_Resource_rsDevStateChanOpening=Открытие
+65026_Base_Resource_rsDevStateChanOpened=Открыт
+65027_Base_Resource_rsDevStateChanFailure=Отказ
+65028_Base_Resource_rsDevStateClosing=Отключение
+65029_Base_Resource_rsDevStateError=Ошибка
+65030_Base_Resource_rsSBStreamRecording=Запись
+65031_Base_Resource_rsBruteForceRun=Старт
+65032_Base_Resource_rsBruteForceStop=Стоп
+65033_Base_Resource_rsChannelNum=Канал %d%s
+65034_Base_Resource_rsChannelModeNormal=Нормальный
+65035_Base_Resource_rsChannelModeSilent=Только прослушивание
+65036_Base_Resource_rsChannelModeLoopback=Замкнут на себя
+65037_Base_Resource_rsSameAsChannel1=Как канал 1
+65040_Base_Resource_rsErrCfgDevType=Не выбран тип устройства.
+65041_Base_Resource_rsErrCfgSetDeviceMode=Необходимо выбрать режим работы устройства.
+65042_Base_Resource_rsErrCfgSetSourceType=Необходимо выбрать тип источника данных для устройства.
+65043_Base_Resource_rsErrCfgSetSourceText=Необходимо задать строку для источника данных.
+65044_Base_Resource_rsErrCfgSetSourceList=Необходимо выбрать источник данных для выбранного устройства.
+65045_Base_Resource_rsErrConnectionTimeout=Превышено время ответа устройства. Ожидание ответа на команду %s свыше %d ms.
+65046_Base_Resource_rsErrProto=Получены неизвестные данные:\^%s
+65047_Base_Resource_rsErrOpenChannel=Не могу открыть канал %d...
+65048_Base_Resource_rsErrWMIProblem=Обнаружен сбой!\^Некоторые функции могут работать некорректно.
+65049_Base_Resource_rsWMI=Инструментарий управления Windows
+65050_Base_Resource_rsRcvFramesRows=Строк: %d
+65051_Base_Resource_rsCfgRestartRequired=(необходимо перезапустить приложение)
+65052_Base_Resource_rsDevStateClosed=Не подключен
+65053_Base_Resource_rsDevStateOpening=Соединение...
+65054_Base_Resource_rsDevStateOpened=Подключено
+65055_Base_Resource_rsDevStateChanClosed=Закрыт
+65056_Base_Resource_rsWarnCantAddFilter=Не могу добавить фильтр.
+65057_Base_Resource_rsWarnFileNotExists=Файл %s не существует!
+65058_Base_Resource_rsErrCantReplaceFile=Не могу заменить файл.
+65059_Base_Resource_rsErrCantSaveFile=Не могу сохранить файл.
+65060_Base_Resource_rsErrDevType=Неверный тип устройства.
+65061_Base_Resource_rsErrDevSerial=Неверный серийный номер.
+65062_Base_Resource_rsErrDevUpgradeFirmware=Необходимо обновить ПО устройства!
+65063_Base_Resource_rsErrApplicationUpdate=Необходимо обновить приложение!
+65064_Base_Resource_rsErrBootLoader=Устройство в режиме загрузчика...
+65065_Base_Resource_rsErrUnknown=Неизвестная ошибка.
+65066_Base_Resource_rsErrOpening=Не могу открыть порт %s:\^%s
+65067_Base_Resource_rsErrOpeningDetails=Не могу открыть порт %s:\^%s\^Детализация: %s.
+65068_Base_Resource_rsErrInvalidFileFormat=Неверный формат файла!
+65069_Base_Resource_rsErrInvalidFileFmtLine=Неверный формат файла в строке %d!
+65070_Base_Resource_rsErrUnsupportedFormat=Не поддерживаемое расширение формата!
+65071_Base_Resource_rsErrUnsupportedFmtLine=Не поддерживаемое расширение формата в строке %d!
+65072_Base_Resource_rsMenuStream=Поток данных
+65073_Base_Resource_rsMenuMonitor=Монитор
+65074_Base_Resource_rsStreamSaved=Поток данных сохранён!
+65075_Base_Resource_rsReceiveMonitor=Приём [ Монитор ]
+65076_Base_Resource_rsReceiveStream=Приём [ Поток данных ]
+65077_Base_Resource_rsMsgTitleError=Ошибка
+65078_Base_Resource_rsMsgTitleConfirm=Подтвердить
+65079_Base_Resource_rsMsgTitleInfo=Информация
+65080_Base_Resource_rsMsgTitleWarn=Предупреждение
+65081_Base_Resource_rsMsgDontShow=Больше не показывать
+65082_Base_Resource_rsConfirmFileReplace=Файл уже существует. Заменить?
+65083_Base_Resource_rsConfirmAppendComments=Добавить комментарии к уже существующему списку?
+65084_Base_Resource_rsConfirmClearTasks=Сбросить все задачи на передачу данных?
+65085_Base_Resource_rsConfirmRestartApp=Перезапустить приложение?
+65086_Base_Resource_rsInfoRestartApp=Требуется перезапуск приложения.
+65087_Base_Resource_rsInfoCopyID=Скопировать идентификатор системы в буфер обмена
+65091_Base_Resource_rsEndOfSupport=Заканчивается поддержка Windows XP, Vista и Server 2003.
+65092_Base_Resource_rsAppUpdateRequered=Данное приложение устарело. Просьба обновиться до актуальной версии.
+65093_Base_Resource_rsLicenseRequired=Чтобы продолжить использование программы, подключитесь к своему устройству CAN-Hacker или приобретите лицензию на использование приложения.
+65094_Base_Resource_rsDeviceLocked=Вы используете неоригинальное устройство CAN-Hacker. Это устройство нельзя использовать из-за лицензионных ограничений. Если вы хотите использовать свое устройство, приобретите лицензию.
+65095_Base_Resource_rsSystemLocked=Ваша система заблокирована из-за нарушения лицензионного соглашения.
+65096_Base_Resource_rsLicenseLocked=Ваша лицензия заблокирована из-за нарушения лицензионного соглашения. Свяжитесь со службой поддержки.
+65097_Base_Resource_rsLicenseLockedMsg=Ваша лицензия заблокирована по следующей причине:
+65098_Base_Resource_rsConnectionRequired=Для продолжения нормального использования программы необходим доступ к Интернету для проверки лицензии устройства.\^\^Для этого предоставьте компьютеру доступ к интернет и подключитесь к Вашему устройству на 5-10 минут.
+65099_Base_Resource_rsConnectionUpdated=Спасибо за подключение к интернету. Мы обновили важную информацию по устройству.
+65100_Base_Resource_rsApplicationClosed=Приложение будет закрыто.
+65101_Base_Resource_rsDebuggerDetected=Обнаружен запуск приложения под отладчиком.
+65102_Base_Resource_rsMenuConnect=Подключиться
+65103_Base_Resource_rsMenuDisconnect=Отключиться

@@ -7,56 +7,73 @@ import java.util.Arrays;
  */
 public class Hex {
 
-    final private static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    public static byte[] hexStringToByteArray(String s) throws Exception {
-        return hexStringToByteArray(s.getBytes());
+    public static byte[] hexStringToByteArray(String s) {
+        return parseHex(s.toCharArray());
     }
 
-    public static byte[] hexStringToByteArray(byte[] s) throws Exception {
-        int len = s.length;
+    public static byte[] hexStringToByteArray(byte[] s) {
+        char[] chars = new char[s.length];
+        for (int i = 0; i < s.length; i++) {
+            chars[i] = (char) (s[i] & 0xFF);
+        }
 
-        byte[] data = new byte[len / 2];
-        int i = 0;
-        int b = 0;
-        while (i < len) {
-            while (s[i] == ' ') { i++; }
-            char highChar = (char) s[i++];
-            byte high = (byte) Character.digit(highChar, 16);
-            if (high == -1) {
-                throw new Exception("Unexpected character `" + highChar + "`");
+        return parseHex(chars);
+    }
+
+    private static byte[] parseHex(char[] chars) {
+        byte[] data = new byte[(chars.length + 1) / 2];
+        int byteCount = 0;
+        int highNibble = -1;
+
+        for (char character : chars) {
+            if (Character.isWhitespace(character)) {
+                continue;
             }
 
-            while (s[i] == ' ') { i++; }
-            char lowChar = (char) s[i++];
-            byte low = (byte) Character.digit(lowChar, 16);
-            if (low == -1) {
-                throw new Exception("Unexpected character `" + lowChar + "`");
+            int nibble = Character.digit(character, 16);
+            if (nibble < 0) {
+                throw new IllegalArgumentException("Unexpected character `" + character + "`");
             }
 
-            data[b++] = (byte) ((high << 4) + low);
+            if (highNibble < 0) {
+                highNibble = nibble;
+            } else {
+                data[byteCount++] = (byte) ((highNibble << 4) | nibble);
+                highNibble = -1;
+            }
         }
-        if (b < data.length) {
-            data = Arrays.copyOfRange(data, 0, b-1);
+
+        if (highNibble >= 0) {
+            throw new IllegalArgumentException("Hex string must contain an even number of digits");
         }
-        return data;
+
+        return Arrays.copyOf(data, byteCount);
     }
 
     public static String byteArrayToHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for ( int j = 0; j < bytes.length; j++ ) {
             int v = bytes[j] & 0xFF;
-            hexChars[j * 2] = hexArray[v >>> 4];
-            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
         }
         return new String(hexChars);
     }
 
     public static int bytesToInt(byte[] bytes) {
         int result = 0;
-        for (int i=0; i<bytes.length; i++) {
+        for (int i = 0; i < bytes.length; i++) {
+            int nibble = Character.digit((char) (bytes[i] & 0xFF), 16);
+            if (nibble < 0) {
+                throw new IllegalArgumentException(
+                        "Unexpected character `" + (char) (bytes[i] & 0xFF) + "`"
+                );
+            }
+
             result <<= 4;
-            result += Character.digit(bytes[i], 16);
+            result += nibble;
         }
 
         return result;

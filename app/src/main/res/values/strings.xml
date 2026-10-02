@@ -1,37 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CANreader</string>
+    
+    <!-- Navigation -->
+    <string name="nav_monitor">Monitor</string>
+    <string name="nav_stream">Stream</string>
+    <string name="nav_transmit">Transmit</string>
+    <string name="nav_tracer">Tracer</string>
+    <string name="nav_filters">Filters</string>
+    <string name="nav_settings">Settings</string>
+    
+    <!-- Connection -->
+    <string name="action_connection">Connection</string>
     <string name="action_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="versions">Version: %1$s (code %2$d)</string>
+    
+    <!-- Connect/Disconnect -->
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    
+    <!-- Monitor -->
+    <string name="action_clear">Clear</string>
+    <string name="action_monitor_focus">Focus view</string>
+    <string name="empty_monitor_list">No messages\nConnect a device to start monitoring</string>
+    <string name="empty_stream_list">No data received\nConnect to start streaming</string>
+    
+    <!-- Stream (Поток) -->
+    <string name="stream_clear">Clear</string>
+    <string name="stream_export">Export</string>
+    <string name="stream_import">Import</string>
+    <string name="stream_record">Record</string>
+    <string name="stream_stop">Stop</string>
+    <string name="stream_paused">Paused</string>
+    <string name="stream_recording">Recording...</string>
+    <string name="stream_idle">Idle</string>
+    
+    <!-- Transmit -->
+    <string name="action_new_transmit">New</string>
+    <string name="action_start_all">Start</string>
+    <string name="action_stop_all">Stop</string>
     <string name="action_transmit_delete">Delete</string>
     <string name="action_transmit_edit">Edit</string>
+    <string name="action_transmit_reset">Reset</string>
+    <string name="action_transmit_clear">Clear</string>
+    <string name="action_transmit_reset_all">Reset all</string>
+    <string name="action_transmit_copy">Copy</string>
+    <string name="action_import_tx_list">Import Tx list</string>
+    <string name="action_share_tx_list">Share Tx list</string>
+    <string name="export_tx_list">Export Tx list</string>
+    <string name="tx_list_exported">Transmit list exported</string>
+    <string name="empty_transmit_list">No transmit frames\nTap \"New\" to create one</string>
+    <string name="button_create_transmit">Create transmit</string>
+    
+    <!-- CAN Frame -->
     <string name="can_extended">Extended (29bit)</string>
     <string name="can_rtr">RTR</string>
     <string name="can_id">ID</string>
     <string name="can_data">Data</string>
     <string name="can_period">Period</string>
-    <string name="button_create_transmit">Create transmit</string>
-    <string name="action_clear">Clear</string>
-    <string name="action_new_transmit">New</string>
-    <string name="action_start_all">Start</string>
-    <string name="action_stop_all">Stop</string>
-    <string name="connect">Connect</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="reset">Reset</string>
-    <string name="about">About</string>
-    <string name="versions">Version: %1$s (version code %2$d)</string>
-    <string name="action_connection">Connection</string>
-    <string name="action_transmit_reset">Reset</string>
-    <string name="action_transmit_clear">Clear</string>
-    <string name="action_transmit_reset_all">Reset all</string>
-    <string name="action_import_tx_list">Import Tx list</string>
-    <string name="action_share_tx_list">Share Tx list</string>
-    <string name="export_tx_list">Export Tx list</string>
-    <string name="message_file_saved_to_documents">File %s saved to Documents</string>
-    <string name="choose_file_to_import">Choose file to import</string>
-    <string name="action_transmit_copy">Copy</string>
-    <string name="conection_usb_serial">USB serial</string>
+    <string name="can_dlc">Data length code</string>
+    
+    <!-- Connection Types -->
+    <string name="connection_usb_serial">USB serial</string>
     <string name="connection_loopback">Loopback</string>
-    <string name="action_monitor_focus">Focus view</string>
     <string name="connection_udp">Network</string>
     <string name="connection_bluetooth">Bluetooth</string>
+    <string name="connection_usb_device">USB device</string>
+    <string name="connection_bluetooth_device">Bluetooth device</string>
+    <string name="connection_can_baudrate">CAN baud rate</string>
+    <string name="connection_serial_baudrate">USB serial baud rate</string>
+    <string name="connection_host">Network endpoint</string>
+    <string name="connection_host_hint">Hostname or IP address</string>
+    
+    <!-- Validation -->
+    <string name="bluetooth_permission_required">Bluetooth permission is required to list paired devices</string>
+    <string name="bluetooth_not_supported">Bluetooth is not supported on this device</string>
+    <string name="validation_period_too_high">Period must be at most %1$d ms</string>
+    <string name="validation_period_negative">Period cannot be negative</string>
+    <string name="validation_dlc_range">DLC range: %1$d-%2$d</string>
+    <string name="validation_can_id_max">CAN ID must be at most %1$s</string>
+    <string name="validation_invalid_number">Enter a valid number</string>
+    <string name="validation_data_empty">Enter at least one data byte</string>
+    <string name="validation_hex_data">Enter an even number of hexadecimal digits</string>
+    <plurals name="validation_data_too_long">
+        <item quantity="one">Data cannot exceed %1$d byte</item>
+        <item quantity="other">Data cannot exceed %1$d bytes</item>
+    </plurals>
+    
+    <!-- Tracer -->
+    <string name="tracer_filter_hint">Filter by CAN ID (hex)</string>
+    <string name="tracer_message_count">Traced messages: %d</string>
+    <string name="empty_tracer_list">No matching messages\nEnter a CAN ID to filter</string>
+    <string name="tracer_record">Record</string>
+    <string name="tracer_pause">Pause</string>
+    <string name="tracer_stop">Stop</string>
+    <string name="tracer_idle">Idle</string>
+    <string name="tracer_recording">Recording...</string>
+    <string name="tracer_paused">Paused</string>
+    <string name="tracer_saved">Saved: %s</string>
+    <string name="tracer_export">Export Log</string>
+    <string name="tracer_import">Import Log</string>
+    
+    <!-- Filters -->
+    <string name="filter_hw">Hardware Filter</string>
+    <string name="filter_sw">Software Filter</string>
+    <string name="filter_gateway">Gateway</string>
+    <string name="filter_add">Add filter</string>
+    <string name="filter_mask">Mask</string>
+    <string name="filter_code">ID</string>
+    <string name="filter_range_from">From</string>
+    <string name="filter_range_to">To</string>
+    <string name="filter_exclude">Exclude list</string>
+    <string name="filter_enabled">Enable filter</string>
+    <string name="filter_simple_mode">Simple mode</string>
+    <string name="filter_29bit">29-bit filter</string>
+    <string name="filter_mode_accept">Accept all except filter</string>
+    <string name="filter_mode_reject">Reject all except filter</string>
+    <string name="filter_channel">Channel</string>
+    <string name="filter_number">Num</string>
+    
+    <!-- Gateway -->
+    <string name="gateway_from_channel">From channel:</string>
+    <string name="gateway_to_channel">To channel:</string>
+    <string name="gateway_pass_all">Pass all</string>
+    <string name="gateway_reject_all">Reject all</string>
+    
+    <!-- Settings -->
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_font">Font</string>
+    <string name="settings_receive">Receive</string>
+    <string name="settings_transmit">Transmit</string>
+    <string name="settings_stream_tracer">Stream &amp; Tracer</string>
+    <string name="settings_clear_after">Clear after</string>
+    <string name="settings_ms">ms</string>
+    <string name="settings_mark_color">Color</string>
+    <string name="settings_unique_aggregator">Unique data aggregator</string>
+    <string name="settings_highlight_changed">Highlight changed bytes</string>
+    <string name="settings_stream_window">Open stream in separate window</string>
+    <string name="settings_restore_transmit">Restore transmit list on launch</string>
+    <string name="settings_transmit_window">Open transmit in separate window</string>
+    <string name="settings_max_delay">Max 1 sec delay between messages</string>
+    <string name="settings_line_ending">Line ending</string>
+    <string name="settings_copy_header">Copy column headers</string>
+    
+    <!-- Bit Map -->
+    <string name="bit_map">Bit Map</string>
+    <string name="bit_map_hex">Hex</string>
+    <string name="bit_map_dec">Dec</string>
+    
+    <!-- Comments -->
+    <string name="comment_set">Set comment</string>
+    <string name="comment_edit">Edit comment</string>
+    <string name="comment_clear">Clear comment</string>
+    <string name="comment_load">Load comments</string>
+    <string name="comment_save">Save comments</string>
+    
+    <!-- Markers -->
+    <string name="marker_add">Add marker</string>
+    <string name="marker_list">Marker list</string>
+    <string name="marker_label">Label</string>
+    <string name="marker_comment">Comment</string>
+    <string name="marker_go">Go to marker</string>
+    
+    <!-- DBC -->
+    <string name="dbc_manager">DBC Manager</string>
+    <string name="dbc_signal_viewer">Signal Viewer</string>
+    <string name="dbc_assign_channel">Assign to channel</string>
+    
+    <!-- Bomber -->
+    <string name="bomber_can">CAN Bomber</string>
+    <string name="bomber_lin">LIN Bomber</string>
+    <string name="bomber_channel">Channel</string>
+    <string name="bomber_from">From</string>
+    <string name="bomber_to">To</string>
+    <string name="bomber_mode">Mode</string>
+    <string name="bomber_period">Period</string>
+    <string name="bomber_per_step">Per step</string>
+    <string name="bomber_id">ID</string>
+    <string name="bomber_value">Value</string>
+    <string name="bomber_fill">Fill</string>
+    <string name="bomber_run">Run</string>
+    <string name="bomber_stop">Stop</string>
+    <string name="bomber_step_inc">Step +</string>
+    <string name="bomber_step_dec">Step -</string>
+    <string name="bomber_shot">Send</string>
+    <string name="bomber_stop_on_receive">Stop on receive</string>
+    <string name="bomber_crc">CRC Calculation</string>
+    <string name="bomber_crc_type">Type</string>
+    <string name="bomber_insert_crc">Insert CRC in</string>
+    <string name="bomber_counter">Counter</string>
+    <string name="bomber_mask">Mask</string>
+    <string name="bomber_position">Position</string>
+    
+    <!-- Tracer Actions -->
+    <string name="tracer_open">Open</string>
+    <string name="tracer_new">New</string>
+    <string name="tracer_save">Save</string>
+    <string name="tracer_save_as">Save as...</string>
+    <string name="tracer_add_row">Add row</string>
+    <string name="tracer_insert_row">Insert row</string>
+    <string name="tracer_edit_row">Edit row</string>
+    <string name="tracer_delete_row">Delete row</string>
+    <string name="tracer_disable_row">Disable row</string>
+    <string name="tracer_enable_row">Enable row</string>
+    <string name="tracer_delay">Delay</string>
+    <string name="tracer_delay_auto">Auto</string>
+    <string name="tracer_delay_custom">Custom delay</string>
+    <string name="tracer_loop">Loop</string>
+    <string name="tracer_step">Step</string>
+    <string name="tracer_transmit">Transmit</string>
+    <string name="tracer_copy">Copy</string>
+    <string name="tracer_to_monitor">To Monitor</string>
+    
+    <!-- Context Menus -->
+    <string name="menu_save_rx_list">Save RX list</string>
+    <string name="menu_load_stream">Load stream</string>
+    <string name="menu_save_stream">Save stream</string>
+    <string name="menu_to_tracer">Open in Tracer</string>
+    <string name="menu_msg_bit_map">Bit Map</string>
+    <string name="menu_copy_to_tx">Copy to TX-List</string>
+    <string name="menu_to_filter">Add to Filter</string>
+    <string name="menu_hex_msg_id">ID in HEX</string>
+    <string name="menu_sort">Sort received messages</string>
+    <string name="menu_group_by_channel">Group by channel</string>
+    <string name="menu_clear_protect">Clear protection bit</string>
+    
+    <!-- Status -->
+    <string name="status_connected">Connected</string>
+    <string name="status_disconnected">Disconnected</string>
+    <string name="status_connecting">Connecting...</string>
+    <string name="status_error">Error</string>
 </resources>

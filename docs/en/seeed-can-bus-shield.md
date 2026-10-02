@@ -1,17 +1,11 @@
 # Seeed Studio CAN BUS Shield
 
-## [Arduino UNO / Genuino UNO](https://www.arduino.cc/en/Main/ArduinoBoardUno) + [Seeed studio CAN-shield](http://www.seeedstudio.com/wiki/CAN-BUS_Shield)
+The Seeed Studio CAN BUS Shield is a CAN controller/transceiver board intended to be used with a compatible Arduino board (historically, Arduino Uno). The shield alone is not an Android adapter: the Arduino firmware and the connection interface must also implement the CanHacker protocol.
 
-![](https://www.arduino.cc/en/uploads/Main/ArdGen_UNO.jpg)
+The legacy project notes link the board to the [CANreader firmware repository](https://github.com/autowp/can-usb). Verify current firmware support, board revision, CAN transceiver, wiring, power, and termination before use.
 
-![](http://www.seeedstudio.com/wiki/images/d/de/Can_bus_shield_all.jpg)
+Android connections require an appropriate USB serial, Bluetooth Classic SPP, or UDP bridge. The app's UDP mode uses port `11111` by default. See [supported adapters](adapters.md) and [Android compatibility](android.md).
 
-Highspeed CAN
+For product specifications and current documentation, consult the [Seeed Studio CAN BUS Shield documentation](https://wiki.seeedstudio.com/CAN-BUS_Shield_V2.0/).
 
-Прошивка для Arduino [Arduino CAN hacker firmware](https://github.com/autowp/can-usb)
-
-Возможно подключение по
-
-1. USB (требуется USB-host)
-2. Bluetooth (требуется Bluetooth и [HC-05 bluetooth receiver](http://www.ebay.com/sch/i.html?_nkw=HC-05%20bluetooth)) (запланировано)
-3. Ethernet (требуется Ethernet и [ethernet shield W5100](http://www.ebay.com/sch/i.html?_nkw=arduino+uno+ethernet+shield+W5100)) (запланировано)
+> **Safety:** Do not attach an unverified shield/Arduino setup to a vehicle network or transmit frames until you have confirmed the hardware and firmware behavior.

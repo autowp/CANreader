@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/fragment_monitor">
+
+    <fragment
+        android:id="@+id/fragment_monitor"
+        android:name="com.autowp.canreader.MonitorFragment"
+        android:label="@string/nav_monitor"
+        tools:layout="@layout/fragment_monitor" />
+
+    <fragment
+        android:id="@+id/fragment_stream"
+        android:name="com.autowp.canreader.StreamFragment"
+        android:label="@string/nav_stream"
+        tools:layout="@layout/fragment_stream" />
+
+    <fragment
+        android:id="@+id/fragment_transmit"
+        android:name="com.autowp.canreader.TransmitFragment"
+        android:label="@string/nav_transmit"
+        tools:layout="@layout/fragment_transmit" />
+
+    <fragment
+        android:id="@+id/fragment_filters"
+        android:name="com.autowp.canreader.FiltersFragment"
+        android:label="@string/nav_filters"
+        tools:layout="@layout/fragment_filters" />
+
+    <fragment
+        android:id="@+id/fragment_settings"
+        android:name="com.autowp.canreader.SettingsFragment"
+        android:label="@string/action_settings"
+        tools:layout="@layout/fragment_settings" />
+
+</navigation>

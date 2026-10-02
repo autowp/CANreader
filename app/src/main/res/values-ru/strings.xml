@@ -1,37 +1,233 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CANreader</string>
+    
+    <!-- Навигация -->
+    <string name="nav_monitor">Монитор</string>
+    <string name="nav_stream">Поток</string>
+    <string name="nav_transmit">Передача</string>
+    <string name="nav_tracer">Трейсер</string>
+    <string name="nav_filters">Фильтры</string>
+    <string name="nav_settings">Настройки</string>
+    
+    <!-- Подключение -->
+    <string name="action_connection">Соединение</string>
     <string name="action_settings">Настройки</string>
+    <string name="about">О программе</string>
+    <string name="versions">Версия: %1$s (код %2$d)</string>
+    
+    <!-- Подключение/Отключение -->
+    <string name="connect">Соединить</string>
+    <string name="disconnect">Разъединить</string>
+    
+    <!-- Монитор -->
+    <string name="action_clear">Очистить</string>
+    <string name="action_monitor_focus">Фокусировать</string>
+    <string name="empty_monitor_list">Нет сообщений\nПодключите устройство для мониторинга</string>
+    <string name="empty_stream_list">Нет данных\nПодключитесь для начала потока</string>
+    
+    <!-- Поток -->
+    <string name="stream_clear">Очистить</string>
+    <string name="stream_export">Экспорт</string>
+    <string name="stream_import">Импорт</string>
+    <string name="stream_record">Запись</string>
+    <string name="stream_stop">Стоп</string>
+    <string name="stream_paused">Пауза</string>
+    <string name="stream_recording">Запись...</string>
+    <string name="stream_idle">Ожидание</string>
+    
+    <!-- Передача -->
+    <string name="action_new_transmit">Новая</string>
+    <string name="action_start_all">Старт</string>
+    <string name="action_stop_all">Стоп</string>
     <string name="action_transmit_delete">Удалить</string>
     <string name="action_transmit_edit">Изменить</string>
+    <string name="action_transmit_reset">Сброс</string>
+    <string name="action_transmit_clear">Очистить</string>
+    <string name="action_transmit_reset_all">Сбросить все</string>
+    <string name="action_transmit_copy">Копировать</string>
+    <string name="action_import_tx_list">Импортировать Tx list</string>
+    <string name="action_share_tx_list">Отправить Tx list</string>
+    <string name="export_tx_list">Экспортировать Tx list</string>
+    <string name="tx_list_exported">Список кадров экспортирован</string>
+    <string name="empty_transmit_list">Нет кадров\nНажмите «Новая» для создания</string>
+    <string name="button_create_transmit">Создать</string>
+    
+    <!-- CAN кадр -->
     <string name="can_extended">Расширенный (29bit)</string>
     <string name="can_rtr">RTR</string>
     <string name="can_id">ID</string>
     <string name="can_data">Данные</string>
     <string name="can_period">Период</string>
-    <string name="button_create_transmit">Создать</string>
-    <string name="action_clear">Очистить</string>
-    <string name="action_new_transmit">Новая</string>
-    <string name="action_start_all">Старт</string>
-    <string name="action_stop_all">Стоп</string>
-    <string name="connect">Соединить</string>
-    <string name="disconnect">Разъединить</string>
-    <string name="reset">Сброс</string>
-    <string name="about">О программе</string>
-    <string name="versions">Версия: %1$s (код версии %2$d)</string>
-    <string name="action_connection">Соединение</string>
-    <string name="action_transmit_reset">Сброс</string>
-    <string name="action_transmit_clear">Очистить</string>
-    <string name="action_transmit_reset_all">Сбросить все</string>
-    <string name="action_import_tx_list">Импортировать Tx list</string>
-    <string name="action_share_tx_list">Отправить Tx list</string>
-    <string name="export_tx_list">Экспортировать Tx list</string>
-    <string name="message_file_saved_to_documents">Файл %s сохранён в Документы</string>
-    <string name="choose_file_to_import">Выберите файл для импорта</string>
-    <string name="action_transmit_copy">Копировать</string>
-    <string name="conection_usb_serial">USB serial</string>
+    <string name="can_dlc">Длина данных</string>
+    
+    <!-- Типы подключения -->
+    <string name="connection_usb_serial">USB serial</string>
     <string name="connection_loopback">Loopback</string>
-    <string name="action_monitor_focus">Фокусировать</string>
-    <string name="connection_udp">Network</string>
+    <string name="connection_udp">Сеть</string>
     <string name="connection_bluetooth">Bluetooth</string>
+    <string name="connection_usb_device">USB-устройство</string>
+    <string name="connection_bluetooth_device">Устройство Bluetooth</string>
+    <string name="connection_can_baudrate">Скорость CAN</string>
+    <string name="connection_serial_baudrate">Скорость USB-порта</string>
+    <string name="connection_host">Сетевой адрес</string>
+    <string name="connection_host_hint">Имя узла или IP-адрес</string>
+    
+    <!-- Валидация -->
+    <string name="bluetooth_permission_required">Для списка сопряжённых устройств нужен доступ к Bluetooth</string>
+    <string name="bluetooth_not_supported">Это устройство не поддерживает Bluetooth</string>
+    <string name="validation_period_too_high">Период не должен превышать %1$d мс</string>
+    <string name="validation_period_negative">Период не может быть отрицательным</string>
+    <string name="validation_dlc_range">Допустимый диапазон DLC: %1$d-%2$d</string>
+    <string name="validation_can_id_max">Максимальный CAN ID: %1$s</string>
+    <string name="validation_invalid_number">Введите корректное число</string>
+    <string name="validation_data_empty">Введите хотя бы один байт данных</string>
+    <string name="validation_hex_data">Введите чётное количество шестнадцатеричных цифр</string>
+    <plurals name="validation_data_too_long">
+        <item quantity="one">Длина данных не должна превышать %1$d байт</item>
+        <item quantity="few">Длина данных не должна превышать %1$d байта</item>
+        <item quantity="many">Длина данных не должна превышать %1$d байт</item>
+        <item quantity="other">Длина данных не должна превышать %1$d байта</item>
+    </plurals>
+    <string name="empty_tracer_list">Нет подходящих сообщений\nВведите CAN ID для фильтрации</string>
+    <string name="tracer_record">Запись</string>
+    <string name="tracer_pause">Пауза</string>
+    <string name="tracer_stop">Стоп</string>
+    <string name="tracer_idle">Ожидание</string>
+    <string name="tracer_recording">Запись...</string>
+    <string name="tracer_paused">Пауза</string>
+    <string name="tracer_saved">Сохранено: %s</string>
+    <string name="tracer_export">Экспорт лога</string>
+    <string name="tracer_import">Импорт лога</string>
+    
+    <!-- Фильтры -->
+    <string name="filter_hw">Аппаратный фильтр</string>
+    <string name="filter_sw">Программный фильтр</string>
+    <string name="filter_gateway">Шлюз</string>
+    <string name="filter_add">Добавить фильтр</string>
+    <string name="filter_mask">Маска</string>
+    <string name="filter_code">ID</string>
+    <string name="filter_range_from">От</string>
+    <string name="filter_range_to">По</string>
+    <string name="filter_exclude">Список исключений</string>
+    <string name="filter_enabled">Включить фильтр</string>
+    <string name="filter_simple_mode">Простой режим</string>
+    <string name="filter_29bit">29-битный фильтр</string>
+    <string name="filter_mode_accept">Принимать все кроме фильтра</string>
+    <string name="filter_mode_reject">Отклонять все кроме фильтра</string>
+    <string name="filter_channel">Канал</string>
+    <string name="filter_number">Num</string>
+    
+    <!-- Шлюз -->
+    <string name="gateway_from_channel">Из канала:</string>
+    <string name="gateway_to_channel">В канал:</string>
+    <string name="gateway_pass_all">Пропустить все</string>
+    <string name="gateway_reject_all">Отклонить все</string>
+    
+    <!-- Настройки -->
+    <string name="settings_appearance">Внешний вид</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_font">Шрифт</string>
+    <string name="settings_receive">Приём данных</string>
+    <string name="settings_transmit">Передача данных</string>
+    <string name="settings_stream_tracer">Поток и трейсер</string>
+    <string name="settings_clear_after">Сбросить после</string>
+    <string name="settings_ms">мс</string>
+    <string name="settings_mark_color">Цвет</string>
+    <string name="settings_unique_aggregator">Агрегатор уникальных данных</string>
+    <string name="settings_highlight_changed">Подсвечивать изменённые байты</string>
+    <string name="settings_stream_window">Открывать поток в отдельном окне</string>
+    <string name="settings_restore_transmit">Восстанавливать список на отправку при запуске</string>
+    <string name="settings_transmit_window">Открывать передачу в отдельном окне</string>
+    <string name="settings_max_delay">Максимум 1сек задержка между сообщениями</string>
+    <string name="settings_line_ending">Символ завершения строки</string>
+    <string name="settings_copy_header">Первая строка с названиями столбцов</string>
+    
+    <!-- Битовая карта -->
+    <string name="bit_map">Битовая карта</string>
+    <string name="bit_map_hex">HEX</string>
+    <string name="bit_map_dec">DEC</string>
+    
+    <!-- Комментарии -->
+    <string name="comment_set">Установить комментарий</string>
+    <string name="comment_edit">Изменить комментарий</string>
+    <string name="comment_clear">Очистить комментарий</string>
+    <string name="comment_load">Загрузить комментарии</string>
+    <string name="comment_save">Сохранить комментарии</string>
+    
+    <!-- Метки -->
+    <string name="marker_add">Добавить метку</string>
+    <string name="marker_list">Список меток</string>
+    <string name="marker_label">Метка</string>
+    <string name="marker_comment">Комментарий</string>
+    <string name="marker_go">К метке</string>
+    
+    <!-- DBC -->
+    <string name="dbc_manager">DBC Manager</string>
+    <string name="dbc_signal_viewer">Просмотр сигналов</string>
+    <string name="dbc_assign_channel">Привязать к каналу</string>
+    
+    <!-- Бомбер -->
+    <string name="bomber_can">CAN Bomber</string>
+    <string name="bomber_lin">LIN Bomber</string>
+    <string name="bomber_channel">Канал</string>
+    <string name="bomber_from">С</string>
+    <string name="bomber_to">По</string>
+    <string name="bomber_mode">Режим</string>
+    <string name="bomber_period">Период</string>
+    <string name="bomber_per_step">Сообщ. за шаг</string>
+    <string name="bomber_id">ID</string>
+    <string name="bomber_value">Значение</string>
+    <string name="bomber_fill">Заполнить</string>
+    <string name="bomber_run">Старт</string>
+    <string name="bomber_stop">Стоп</string>
+    <string name="bomber_step_inc">Шаг +</string>
+    <string name="bomber_step_dec">Шаг -</string>
+    <string name="bomber_shot">Отправить</string>
+    <string name="bomber_stop_on_receive">Остановить при получении</string>
+    <string name="bomber_crc">Расчёт CRC</string>
+    <string name="bomber_crc_type">Тип</string>
+    <string name="bomber_insert_crc">Вставить CRC в</string>
+    <string name="bomber_counter">Счётчик</string>
+    <string name="bomber_mask">Маска</string>
+    <string name="bomber_position">Позиция</string>
+    
+    <!-- Действия трейсера -->
+    <string name="tracer_open">Открыть</string>
+    <string name="tracer_new">Новый</string>
+    <string name="tracer_save">Сохранить</string>
+    <string name="tracer_save_as">Сохранить как...</string>
+    <string name="tracer_add_row">Добавить строку</string>
+    <string name="tracer_insert_row">Вставить строку</string>
+    <string name="tracer_edit_row">Редактировать строку</string>
+    <string name="tracer_delete_row">Удалить строку</string>
+    <string name="tracer_disable_row">Запретить строку</string>
+    <string name="tracer_enable_row">Разрешить строку</string>
+    <string name="tracer_delay">Задержка</string>
+    <string name="tracer_delay_auto">Авто</string>
+    <string name="tracer_delay_custom">Пользовательская пауза</string>
+    <string name="tracer_loop">Повторять</string>
+    <string name="tracer_step">Шаг</string>
+    <string name="tracer_transmit">Передача</string>
+    <string name="tracer_copy">Копировать</string>
+    <string name="tracer_to_monitor">В монитор</string>
+    
+    <!-- Контекстные меню -->
+    <string name="menu_save_rx_list">Сохранить RX-list</string>
+    <string name="menu_load_stream">Загрузить поток</string>
+    <string name="menu_save_stream">Сохранить поток</string>
+    <string name="menu_to_tracer">Открыть в трейсере</string>
+    <string name="menu_msg_bit_map">Битовая карта</string>
+    <string name="menu_copy_to_tx">Копировать в TX-List</string>
+    <string name="menu_to_filter">Добавить в фильтр</string>
+    <string name="menu_hex_msg_id">ID в HEX</string>
+    <string name="menu_sort">Сортировать принятые сообщения</string>
+    <string name="menu_group_by_channel">Группировать по каналам</string>
+    <string name="menu_clear_protect">Сбросить бит защищённости</string>
+    
+    <!-- Статус -->
+    <string name="status_connected">Подключено</string>
+    <string name="status_disconnected">Не подключено</string>
+    <string name="status_connecting">Подключение...</string>
+    <string name="status_error">Ошибка</string>
 </resources>

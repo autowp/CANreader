@@ -1,5 +1,6 @@
 package com.autowp.canreader;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -8,10 +9,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -55,6 +61,23 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
     private UsbManager mUsbManager;
     private Spinner mSpinnerCanBaudrate;
     private Spinner mSpinnerUartBaudrate;
+    private final ActivityResultLauncher<String> bluetoothPermissionLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.RequestPermission(),
+                    granted -> {
+                        if (granted) {
+                            fillBluetoothDeviceList();
+                        } else {
+                            Toast.makeText(
+                                    this,
+                                    R.string.bluetooth_permission_required,
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                        refreshOptions();
+                        refreshButtonsState();
+                    }
+            );
 
     private enum ConnectionType {
         USB, UDP, LOOPBACK, BLUETOOTH;
@@ -71,6 +94,21 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
                     return BLUETOOTH;
             }
             return null;
+        }
+
+        public int toInteger() {
+            switch (this) {
+                case USB:
+                    return 0;
+                case UDP:
+                    return 1;
+                case LOOPBACK:
+                    return 2;
+                case BLUETOOTH:
+                    return 4;
+                default:
+                    throw new IllegalStateException("Unknown connection type");
+            }
         }
     }
 
@@ -197,13 +235,12 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
             canReaderService.setCanAdapter(adapter);
             refreshButtonsState();
         } catch (CanAdapterException e) {
-            e.printStackTrace();
+            Log.e("ConnectionActivity", "Unable to connect to USB adapter", e);
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
     private void connectBluetooth(BluetoothDevice device) {
-        System.out.println("connectBluetooth");
-
         try {
             CanBusSpecs canBusSpecs = new CanBusSpecs();
             Baudrate baudrate = (Baudrate) mSpinnerCanBaudrate.getSelectedItem();
@@ -213,7 +250,8 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
             canReaderService.setCanAdapter(adapter);
             refreshButtonsState();
         } catch (CanAdapterException e) {
-            e.printStackTrace();
+            Log.e("ConnectionActivity", "Unable to connect to Bluetooth adapter", e);
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -354,13 +392,6 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
 
 
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(ACTION_USB_PERMISSION);
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
-        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        mUsbReceiver = new UsbBroadcastReceiver();
-        registerReceiver(mUsbReceiver, filter);
-
         Button buttonDisconnect = (Button) findViewById(R.id.buttonDisconnect);
         buttonDisconnect.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -380,8 +411,13 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
                         UsbDevice device = (UsbDevice) mSpinnerUsbDevice.getSelectedItem();
 
                         if (!mUsbManager.hasPermission(device)) {
-                            Intent intent = new Intent(ACTION_USB_PERMISSION);
-                            PendingIntent pendindIntent = PendingIntent.getBroadcast(ConnectionActivity.this, 0, intent, 0);
+                            Intent intent = new Intent(ACTION_USB_PERMISSION).setPackage(getPackageName());
+                                PendingIntent pendindIntent = PendingIntent.getBroadcast(
+                                    ConnectionActivity.this,
+                                    0,
+                                    intent,
+                                    PendingIntent.FLAG_IMMUTABLE
+                                );
                             mUsbManager.requestPermission(device, pendindIntent);
                         } else {
                             connectUsbDevice(device);
@@ -407,7 +443,6 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
     }
 
     private void refreshButtonsState() {
-        System.out.println("refreshButtonsState");
         final Button btnConnect = (Button) findViewById(R.id.buttonConnect);
         final Button btnDisconnect = (Button) findViewById(R.id.buttonDisconnect);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.connection_progressbar);
@@ -434,8 +469,6 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
             connection = canReaderService.getConnectionState();
         }
 
-        System.out.println(connection);
-
         final boolean connectEnabled = bound && (connection == CanAdapter.ConnectionState.DISCONNECTED) && deviceAvailable;
         final boolean disconnectEnabled = bound && (connection == CanAdapter.ConnectionState.CONNECTED);
         final boolean progressBarVisible = bound && (connection == CanAdapter.ConnectionState.CONNECTING || connection == CanAdapter.ConnectionState.DISCONNECTING);
@@ -461,16 +494,22 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
 
     private void fillBluetoothDeviceList() {
 
-        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            bluetoothPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT);
+            return;
+        }
 
-        System.out.println("pairedDevices");
-        System.out.println(pairedDevices.size());
-        System.out.println(pairedDevices);
+        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            mBluetoothDeviceList.clear();
+            mBluetoothDevicesSpinnerAdapter.notifyDataSetChanged();
+            return;
+        }
+        Set<BluetoothDevice> pairedDevices = mBluetoothAdapter.getBondedDevices();
 
         mBluetoothDeviceList.clear();
         for (final BluetoothDevice device : pairedDevices) {
-            System.out.println(device);
             mBluetoothDeviceList.add(device);
         }
 
@@ -481,13 +520,15 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
     public void onResume() {
         super.onResume();
 
-        Intent intent = new Intent(this, CanReaderService.class);
-        bindService(intent, serviceConnection, AppCompatActivity.BIND_AUTO_CREATE);
-
         fillUsbDeviceList();
 
         mSpinnerUsbDevice.setAdapter(mUsbDevicesSpinnerAdapter);
         mSpinnerBluetoothDevice.setAdapter(mBluetoothDevicesSpinnerAdapter);
+        if (mConnection == ConnectionType.BLUETOOTH
+                && (Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+                || checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) == PackageManager.PERMISSION_GRANTED)) {
+            fillBluetoothDeviceList();
+        }
 
         final SharedPreferences mPrefences = getPreferences(MODE_PRIVATE);
 
@@ -538,8 +579,19 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
 
     @Override
     public void handleConnectedStateChanged(CanAdapter.ConnectionState connection) {
-        System.out.println("connectionactivity.handleConnectionStateChanged");
         refreshButtonsState();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_USB_PERMISSION);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        mUsbReceiver = new UsbBroadcastReceiver();
+        ContextCompat.registerReceiver(this, mUsbReceiver, filter, ContextCompat.RECEIVER_EXPORTED);
     }
 
     @Override
@@ -573,50 +625,40 @@ public class ConnectionActivity extends ServiceConnectedActivity implements CanR
     }
 
     public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         if (checked) {
-            switch (view.getId()) {
-                case R.id.btnUsbConnection:
-                    mConnection = ConnectionType.USB;
-                    refreshOptions();
-                    refreshButtonsState();
-                    break;
-
-                case R.id.btnUdpConnection:
-                    mConnection = ConnectionType.UDP;
-                    refreshOptions();
-                    refreshButtonsState();
-                    break;
-
-                case R.id.btnLoopbackConnection:
-                    mConnection = ConnectionType.LOOPBACK;
-                    refreshOptions();
-                    refreshButtonsState();
-                    break;
-
-                case R.id.btnBluetoothConnection:
-                    mConnection = ConnectionType.BLUETOOTH;
-
+            int viewId = view.getId();
+            if (viewId == R.id.btnUsbConnection) {
+                mConnection = ConnectionType.USB;
+            } else if (viewId == R.id.btnUdpConnection) {
+                mConnection = ConnectionType.UDP;
+            } else if (viewId == R.id.btnLoopbackConnection) {
+                mConnection = ConnectionType.LOOPBACK;
+            } else if (viewId == R.id.btnBluetoothConnection) {
+                mConnection = ConnectionType.BLUETOOTH;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                        && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    bluetoothPermissionLauncher.launch(Manifest.permission.BLUETOOTH_CONNECT);
+                } else {
                     BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
                     if (adapter == null) {
-                        Toast toast = Toast.makeText(this, "Your device not support bluetooth", Toast.LENGTH_LONG);
-                        toast.show();
-                        break;
+                        Toast.makeText(this, R.string.bluetooth_not_supported, Toast.LENGTH_LONG).show();
+                    } else {
+                        if (!adapter.isEnabled()) {
+                            Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                            startActivity(enableBluetooth);
+                        }
+
+                        fillBluetoothDeviceList();
                     }
-
-                    if (!adapter.isEnabled()) {
-                        Intent enableBluetooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                        startActivity(enableBluetooth);
-                    }
-
-                    fillBluetoothDeviceList();
-
-                    refreshOptions();
-                    refreshButtonsState();
-                    break;
+                }
             }
+            getPreferences(MODE_PRIVATE).edit()
+                    .putInt(PREFENCES_CONNECTION, mConnection.toInteger())
+                    .apply();
+            refreshOptions();
+            refreshButtonsState();
         }
     }
 }

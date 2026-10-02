@@ -1,8 +1,7 @@
 package com.autowp.canreader;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
@@ -11,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Switch;
+import android.widget.Toast;
+import android.util.Log;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import com.autowp.Hex;
 import com.autowp.can.CanFrame;
@@ -26,23 +27,29 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
 
     public static final String TRANSMIT_DIALOG_BUNDLE = "bundle";
     public static final String BUNDLE_EXTRA_POSITION = "position";
-    private int position = 0;
+    private int position = -1;
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().setTitle("New transmit");
+        Bundle bundle = getArguments();
+        requireDialog().setTitle(bundle == null
+                ? R.string.action_new_transmit
+                : R.string.action_transmit_edit);
         View v = inflater.inflate(R.layout.dialog_transmit, container);
         v.findViewById(R.id.switchExtended).setOnClickListener(this);
         v.findViewById(R.id.buttonOk).setOnClickListener(this);
 
-        Bundle bundle = this.getArguments();
         if (bundle != null) {
-            position = bundle.getInt(BUNDLE_EXTRA_POSITION);
+            if (bundle.containsKey(BUNDLE_EXTRA_POSITION)) {
+                position = bundle.getInt(BUNDLE_EXTRA_POSITION);
+            }
             try {
                 TransmitCanFrame frame = TransmitCanFrame.fromBundle(bundle);
                 populate(v, frame);
             } catch (CanFrameException e) {
-                e.printStackTrace();
+                Log.e("TransmitCanFrameDialog", "Unable to load transmit frame", e);
+                Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
         } else {
@@ -65,15 +72,15 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
         try {
             int id = Integer.parseInt(periodStr);
             if (id > max) {
-                editTextPeriod.setError("must be <= " + Integer.toString(max));
+                editTextPeriod.setError(getString(R.string.validation_period_too_high, max));
                 return false;
             }
             if (id < 0) {
-                editTextPeriod.setError("must be >= 0");
+                editTextPeriod.setError(getString(R.string.validation_period_negative));
                 return false;
             }
         } catch (NumberFormatException e) {
-            editTextPeriod.setError(e.getMessage());
+            editTextPeriod.setError(getString(R.string.validation_invalid_number));
             return false;
         }
 
@@ -88,11 +95,15 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
         try {
             int id = Integer.parseInt(str, 16);
             if (id > CanFrame.MAX_DLC || id < CanFrame.MIN_DLC) {
-                editTextDLC.setError(String.format("DLC must be between %d and %d", CanFrame.MIN_DLC, CanFrame.MAX_DLC));
+                editTextDLC.setError(getString(
+                        R.string.validation_dlc_range,
+                        CanFrame.MIN_DLC,
+                        CanFrame.MAX_DLC
+                ));
                 return false;
             }
         } catch (NumberFormatException e) {
-            editTextDLC.setError(e.getMessage());
+            editTextDLC.setError(getString(R.string.validation_invalid_number));
             return false;
         }
 
@@ -104,18 +115,21 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
         final EditText editTextID = (EditText)getView().findViewById(R.id.editTextID);
         String str = editTextID.getText().toString();
 
-        Switch switchExtended = (Switch)getView().findViewById(R.id.switchExtended);
+        MaterialSwitch switchExtended = (MaterialSwitch)getView().findViewById(R.id.switchExtended);
 
         int max = switchExtended.isChecked() ? CanFrame.MAX_ID_29BIT : CanFrame.MAX_ID_11BIT;
 
         try {
             int id = Integer.parseInt(str, 16);
             if (id > max) {
-                editTextID.setError("ID must be <= " + Integer.toString(max, 16));
+                editTextID.setError(getString(
+                        R.string.validation_can_id_max,
+                        Integer.toHexString(max).toUpperCase(Locale.ROOT)
+                ));
                 return false;
             }
         } catch (NumberFormatException e) {
-            editTextID.setError(e.getMessage());
+            editTextID.setError(getString(R.string.validation_invalid_number));
             return false;
         }
 
@@ -130,26 +144,29 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
         try {
             byte[] data = Hex.hexStringToByteArray(str);
             if (data.length <= 0) {
-                editTextData.setError("data length must be >= 1 bytes");
+                editTextData.setError(getString(R.string.validation_data_empty));
                 return false;
             }
             if (data.length > CanFrame.MAX_DLC) {
-                editTextData.setError("data length must be <= " + CanFrame.MAX_DLC + " bytes");
+                editTextData.setError(getResources().getQuantityString(
+                        R.plurals.validation_data_too_long,
+                        CanFrame.MAX_DLC,
+                        CanFrame.MAX_DLC
+                ));
                 return false;
             }
-        } catch (Exception e) {
-            editTextData.setError(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            editTextData.setError(getString(R.string.validation_hex_data));
             return false;
         }
 
         return true;
     }
 
-    public void onActivityCreated (Bundle savedInstanceState)
-    {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        final EditText editTextID = (EditText)getView().findViewById(R.id.editTextID);
+        final EditText editTextID = view.findViewById(R.id.editTextID);
         editTextID.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -165,7 +182,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
             }
         });
 
-        EditText editTextPeriod = (EditText) getView().findViewById(R.id.editTextPeriod);
+        EditText editTextPeriod = view.findViewById(R.id.editTextPeriod);
         editTextPeriod.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -181,7 +198,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
             }
         });
 
-        final EditText editTextDLC = (EditText) getView().findViewById(R.id.transmitDialogDLC);
+        final EditText editTextDLC = view.findViewById(R.id.transmitDialogDLC);
         editTextDLC.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -199,7 +216,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
 
 
 
-        final EditText editTextData = (EditText) getView().findViewById(R.id.editTextData);
+        final EditText editTextData = view.findViewById(R.id.editTextData);
         editTextData.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -215,7 +232,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
             }
         });
 
-        Switch switchRTR = (Switch) getView().findViewById(R.id.switchRTR);
+        MaterialSwitch switchRTR = view.findViewById(R.id.switchRTR);
         switchRTR.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -226,8 +243,8 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
     }
 
     public void populate(View view, TransmitCanFrame frame) {
-        Switch switchExt = (Switch) view.findViewById(R.id.switchExtended);
-        Switch switchRTR = (Switch) view.findViewById(R.id.switchRTR);
+        MaterialSwitch switchExt = (MaterialSwitch) view.findViewById(R.id.switchExtended);
+        MaterialSwitch switchRTR = (MaterialSwitch) view.findViewById(R.id.switchRTR);
         EditText editTextID = (EditText) view.findViewById(R.id.editTextID);
         EditText editTextDLC = (EditText) view.findViewById(R.id.transmitDialogDLC);
         EditText editTextData = (EditText) view.findViewById(R.id.editTextData);
@@ -236,9 +253,9 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
         CanFrame canFrame = frame.getCanFrame();
         int id = canFrame.getId();
         if (canFrame.isExtended()) {
-            editTextID.setText(String.format("%08X", id));
+            editTextID.setText(String.format(Locale.ROOT, "%08X", id));
         } else {
-            editTextID.setText(String.format("%03X", id));
+            editTextID.setText(String.format(Locale.ROOT, "%03X", id));
         }
 
         switchRTR.setChecked(canFrame.isRTR());
@@ -258,8 +275,8 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
     }
 
     public Bundle getBundle() throws CanFrameException {
-        Switch switchExt = (Switch) getView().findViewById(R.id.switchExtended);
-        Switch switchRTR = (Switch) getView().findViewById(R.id.switchRTR);
+        MaterialSwitch switchExt = (MaterialSwitch) getView().findViewById(R.id.switchExtended);
+        MaterialSwitch switchRTR = (MaterialSwitch) getView().findViewById(R.id.switchRTR);
         EditText editTextID = (EditText) getView().findViewById(R.id.editTextID);
         EditText editTextData = (EditText) getView().findViewById(R.id.editTextData);
         EditText editTextPeriod = (EditText) getView().findViewById(R.id.editTextPeriod);
@@ -280,12 +297,7 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
             }
             canFrame = new CanFrame(id, dlc, switchExt.isChecked());
         } else {
-            byte data[] = new byte[0];
-            try {
-                data = Hex.hexStringToByteArray(editTextData.getText().toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            byte[] data = Hex.hexStringToByteArray(editTextData.getText().toString());
             canFrame = new CanFrame(id, data, switchExt.isChecked());
         }
         String periodStr = editTextPeriod.getText().toString();
@@ -297,14 +309,16 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
 
         Bundle bundle = frame.toBundle();
 
-        bundle.putInt(BUNDLE_EXTRA_POSITION, position);
+        if (position >= 0) {
+            bundle.putInt(BUNDLE_EXTRA_POSITION, position);
+        }
 
         return bundle;
     }
 
     public void setIdMaxLength(View view)
     {
-        Switch switchExt = (Switch) view.findViewById(R.id.switchExtended);
+        MaterialSwitch switchExt = (MaterialSwitch) view.findViewById(R.id.switchExtended);
         EditText editText = (EditText) view.findViewById(R.id.editTextID);
 
         int maxLength = switchExt.isChecked() ? 8 : 3;
@@ -312,30 +326,28 @@ public class TransmitCanFrameDialog extends DialogFragment implements View.OnCli
     }
 
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.switchExtended:
-                setIdMaxLength(getView());
-                break;
-            case R.id.buttonOk:
-                Switch switchRTR = (Switch) getView().findViewById(R.id.switchRTR);
-                boolean isRTR = switchRTR.isChecked();
-                boolean valid = validateID() && validatePeriod() && (isRTR ? validateDLC() : validateData());
-                if (valid) {
-                    sendResult(1);
-                    dismiss();
-                }
-                break;
+        if (v.getId() == R.id.switchExtended) {
+            setIdMaxLength(getView());
+        } else if (v.getId() == R.id.buttonOk) {
+            MaterialSwitch switchRTR = (MaterialSwitch) getView().findViewById(R.id.switchRTR);
+            boolean isRTR = switchRTR.isChecked();
+            boolean valid = validateID() && validatePeriod() && (isRTR ? validateDLC() : validateData());
+            if (valid) {
+                sendResult();
+            }
         }
     }
 
-    private void sendResult(final int REQUEST_CODE) {
+    private void sendResult() {
         try {
-            Intent intent = new Intent();
-            intent.putExtra(TRANSMIT_DIALOG_BUNDLE, getBundle());
-            getTargetFragment().onActivityResult(
-                    getTargetRequestCode(), REQUEST_CODE, intent);
+            getParentFragmentManager().setFragmentResult(
+                    TRANSMIT_DIALOG_BUNDLE,
+                    getBundle()
+            );
+            dismiss();
         } catch (CanFrameException e) {
-            e.printStackTrace();
+            Log.e("TransmitCanFrameDialog", "Unable to create transmit frame", e);
+            Toast.makeText(requireContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

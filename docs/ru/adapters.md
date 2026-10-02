@@ -1,34 +1,20 @@
-# Поддерживаемые адаптеры
+# Поддерживаемые адаптеры и подключения
 
-## 	1. [Arduino Nano v3.0](https://www.arduino.cc/en/Main/ArduinoBoardNano) + [CANreader-FT или CANreader-HS](canreader-device.md)
+CANreader обменивается данными с CAN-оборудованием по командному протоколу CanHacker. Электрической совместимости разъёма или CAN-контроллера недостаточно: устройство или его прошивка должны реализовывать этот протокол.
 
-![](https://www.arduino.cc/en/uploads/Main/ArduinoNanoFront_3_sm.jpg)
+## Типы подключения
 
-CANreader-HS - Highspeed CAN, CANreader-FT - Fault Tolerant CAN
+| Подключение | Требования | Примечания |
+| --- | --- | --- |
+| USB serial | Android с USB host/OTG и поддерживаемое USB serial-устройство | Выберите USB-устройство и скорость CAN в приложении. Скорость USB serial задаётся отдельно. |
+| Bluetooth | Сопряжённый адаптер Bluetooth Classic SPP с протоколом CanHacker | Устройства только с Bluetooth Low Energy этим способом не поддерживаются. |
+| Сеть (UDP) | Доступная по сети точка UDP с протоколом CanHacker | По умолчанию приложение использует UDP-порт `11111`. Укажите адрес точки и скорость CAN, соответствующие адаптеру. |
+| Loopback | Не требуются | Локальное тестовое подключение; с физической CAN-шиной оно не взаимодействует. |
 
-Прошивка для Arduino [Arduino CAN hacker firmware](https://github.com/autowp/can-usb)
+## Примеры оборудования
 
-Возможно подключение по
+- [Аппаратная часть CANreader на Arduino](canreader-device.md): используйте указанную на странице прошивку и поддерживаемый интерфейс подключения.
+- [Плата Seeed Studio CAN BUS Shield](seeed-can-bus-shield.md): требуется совместимая плата Arduino и прошивка/мост с протоколом CanHacker.
+- [Устройства CanHacker](canhacker.md): поддерживаются при подключении через совместимый USB serial или Bluetooth SPP интерфейс.
 
-1. USB (требуется USB-host)
-2. Bluetooth (требуется Bluetooth и [HC-05 bluetooth receiver](http://www.ebay.com/sch/i.html?_nkw=HC-05%20bluetooth)) (запланировано)
-3. Ethernet (требуется Ethernet и [arduino nano ethernet shield ENC28J60](http://www.ebay.com/sch/i.html?_nkw=arduino+nano+ENC28J60)) (запланировано)
-
-## 2. [Arduino UNO / Genuino UNO + Seeed studio CAN-shield](seeed-can-bus-shield.md)
-
-![](http://www.seeedstudio.com/wiki/images/d/de/Can_bus_shield_all.jpg)
-
-Highspeed CAN
-
-## 3. [CanHacker](canhacker.md)
-
-![](http://can.web-box.ru/_mod_files/ce_images/obschij.jpg)
-
-Highspeed CAN
-
-## 4. [ELM327](ELM327.md) (planned)
-
-![](http://www.pichoststone.com/pic/nikingstore/EA/EA00026/n5/0.jpg)
-
-Highspeed CAN
-
+В приложении пока нет сценария подключения ELM327. Подробности — на странице [статуса ELM327](ELM327.md). Не все устройства, продаваемые под совместимым названием, реализуют один и тот же протокол; перед подключением проверьте документацию адаптера.

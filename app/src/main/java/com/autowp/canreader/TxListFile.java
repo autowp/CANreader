@@ -3,14 +3,18 @@ package com.autowp.canreader;
 import com.autowp.Hex;
 import com.autowp.can.CanFrame;
 
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.HierarchicalINIConfiguration;
-import org.apache.commons.configuration.SubnodeConfiguration;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.INIConfiguration;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by autowp on 22.03.2016.
@@ -24,11 +28,12 @@ public class TxListFile {
 
     public static final String EXTENSION = "txl";
 
-    public static void write(OutputStream outputStream, ArrayList<TransmitCanFrame> list) throws ConfigurationException {
+    public static void write(OutputStream outputStream, List<TransmitCanFrame> list)
+            throws ConfigurationException, IOException {
 
-        HierarchicalINIConfiguration iniConfObj = new HierarchicalINIConfiguration();
+        INIConfiguration iniConfObj = new INIConfiguration();
 
-        SubnodeConfiguration section = iniConfObj.getSection(SECTION);
+        Configuration section = iniConfObj.getSection(SECTION);
 
         int i = 0;
         for (TransmitCanFrame frame : list) {
@@ -36,23 +41,24 @@ public class TxListFile {
 
             CanFrame canFrame = frame.getCanFrame();
 
-            section.addProperty(prefix + ID, String.format("%03X", canFrame.getId()));
-            section.addProperty(prefix + "DLC", String.format("%d", canFrame.getDLC()));
+            section.addProperty(prefix + ID, String.format(Locale.ROOT, "%03X", canFrame.getId()));
+            section.addProperty(prefix + "DLC", String.format(Locale.ROOT, "%d", canFrame.getDLC()));
             String dataStr;
             if (canFrame.isRTR()) {
                 dataStr = RTR;
             } else {
-                dataStr = "";
                 byte[] data = canFrame.getData();
-                for (int j=0; j < data.length; j++) {
-                    dataStr += String.format("%02X", data[j]);
-                    if (j < data.length-1) {
-                        dataStr += " ";
+                StringBuilder dataBuilder = new StringBuilder(data.length * 3);
+                for (int j = 0; j < data.length; j++) {
+                    if (j > 0) {
+                        dataBuilder.append(' ');
                     }
+                    dataBuilder.append(String.format(Locale.ROOT, "%02X", data[j] & 0xFF));
                 }
+                dataStr = dataBuilder.toString();
             }
             section.addProperty(prefix + "Data", dataStr);
-            section.addProperty(prefix + "Period", String.format("%d", frame.getPeriod()));
+            section.addProperty(prefix + "Period", String.format(Locale.ROOT, "%d", frame.getPeriod()));
 
             section.addProperty(prefix + "Comment", "");
             section.addProperty(prefix + "Mode", "1000");
@@ -65,37 +71,32 @@ public class TxListFile {
 
         section.addProperty(PREFIX + i + ID, "-1");
 
-        iniConfObj.save(outputStream);
+        OutputStreamWriter writer = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
+        iniConfObj.write(writer);
+        writer.flush();
 
     }
 
-    public static List<TransmitCanFrame> read(InputStream inputStream) throws ConfigurationException {
+    public static List<TransmitCanFrame> read(InputStream inputStream)
+            throws ConfigurationException, IOException {
 
-        HierarchicalINIConfiguration iniConfObj = new HierarchicalINIConfiguration();
-        iniConfObj.load(inputStream);
+        INIConfiguration iniConfObj = new INIConfiguration();
+        iniConfObj.read(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
 
-        SubnodeConfiguration section = iniConfObj.getSection(SECTION);
+        Configuration section = iniConfObj.getSection(SECTION);
 
-        ArrayList<TransmitCanFrame> list = new ArrayList<>();
+        List<TransmitCanFrame> list = new java.util.ArrayList<>();
 
-        for (int i=0; true; i++) {
+        for (int i = 0; ; i++) {
             String prefix = PREFIX + i;
-
             try {
-
                 String idStr = (String) section.getProperty(prefix + ID);
-
-                if (idStr == null || idStr.equalsIgnoreCase("-1")) {
+                if (idStr == null || idStr.trim().equalsIgnoreCase("-1")) {
                     break;
                 }
 
                 boolean isExt = idStr.length() > 3;
                 int id = Integer.parseInt(idStr, 16);
-
-                if (id < 0) {
-                    break;
-                }
-
                 String dlcStr = (String) section.getProperty(prefix + "DLC");
                 byte dlc = Byte.parseByte(dlcStr);
                 String dataStr = (String) section.getProperty(prefix + "Data");
@@ -103,6 +104,9 @@ public class TxListFile {
                 byte[] data = new byte[0];
                 if (!isRTR) {
                     data = Hex.hexStringToByteArray(dataStr);
+                    if (data.length != dlc) {
+                        throw new IllegalArgumentException("DLC does not match data length");
+                    }
                 }
                 int period = Integer.parseInt((String) section.getProperty(prefix + "Period"));
 
@@ -116,15 +120,9 @@ public class TxListFile {
                 TransmitCanFrame frame = new TransmitCanFrame(canFrame, period);
 
                 list.add(frame);
-
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new ConfigurationException("Invalid transmit entry " + prefix, e);
             }
-
-            /*Message0Comment=
-            Message0Mode=1000
-            Message0TriggerId=
-            Message0TriggerData=0*/
         }
 
         return list;

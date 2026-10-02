@@ -54,7 +54,7 @@ public class CanMessage {
     
     public byte[] getData()
     {
-        return data;
+        return data == null ? null : data.clone();
     }
 
     public boolean isExtended()

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0.5dp"
+    app:strokeColor="?attr/colorOutlineVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_small"
+        android:gravity="center_vertical">
+
+        <!-- Channel -->
+        <TextView
+            android:id="@+id/tvFilterChannel"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:gravity="center"
+            android:textColor="?attr/colorOnSurface" />
+
+        <!-- Number -->
+        <TextView
+            android:id="@+id/tvFilterNumber"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:gravity="center"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- ID -->
+        <TextView
+            android:id="@+id/tvFilterId"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorPrimary"
+            android:fontFamily="monospace"
+            android:paddingStart="@dimen/margin_small" />
+
+        <!-- Mask -->
+        <TextView
+            android:id="@+id/tvFilterMask"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurface"
+            android:fontFamily="monospace"
+            android:paddingStart="@dimen/margin_small" />
+
+        <!-- 29/11 bit -->
+        <TextView
+            android:id="@+id/tvFilter29Bit"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:gravity="center"
+            android:textColor="?attr/colorSecondary"
+            android:paddingStart="@dimen/margin_small" />
+
+        <!-- Enable switch -->
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swFilterEnable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

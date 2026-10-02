@@ -1,17 +1,45 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat">
-
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/can_primary</item>
+        <item name="colorOnPrimary">@color/can_on_primary</item>
+        <item name="colorSecondary">@color/can_secondary</item>
+        <item name="colorOnSecondary">@color/can_on_secondary</item>
+        <item name="colorTertiary">@color/can_tertiary</item>
+        <item name="colorSurface">@color/can_surface</item>
+        <item name="colorOnSurface">@color/can_on_surface</item>
+        <item name="colorOnSurfaceVariant">@color/can_on_surface_variant</item>
+        <item name="android:statusBarColor">@color/can_surface</item>
+        <item name="android:navigationBarColor">@color/can_surface</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.NoActionBar" parent="AppTheme" />
+
+    <!-- CAN List Item Styles -->
+    <style name="CanIdText" parent="@android:style/TextAppearance.Material">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">@dimen/can_id_textsize</item>
+        <item name="android:gravity">center_vertical|start</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="CanDataByteText" parent="@android:style/TextAppearance.Material">
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">@dimen/can_data_byte_textsize</item>
+        <item name="android:layout_margin">@dimen/margin_small</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
+    <style name="CanPeriodText" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">@dimen/can_period_textsize</item>
+        <item name="android:layout_marginEnd">@dimen/margin_medium</item>
+    </style>
+
+    <style name="CanCountText" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">@dimen/can_count_textsize</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+    <style name="CanRtrText" parent="@android:style/TextAppearance.Material.Medium">
+        <item name="android:textSize">@dimen/can_rtr_textsize</item>
+    </style>
 
 </resources>

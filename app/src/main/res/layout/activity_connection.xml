@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.autowp.canreader.ConnectionActivity"
-    android:orientation="vertical"
-    android:layout_margin="16dp"
-    android:gravity="center_vertical">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context="com.autowp.canreader.ConnectionActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
     <RadioGroup
         android:layout_width="match_parent"
@@ -19,16 +21,16 @@
         android:layout_marginBottom="16dp">
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/conection_usb_serial"
+            android:text="@string/connection_usb_serial"
             android:id="@+id/btnUsbConnection"
             android:layout_weight="1"
             android:checked="true"
             android:onClick="onRadioButtonClicked" />
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/connection_bluetooth"
             android:id="@+id/btnBluetoothConnection"
@@ -37,7 +39,7 @@
             android:onClick="onRadioButtonClicked" />
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/connection_udp"
             android:id="@+id/btnUdpConnection"
@@ -47,7 +49,7 @@
             android:visibility="gone" />
 
         <RadioButton
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/connection_loopback"
             android:id="@+id/btnLoopbackConnection"
@@ -67,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="CAN baudrate"
+            android:text="@string/connection_can_baudrate"
             android:id="@+id/tvBaudrate" />
 
         <Spinner
@@ -81,7 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="USB serial baudrate"
+            android:text="@string/connection_serial_baudrate"
             android:id="@+id/tvUartBaudrate" />
 
         <Spinner
@@ -95,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="USB device"
+            android:text="@string/connection_usb_device"
             android:id="@+id/tvUsbDevice" />
 
         <Spinner
@@ -109,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Bluetooth device"
+            android:text="@string/connection_bluetooth_device"
             android:id="@+id/tvBluetoothDevice" />
 
         <Spinner
@@ -123,30 +125,42 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Hostname or IP"
+            android:text="@string/connection_host"
             android:id="@+id/tvUdpHost" />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etUdpHost"
+            android:hint="@string/connection_host_hint"
+            android:inputType="textUri|textNoSuggestions"
+            android:importantForAutofill="no"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="4dp" />
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/connect"
-        android:id="@+id/buttonConnect"
-        android:layout_gravity="center_horizontal" />
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/disconnect"
-        android:id="@+id/buttonDisconnect"
-        android:layout_gravity="center_horizontal" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonConnect"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="@string/connect" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonDisconnect"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/disconnect" />
+    </LinearLayout>
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -154,5 +168,5 @@
         android:id="@+id/connection_progressbar"
         android:indeterminateOnly="true"
         android:layout_gravity="center_horizontal" />
-
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,26 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.autowp.canreader.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/action_connection"
-        android:title="@string/action_connection" />
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="@string/action_connection"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings" />
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_import_tx_list"
-        android:title="@string/action_import_tx_list" />
+        android:title="@string/action_import_tx_list"
+        app:showAsAction="never" />
+
     <item
         android:id="@+id/action_export_tx_list"
-        android:title="@string/export_tx_list" />
+        android:title="@string/export_tx_list"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_share_tx_list"
-        android:title="@string/action_share_tx_list" />
+        android:title="@string/action_share_tx_list"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_about"
-        android:title="@string/about" />
+        android:title="@string/about"
+        app:showAsAction="never" />
+
 </menu>

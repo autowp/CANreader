@@ -1,0 +1,17 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^\\./gradlew test$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^bash gradlew test$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^javac -d /tmp/canreader-hex-check app/src/main/java/com/autowp/Hex\\.java$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    },
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
